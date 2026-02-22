@@ -1,12 +1,33 @@
-# Missing Project Repositories
+Missing project repositories
+============================
 
-The following projects are listed on the portfolio but their corresponding GitHub repositories could not be found under the 'Abtahi360' GitHub profile.
+Purpose
+-------
+This file tracks project cards that do not currently have an associated repository URL.
+It is intended as a lightweight log during development.
 
-- **Project C**: Brain Tumor MRI Segmentation using Keras
-- **Project D**: Cat vs Dog Classification using CNN
-- **Project E**: Space Shooter Game using OpenGL
-- **Project F**: Presento – AI Presentation Assessment
-- **Project G**: Network Topology Simulation
-- **Project H**: AutoCAD Electrical Diagrams
+How it works
+------------
+- The View Repository button uses data attributes on each project card footer:
+  - data-repo-url: repository URL if known
+  - data-project-name: human-readable project name
+- If data-repo-url is omitted for any future project card, the button renders in a
+  disabled state with:
+  - aria-disabled="true"
+  - title "Repository not available"
+- During local development, an “Add repo” helper appears next to disabled buttons:
+  - It prompts for a temporary URL
+  - Stores the entered URL in localStorage under a key derived from the project name
 
-These entries will display a fallback modal when their "View Repository" button is clicked.
+Current status
+--------------
+- At the time of this change, all Projects section cards have a repository URL.
+- No missing project repositories are logged.
+
+Usage guideline
+---------------
+- When you intentionally add a project card without a repo URL:
+  - Append an entry here with:
+    - Project title
+    - Optional notes on where the code lives or why it is missing
+
