@@ -226,3 +226,104 @@ var projectDetails = {
     `
   }
 };
+
+function initProjectModal() {
+  if (typeof document === "undefined") {
+    return;
+  }
+  if (typeof projectDetails === "undefined") {
+    return;
+  }
+  var backdrop = document.getElementById("project-modal-backdrop");
+  var titleEl = document.getElementById("project-modal-title");
+  var bodyEl = document.getElementById("project-modal-body");
+  var closeBtn = document.getElementById("project-modal-close-btn");
+  var closeIconBtn = backdrop ? backdrop.querySelector(".project-modal-close") : null;
+  if (!backdrop || !titleEl || !bodyEl || !closeBtn || !closeIconBtn) {
+    return;
+  }
+
+  var lastFocused = null;
+
+  function openModal(key) {
+    var data = projectDetails[key];
+    if (!data) {
+      return;
+    }
+    titleEl.textContent = data.title || "";
+    bodyEl.innerHTML = data.body || "";
+    backdrop.classList.add("open");
+    backdrop.setAttribute("aria-hidden", "false");
+    lastFocused = document.activeElement;
+    closeIconBtn.focus();
+  }
+
+  function closeModal() {
+    backdrop.classList.remove("open");
+    backdrop.setAttribute("aria-hidden", "true");
+    bodyEl.innerHTML = "";
+    if (lastFocused && typeof lastFocused.focus === "function") {
+      lastFocused.focus();
+    }
+  }
+
+  closeBtn.addEventListener("click", function () {
+    closeModal();
+  });
+
+  closeIconBtn.addEventListener("click", function () {
+    closeModal();
+  });
+
+  backdrop.addEventListener("click", function (event) {
+    if (event.target === backdrop) {
+      closeModal();
+    }
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && backdrop.classList.contains("open")) {
+      closeModal();
+    }
+  });
+
+  var projectCards = document.querySelectorAll("#projects .cards-grid .card");
+  projectCards.forEach(function (card) {
+    var key = card.getAttribute("data-project-key");
+    if (!key) {
+      return;
+    }
+    card.addEventListener("click", function (event) {
+      var anchor = event.target.closest("a");
+      if (anchor) {
+        return;
+      }
+      event.preventDefault();
+      openModal(key);
+    });
+    card.addEventListener("keydown", function (event) {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openModal(key);
+      }
+    });
+    if (!card.hasAttribute("tabindex")) {
+      card.setAttribute("tabindex", "0");
+    }
+    if (!card.hasAttribute("role")) {
+      card.setAttribute("role", "button");
+    }
+    var titleNode = card.querySelector(".card-title");
+    if (titleNode && !card.hasAttribute("aria-label")) {
+      card.setAttribute("aria-label", "View details for " + titleNode.textContent.trim());
+    }
+  });
+}
+
+if (typeof document !== "undefined") {
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initProjectModal);
+  } else {
+    initProjectModal();
+  }
+}

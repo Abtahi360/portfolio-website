@@ -779,6 +779,78 @@
       transform: translateX(2px);
     }
 
+    .view-repo-btn {
+      min-width: 0;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .view-repo-btn:focus-visible {
+      outline: 2px solid rgba(59, 130, 246, 0.9);
+      outline-offset: 2px;
+    }
+
+    .view-repo-btn:active {
+      transform: translateY(1px) scale(0.98);
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.55);
+    }
+
+    .view-repo-icon-left,
+    .view-repo-icon-right {
+      font-size: 14px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .view-repo-icon-left {
+      transform-origin: center;
+    }
+
+    .view-repo-icon-right {
+      transition: transform var(--transition-fast);
+    }
+
+    .view-repo-btn:hover .view-repo-icon-right {
+      transform: translateX(2px);
+    }
+
+    .view-repo-btn-disabled {
+      cursor: default;
+      border-style: dashed;
+      color: var(--color-muted);
+      background: #F3F4F6;
+      box-shadow: none;
+    }
+
+    .view-repo-btn-disabled:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .view-repo-add-dev {
+      margin-left: 8px;
+      font-size: 10px;
+      border-radius: var(--radius-pill);
+      border: 1px dashed rgba(148, 163, 184, 0.9);
+      background: rgba(248, 250, 252, 0.96);
+      padding: 3px 8px;
+      cursor: pointer;
+      color: var(--color-muted);
+    }
+
+    .view-repo-add-dev:hover {
+      border-color: rgba(129, 140, 248, 0.9);
+      color: var(--color-primary);
+    }
+
+    @media (max-width: 420px) {
+      .view-repo-label {
+        display: none;
+      }
+    }
+
     .resume-layout {
       display: grid;
       grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.5fr);
@@ -1070,6 +1142,88 @@
       padding: 8px;
     }
 
+    .project-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(15, 23, 42, 0.55);
+      z-index: 60;
+    }
+
+    .project-modal-backdrop.open {
+      display: flex;
+    }
+
+    .project-modal {
+      width: 100%;
+      max-width: 640px;
+      max-height: min(90vh, 640px);
+      overflow: auto;
+      border-radius: 20px;
+      background: #FFFFFF;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: var(--shadow-soft);
+      padding: 16px 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .project-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .project-modal-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--color-primary);
+    }
+
+    .project-modal-close {
+      border: 1px solid rgba(203, 213, 225, 0.9);
+      border-radius: var(--radius-pill);
+      background: #F9FAFB;
+      cursor: pointer;
+      padding: 4px 10px;
+      font-size: 13px;
+      color: var(--color-muted);
+    }
+
+    .project-modal-body {
+      font-size: 13px;
+      color: var(--color-muted);
+    }
+
+    .project-modal-body h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin: 8px 0 4px;
+    }
+
+    .project-modal-body p {
+      margin: 4px 0;
+    }
+
+    .project-modal-body ul {
+      margin: 4px 0 6px 1.1rem;
+      padding: 0;
+      display: grid;
+      gap: 2px;
+    }
+
+    .project-modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 4px;
+    }
+
     .research-grid {
       display: grid;
       grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.4fr);
@@ -1174,7 +1328,8 @@
       border: 1px solid rgba(226, 232, 240, 0.9);
       box-shadow: var(--shadow-soft);
       padding: 14px 14px 12px;
-      display: grid;
+      display: flex;
+      flex-direction: column;
       gap: 10px;
     }
 
@@ -1184,18 +1339,68 @@
       color: var(--color-primary);
     }
 
-    .skills-icons-grid {
+    .skills-group-header {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .skills-group-meta {
+      font-size: 11px;
+      color: var(--color-muted);
+    }
+
+    .skills-group-body {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
+      gap: 8px;
+    }
+
+    .skills-visible {
+      display: grid;
+      gap: 8px;
+    }
+
+    .skills-extra {
+      display: grid;
+      gap: 8px;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: max-height var(--transition-med), opacity var(--transition-med), transform var(--transition-med);
+    }
+
+    .skills-group-card.skills-card-expanded .skills-extra {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .skills-proficiency-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .skills-proficiency-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--color-muted);
+      font-weight: 600;
+    }
+
+    .skills-chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
     }
 
     .skill-icon-pill {
       border-radius: 14px;
-      padding: 8px 8px 7px;
+      padding: 7px 9px 6px;
       border: 1px solid rgba(226, 232, 240, 0.95);
       background: #F9FAFB;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: space-between;
       gap: 8px;
@@ -1205,9 +1410,9 @@
 
     .skill-icon-pill:hover {
       background: #FFFFFF;
-      border-color: rgba(129, 140, 248, 0.95);
-      transform: translateY(-4px);
-      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.16);
+      border-color: rgba(129, 140, 248, 0.9);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 36px rgba(15, 23, 42, 0.14);
     }
 
     .skill-icon-label {
@@ -1218,22 +1423,54 @@
     .skill-icon-level {
       font-size: 10px;
       color: var(--color-muted);
-      padding: 3px 6px;
+      padding: 3px 7px;
       border-radius: var(--radius-pill);
       border: 1px solid rgba(203, 213, 225, 0.95);
       background: #FFFFFF;
     }
 
-    .skill-icon-emoji {
-      width: 26px;
-      height: 26px;
-      border-radius: 999px;
+    .skills-group-footer {
+      margin-top: 4px;
       display: flex;
+      justify-content: flex-end;
+    }
+
+    .skills-toggle {
+      border-radius: var(--radius-pill);
+      padding: 5px 11px;
+      border: 1px solid rgba(148, 163, 184, 0.9);
+      background: #FFFFFF;
+      font-size: 11px;
+      color: var(--color-muted);
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      background: radial-gradient(circle at 20% 0%, rgba(34, 211, 238, 0.4), rgba(15, 23, 42, 0.95));
-      color: #E5F0FF;
-      font-size: 13px;
+      gap: 6px;
+      cursor: pointer;
+      transition: border-color var(--transition-fast), background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .skills-toggle:hover {
+      border-color: rgba(129, 140, 248, 0.9);
+      background: rgba(239, 246, 255, 0.98);
+      color: #1E3A8A;
+      transform: translateY(-1px);
+      box-shadow: 0 10px 26px rgba(148, 163, 184, 0.24);
+    }
+
+    .skills-toggle:focus-visible {
+      outline: 2px solid rgba(59, 130, 246, 0.9);
+      outline-offset: 2px;
+    }
+
+    .skills-toggle-icon {
+      font-size: 12px;
+      line-height: 1;
+      transform: translateY(1px);
+      transition: transform var(--transition-fast);
+    }
+
+    .skills-group-card.skills-card-expanded .skills-toggle-icon {
+      transform: rotate(180deg);
     }
 
     .cert-grid {
@@ -1741,11 +1978,11 @@
                       <div class="hero-highlight-stat-label">Projects</div>
                     </div>
                     <div class="hero-highlight-stat">
-                      <div class="hero-highlight-stat-number">2</div>
+                      <div class="hero-highlight-stat-number">3</div>
                       <div class="hero-highlight-stat-label">Research Works</div>
                     </div>
                     <div class="hero-highlight-stat">
-                      <div class="hero-highlight-stat-number">4+</div>
+                      <div class="hero-highlight-stat-number">10</div>
                       <div class="hero-highlight-stat-label">Certifications</div>
                     </div>
                   </div>
@@ -1765,6 +2002,9 @@
             <div>
               <div class="section-kicker">Education</div>
               <h2 class="section-title">Educational History</h2>
+            </div>
+            <div class="section-subtitle">
+              A summary of my academic journey, highlighting key milestones and achievements.
             </div>
           </div>
 
@@ -1817,6 +2057,26 @@
                 </ul>
               </div>
             </article>
+
+            <article class="card edu-hx-entry" data-edu-hx-entry="true">
+              <div class="card-header">
+                <div>
+                  <div class="card-kicker">Secondary School Certificate</div>
+                  <div class="card-title">Science</div>
+                </div>
+                <div class="edu-hx-meta">
+                  <span class="edu-hx-period">2016 — 2018</span>
+                  <span class="edu-hx-location">• Ishwardi, Pabna, Bangladesh</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="edu-hx-institution">Govt. Sara Marwari Model School and College</div>
+                <ul class="edu-hx-list">
+                  <li><strong>Activities and societies: </strong> Chess, Carrom, Sudoku, Ludo</li>
+                  <li><strong>Coursework: </strong> · High Mathematics · Physics · Chemistry · Biology</li>
+                </ul>
+              </div>
+            </article>
           </div>
         </div>
       </section>
@@ -1829,11 +2089,14 @@
         <div class="section-kicker">Projects</div>
         <h2 class="section-title">Selected work</h2>
       </div>
+      <div class="section-subtitle">
+        A collection of projects that highlight my skills in software development, machine learning, and data science.
+      </div>
     </div>
 
     <div class="cards-grid">
     <!-- Project A -->
-    <article class="card">
+    <article class="card" data-project-key="spring-boot-practice">
         <div class="card-header">
             <div>
                 <div class="card-kicker">Spring Boot</div>
@@ -1845,18 +2108,23 @@
                 <span class="pill-tag">Hibernate</span>
             </div>
         </div>
+        <div class="project-images-row">
+            <img src="spring1.png" alt="Spring Boot 1" class="project-image">
+        </div>
         <div class="card-body">
             <p>Collection of hands-on practice modules following a Spring Boot + Hibernate course.</p>
         </div>
         <div class="card-footer">
-            <a class="link-pill-primary" href="https://github.com/Abtahi360/Bootcamp-with-Spring-by-Abtahi" target="_blank" rel="noopener noreferrer" aria-label="Open repository for Spring Boot 3 Practice – Udemy Learning Projects">
-                ⟶ View Repository
-            </a>
+          <div
+            class="view-repo-button"
+            data-repo-url="https://github.com/Abtahi360/Bootcamp-with-Spring-by-Abtahi"
+            data-project-name="Spring Boot 3 Practice – Udemy Learning Projects"
+          ></div>
         </div>
     </article>
 
     <!-- Project B -->
-    <article class="card">
+    <article class="card" data-project-key="brain-tumor-segmentation">
         <div class="card-header">
             <div>
                 <div class="card-kicker">Machine Learning</div>
@@ -1868,17 +2136,23 @@
             </div>
         </div>
         <div class="card-body">
-            <p>Comparative sweep of Keras models for MRI segmentation — training, evaluation, and single-image demos.</p>
+            <div class="project-images-row">
+                <img src="mri1.png" alt="MRI 1" class="project-image">
+                <img src="mri2.png" alt="MRI 2" class="project-image">
+            </div>
+            <p>Comparative sweep of Keras models for MRI segmentation - training, evaluation, and single-image demos.</p>
         </div>
         <div class="card-footer">
-            <a class="link-pill-primary open-repo-modal" href="#" data-project-name="Brain Tumor MRI Segmentation" aria-label="Open repository for Brain Tumor MRI Segmentation">
-                ⟶ View Repository
-            </a>
+          <div
+            class="view-repo-button"
+            data-repo-url="https://github.com/Abtahi360/A-Comparative-Study-of-Keras-Models-for-Brain-Tumor-MRI-Segmentation"
+            data-project-name="Brain Tumor MRI Segmentation"
+          ></div>
         </div>
     </article>
 
     <!-- Project C -->
-    <article class="card">
+    <article class="card" data-project-key="cat-vs-dog-classification">
         <div class="card-header">
             <div>
                 <div class="card-kicker">Machine Learning</div>
@@ -1890,17 +2164,23 @@
             </div>
         </div>
         <div class="card-body">
+            <div class="project-images-row">
+                <img src="cat1.png" alt="Cat 1" class="project-image">
+                <img src="cat2.png" alt="Cat 2" class="project-image">
+            </div>
             <p>Binary image classifier using TensorFlow/Keras — demonstrates a full training &amp; evaluation workflow.</p>
         </div>
         <div class="card-footer">
-            <a class="link-pill-primary open-repo-modal" href="#" data-project-name="Cat vs Dog Classification using CNN" aria-label="Open repository for Cat vs Dog Classification using CNN">
-                ⟶ View Repository
-            </a>
+          <div
+            class="view-repo-button"
+            data-repo-url="https://github.com/Abtahi360/Cat-vs-Dog-Image-Classification-using-Convolutional-Neural-Network-CNN"
+            data-project-name="Cat vs Dog Classification using CNN"
+          ></div>
         </div>
     </article>
 
     <!-- Project D -->
-    <article class="card">
+    <article class="card" data-project-key="space-shooter-game">
         <div class="card-header">
             <div>
                 <div class="card-kicker">Game Development</div>
@@ -1912,17 +2192,23 @@
             </div>
         </div>
         <div class="card-body">
+            <div class="project-images-row">
+                <img src="game1.png" alt="Space Shooter 1" class="project-image">
+                <img src="game2.png" alt="Space Shooter 2" class="project-image">
+            </div>
             <p>Three-level C++ OpenGL game with power-ups, boss fights, save/load, and final walk-home cutscene.</p>
         </div>
         <div class="card-footer">
-            <a class="link-pill-primary open-repo-modal" href="#" data-project-name="Space Shooter Game using OpenGL" aria-label="Open repository for Space Shooter Game using OpenGL">
-                ⟶ View Repository
-            </a>
+          <div
+            class="view-repo-button"
+            data-repo-url="https://github.com/Abtahi360/Space-Shooter-A-three-level-OpenGL-game-with-final-walk-home-cutscene"
+            data-project-name="Space Shooter (OpenGL)"
+          ></div>
         </div>
     </article>
 
     <!-- Project E -->
-    <article class="card">
+    <article class="card" data-project-key="presento-ai-assessment">
         <div class="card-header">
             <div>
                 <div class="card-kicker">AI/ML</div>
@@ -1933,17 +2219,23 @@
             </div>
         </div>
         <div class="card-body">
+            <div class="project-images-row">
+                <img src="cv1.png" alt="Presento CV 1" class="project-image">
+                <img src="cv2.png" alt="Presento CV 2" class="project-image">
+            </div>
             <p>Multimodal system design (CV, speech, slide analysis) to evaluate presentation skills and generate reports.</p>
         </div>
         <div class="card-footer">
-            <a class="link-pill-primary open-repo-modal" href="#" data-project-name="Presento – AI Presentation Assessment" aria-label="Open repository for Presento – AI Presentation Assessment">
-                ⟶ View Repository
-            </a>
+          <div
+            class="view-repo-button"
+            data-repo-url="https://github.com/Abtahi360/Presento-AI-Powered-Multimodal-Presentation-Skill-Assessment"
+            data-project-name="Presento — AI Presentation Assessment"
+          ></div>
         </div>
     </article>
 
     <!-- Project F -->
-    <article class="card">
+    <article class="card" data-project-key="network-topology-simulation">
         <div class="card-header">
             <div>
                 <div class="card-kicker">Networking</div>
@@ -1954,17 +2246,23 @@
             </div>
         </div>
         <div class="card-body">
+            <div class="project-images-row">
+                <img src="cisco1.png" alt="Cisco Packet Tracer 1" class="project-image">
+                <img src="cisco2.png" alt="Cisco Packet Tracer 2" class="project-image">
+            </div>
             <p>Educational Packet Tracer labs: multi-level topology and router-based inter-switch communication.</p>
         </div>
         <div class="card-footer">
-            <a class="link-pill-primary open-repo-modal" href="#" data-project-name="Network Topology Simulation" aria-label="Open repository for Network Topology Simulation">
-                ⟶ View Repository
-            </a>
+          <div
+            class="view-repo-button"
+            data-repo-url="https://github.com/Abtahi360/Network-Topology-Simulation-with-Cisco-Packet-Tracer"
+            data-project-name="Network Topology Simulation"
+          ></div>
         </div>
     </article>
 
     <!-- Project G -->
-    <article class="card">
+    <article class="card" data-project-key="autocad-electrical-diagrams">
         <div class="card-header">
             <div>
                 <div class="card-kicker">CAD</div>
@@ -1975,17 +2273,23 @@
             </div>
         </div>
         <div class="card-body">
+            <div class="project-images-row">
+                <img src="cad1.png" alt="AutoCAD Electrical 1" class="project-image">
+                <img src="cad2.png" alt="AutoCAD Electrical 2" class="project-image">
+            </div>
             <p>Four electrical circuit schematics (.dwg) created for a CAD assignment — AutoCAD 2007 format.</p>
         </div>
         <div class="card-footer">
-            <a class="link-pill-primary open-repo-modal" href="#" data-project-name="AutoCAD Electrical Diagrams" aria-label="Open repository for AutoCAD Electrical Diagrams">
-                ⟶ View Repository
-            </a>
+          <div
+            class="view-repo-button"
+            data-repo-url="https://github.com/Abtahi360/Showcasing-electrical-circuit-diagrams-designed-in-AutoCAD-2007"
+            data-project-name="AutoCAD Electrical Diagrams"
+          ></div>
         </div>
     </article>
 
     <!-- Project H -->
-    <article class="card">
+    <article class="card" data-project-key="stopwatch-timer-csharp">
         <div class="card-header">
             <div>
                 <div class="card-kicker">Desktop App</div>
@@ -2004,14 +2308,16 @@
             <p>Simple stopwatch app with start/stop/pause/reset, history log, and dark/light theme toggle.</p>
         </div>
         <div class="card-footer">
-            <a class="link-pill-primary" href="https://github.com/Abtahi360/Stopwatch-Timer-C-WinForms" target="_blank" rel="noopener noreferrer" aria-label="Open repository for Stopwatch Timer (C#)">
-                ⟶ View Repository
-            </a>
+          <div
+            class="view-repo-button"
+            data-repo-url="https://github.com/Abtahi360/Stopwatch_Timer"
+            data-project-name="Stopwatch Timer – C# WinForms"
+          ></div>
         </div>
     </article>
 
     <!-- Project I -->
-    <article class="card">
+    <article class="card" data-project-key="electricity-billing-system-java">
         <div class="card-header">
             <div>
                 <div class="card-kicker">Desktop App</div>
@@ -2022,17 +2328,23 @@
             </div>
         </div>
         <div class="card-body">
+            <div class="project-images-row">
+                <img src="bill1.png" alt="Bill 1" class="project-image">
+                <img src="bill2.png" alt="Bill 2" class="project-image">
+            </div>
             <p>Desktop Java application for billing, customer mgmt, and payment processing (file-based storage).</p>
         </div>
         <div class="card-footer">
-            <a class="link-pill-primary" href="https://github.com/Abtahi360/Electricity-Billing-System-Java" target="_blank" rel="noopener noreferrer" aria-label="Open repository for Electricity Billing System (Java)">
-                ⟶ View Repository
-            </a>
+          <div
+            class="view-repo-button"
+            data-repo-url="https://github.com/Abtahi360/Electricity_Billing_System"
+            data-project-name="Electricity Billing System – Java"
+          ></div>
         </div>
     </article>
 
     <!-- Project J -->
-    <article class="card">
+    <article class="card" data-project-key="boi-jatra-bookstore-java">
         <div class="card-header">
             <div>
                 <div class="card-kicker">Desktop App</div>
@@ -2043,17 +2355,36 @@
             </div>
         </div>
         <div class="card-body">
+            <div class="project-images-row">
+                <img src="boi1.png" alt="Boi Jatra 1" class="project-image">
+                <img src="boi2.png" alt="Boi Jatra 2" class="project-image">
+            </div>
             <p>Text-file based bookstore app with admin/user panels, cart &amp; payment simulation.</p>
         </div>
         <div class="card-footer">
-            <a class="link-pill-primary" href="https://github.com/Abtahi360/Boi-Jatra-Bookstore-Management-System" target="_blank" rel="noopener noreferrer" aria-label="Open repository for Boi Jatra (Bookstore Java)">
-                ⟶ View Repository
-            </a>
+          <div
+            class="view-repo-button"
+            data-repo-url="https://github.com/Abtahi360/Boi_Jatra"
+            data-project-name="Boi Jatra – Bookstore Management"
+          ></div>
         </div>
     </article>
 </div> <!-- .project-layout -->
   </div> <!-- .section-inner -->
 </section>
+
+<div class="project-modal-backdrop" id="project-modal-backdrop" aria-hidden="true">
+  <div class="project-modal" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
+    <div class="project-modal-header">
+      <h3 class="project-modal-title" id="project-modal-title"></h3>
+      <button type="button" class="project-modal-close" aria-label="Close project details">Close</button>
+    </div>
+    <div class="project-modal-body" id="project-modal-body"></div>
+    <div class="project-modal-footer">
+      <button type="button" class="link-pill" id="project-modal-close-btn">Close</button>
+    </div>
+  </div>
+</div>
 
 
       <section class="section-shell" id="research">
@@ -2065,7 +2396,7 @@
               <h2 class="section-title">Research & Publications</h2>
             </div>
             <div class="section-subtitle">
-              Peer-reviewed work that connects deep learning theory with practical medical imaging applications.
+              Research contributions that bridge innovation, ethics, and practical implementation.
             </div>
           </div>
           <div class="research-grid">
@@ -2152,118 +2483,10 @@
               <h2 class="section-title">Technical strengths</h2>
             </div>
             <div class="section-subtitle">
-              Focused on production-ready backend systems and practical machine learning with strong fundamentals.
+              A strong technical foundation built through hands-on projects, continuous learning, and practical problem-solving.
             </div>
           </div>
-          <div class="skills-grid">
-            <div class="skills-group-card">
-              <div class="skills-group-title">Programming Languages</div>
-              <div class="skills-icons-grid">
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">C++</div>
-                  <div class="skill-icon-level">Strong</div>
-                </div>
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">Python</div>
-                  <div class="skill-icon-level">Strong</div>
-                </div>
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">Java</div>
-                  <div class="skill-icon-level">Strong</div>
-                </div>
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">C#</div>
-                  <div class="skill-icon-level">Strong</div>
-                </div>
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">JavaScript</div>
-                  <div class="skill-icon-level">Intermediate</div>
-                </div>
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">HTML</div>
-                  <div class="skill-icon-level">Intermediate</div>
-                </div>
-              </div>
-            </div>
-            <div class="skills-group-card">
-              <div class="skills-group-title">Frameworks & Libraries</div>
-              <div class="skills-icons-grid">
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">Spring Boot</div>
-                  <div class="skill-icon-level">Strong</div>
-                </div>
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">Keras</div>
-                  <div class="skill-icon-level">Intermediate</div>
-                </div>
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">TensorFlow</div>
-                  <div class="skill-icon-level">Intermediate</div>
-                </div>
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">NumPy</div>
-                  <div class="skill-icon-level">Intermediate</div>
-                </div>
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">Pandas</div>
-                  <div class="skill-icon-level">Strong</div>
-                </div>
-              </div>
-            </div>
-            <div class="skills-group-card" id="tools">
-              <div class="skills-group-title">Software Tools</div>
-              <div class="skills-icons-grid">
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">Git</div>
-                  <div class="skill-icon-level">Daily use</div>
-                </div>
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">MySQL</div>
-                  <div class="skill-icon-level">Strong</div>
-                </div>
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">Code::Blocks</div>
-                  <div class="skill-icon-level">Strong</div>
-                </div>
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">Jupyter Notebook</div>
-                  <div class="skill-icon-level">Strong</div>
-                </div>
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">Anaconda</div>
-                  <div class="skill-icon-level">Strong</div>
-                </div>
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">VS Code</div>
-                  <div class="skill-icon-level">Daily use</div>
-                </div>
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">IntelliJ IDEA</div>
-                  <div class="skill-icon-level">Daily use</div>
-                </div>
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">LaTeX</div>
-                  <div class="skill-icon-level">Daily use</div>
-                </div>
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">MATLAB</div>
-                  <div class="skill-icon-level">Academic</div>
-                </div>
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">SPSS</div>
-                  <div class="skill-icon-level">Academic</div>
-                </div>
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">Oracle VM VirtualBox</div>
-                  <div class="skill-icon-level">Intermediate</div>
-                </div>
-                <div class="skill-icon-pill">
-                  <div class="skill-icon-label">Figma</div>
-                  <div class="skill-icon-level">Intermediate</div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div class="skills-grid" id="skills-grid"></div>
         </div>
       </section>
 
@@ -2276,38 +2499,146 @@
               <h2 class="section-title">Certificates & recognition</h2>
             </div>
             <div class="section-subtitle">
-              Curated credentials that reinforce your focus on machine learning, backend development, and problem solving.
+              Recognitions that represent my growth, technical expertise, and passion for continuous improvement.
             </div>
           </div>
           <div class="cert-grid">
             <div class="cert-card card">
-              <div class="cert-thumb">
-                Certificate image placeholder – Machine Learning, Coursera.
-              </div>
-              <div class="cert-title">Machine Learning</div>
-              <div class="cert-meta">Coursera • Online Specialization</div>
+              <div class="cert-title">Android Course Build 3 Applications from Scratch with Java</div>
+              <div class="cert-meta">Udemy - May 2025</div>
               <div class="cert-skills">
-                <span>Skills:</span> Supervised learning, model evaluation, regularization, practical ML workflows.
+                <span>Skills:</span> Java, Android Development, Mobile Application Development, Object-Oriented Programming (OOP), UI/UX Implementation.
+              </div>
+              <div class="research-actions">
+                <a href="Android Course Build 3 Applications from Scratch with Java.jpg" class="link-pill" target="_blank" rel="noopener">
+                  <span class="link-icon">⬇</span>
+                  View Certificate
+                </a>
               </div>
             </div>
             <div class="cert-card card">
-              <div class="cert-thumb">
-                Certificate image placeholder – Spring Boot, Udemy.
-              </div>
-              <div class="cert-title">Spring Boot Development</div>
-              <div class="cert-meta">Udemy • Professional Course</div>
+              <div class="cert-title">Spring Boot 4, Spring 7 & Hibernate for Beginners</div>
+              <div class="cert-meta">Udemy - January 2026</div>
               <div class="cert-skills">
-                <span>Skills:</span> REST APIs, Spring Security, JPA, database integration, testing.
+                <span>Skills:</span> Spring Boot 3, Spring Framework 6, REST API development, Spring MVC, Spring Security, MySQL + Hibernate/JPA, 
+                Maven, Thymeleaf, IntelliJ IDEA, Backend Architecture, AOP Logging.
+              </div>
+              <div class="research-actions">
+                <a href="Spring Boot 4, Spring 7 & Hibernate for Beginners.jpg" class="link-pill" target="_blank" rel="noopener">
+                  <span class="link-icon">⬇</span>
+                  View Certificate
+                </a>
               </div>
             </div>
             <div class="cert-card card">
-              <div class="cert-thumb">
-                Contest certificate placeholder – Programming Contest Participation.
-              </div>
-              <div class="cert-title">Programming Contest Participation</div>
-              <div class="cert-meta">University & Online Contests</div>
+              <div class="cert-title">Scrum Master Certification</div>
+              <div class="cert-meta">Udemy - September 2025</div>
               <div class="cert-skills">
-                <span>Skills:</span> Algorithmic thinking, time complexity, problem solving under constraints.
+                <span>Skills:</span> Scrum, Agile Methodologies, Project Management, Project Planning, Team Leadership, Communication, Problem Solving.
+              </div>
+              <div class="research-actions">
+                <a href="Scrum Master Certification.jpg" class="link-pill" target="_blank" rel="noopener">
+                  <span class="link-icon">⬇</span>
+                  View Certificate
+                </a>
+              </div>
+            </div>
+
+            <div class="cert-card card">
+              <div class="cert-title">Java Complete Course Using Visual Studio Code</div>
+              <div class="cert-meta">Udemy - July 2025</div>
+              <div class="cert-skills">
+                <span>Skills:</span> Java, Object-Oriented Programming (OOP), Microsoft Visual Studio Code, Microsoft Visual Studio Code, 
+                Debugging & Code Optimization, Software Development Fundamentals.
+              </div>
+              <div class="research-actions">
+                <a href="Java Complete Course Using Visual Studio Code.jpg" class="link-pill" target="_blank" rel="noopener">
+                  <span class="link-icon">⬇</span>
+                  View Certificate
+                </a>
+              </div>
+            </div>
+
+            <div class="cert-card card">
+              <div class="cert-title">IT Essentials: PC Hardware and Software</div>
+              <div class="cert-meta">Cisco Networking Academy - June 2023</div>
+              <div class="cert-skills">
+                <span>Skills:</span> Computer Hardware Troubleshooting · Operating Systems · Networking Concepts · IT Support Basics.
+              </div>
+              <div class="research-actions">
+                <a href="IT Essentials PC Hardware and Software.jpg" class="link-pill" target="_blank" rel="noopener">
+                  <span class="link-icon">⬇</span>
+                  View Certificate
+                </a>
+              </div>
+            </div>
+
+            <div class="cert-card card">
+              <div class="cert-title">Computer Hardware Basics</div>
+              <div class="cert-meta">Cisco Networking Academy - November 2025</div>
+              <div class="cert-skills">
+                <span>Skills:</span> Computer Hardware Basics.
+              </div>
+              <div class="research-actions">
+                <a href="Computer Hardware Basics.jpg" class="link-pill" target="_blank" rel="noopener">
+                  <span class="link-icon">⬇</span>
+                  View Certificate
+                </a>
+              </div>
+            </div>
+
+            <div class="cert-card card">
+              <div class="cert-title">Introduction to 2D Animation</div>
+              <div class="cert-meta">Grameenphone Academy - November 2025</div>
+              <div class="cert-skills">
+                <span>Skills:</span> 2D Animation · Animation Principles · Adobe Animate · Digital Illustration.
+              </div>
+              <div class="research-actions">
+                <a href="Introduction to 2D Animation.jpg" class="link-pill" target="_blank" rel="noopener">
+                  <span class="link-icon">⬇</span>
+                  View Certificate
+                </a>
+              </div>
+            </div>
+
+            <div class="cert-card card">
+              <div class="cert-title">Gemini Certified University Student</div>
+              <div class="cert-meta">Google - November 2025</div>
+              <div class="cert-skills">
+                <span>Skills:</span> Google AI · Prompting and AI Usage · Responsible AI
+              </div>
+              <div class="research-actions">
+                <a href="Gemini Certified University Student.jpg" class="link-pill" target="_blank" rel="noopener">
+                  <span class="link-icon">⬇</span>
+                  View Certificate
+                </a>
+              </div>
+            </div>
+
+            <div class="cert-card card">
+              <div class="cert-title">Critical Thinking in the AI Era</div>
+              <div class="cert-meta">HP LIFE - February 2026</div>
+              <div class="cert-skills">
+                <span>Skills:</span> Critical Thinking · Fact-checking · AI Literacy · Analytical Thinking.
+              </div>
+              <div class="research-actions">
+                <a href="Critical Thinking in the AI Era.png" class="link-pill" target="_blank" rel="noopener">
+                  <span class="link-icon">⬇</span>
+                  View Certificate
+                </a>
+              </div>
+            </div>
+            <div class="cert-card card">
+              <div class="cert-title">Agile Project Management</div>
+              <div class="cert-meta">HP LIFE - February 2026</div>
+              <div class="cert-skills">
+                <span>Skills:</span> Agile Project Management · Agile Methodologies · Scrum · Project Planning · Digital Business
+              </div>
+              <div class="research-actions">
+                <a href="Agile Project Management.png" class="link-pill" target="_blank" rel="noopener">
+                  <span class="link-icon">⬇</span>
+                  View Certificate
+                </a>
               </div>
             </div>
           </div>
@@ -2323,42 +2654,50 @@
               <h2 class="section-title">Let’s build something</h2>
             </div>
             <div class="section-subtitle">
-              Simple, direct ways to reach out for software development, ML projects, or research collaboration.
+              Let’s connect and build meaningful solutions together.
             </div>
           </div>
           <div class="contact-layout">
             <div class="contact-details">
               <div class="contact-row">
                 <div class="contact-label">Phone</div>
-                <div class="contact-value">+91-98765-43210</div>
+                <div class="contact-value">+8801315-477832</div>
               </div>
               <div class="contact-row">
                 <div class="contact-label">Email</div>
                 <div class="contact-value">
-                  <a href="mailto:youremail@example.com" class="contact-link">
-                    youremail@example.com
+                  <a href="mailto:abtahibinislam2018@gmail.com" class="contact-link">
+                    abtahibinislam2018@gmail.com
                   </a>
                 </div>
               </div>
               <div class="contact-row">
                 <div class="contact-label">Address</div>
                 <div class="contact-value">
-                  City, State, Country
+                  6620 Sahapur, Ishwardi, Pabna, Bangladesh
                 </div>
               </div>
               <div class="contact-row">
                 <div class="contact-label">GitHub</div>
                 <div class="contact-value">
-                  <a href="https://github.com/your-github" target="_blank" rel="noopener" class="contact-link">
-                    github.com/your-github
+                  <a href="https://github.com/Abtahi360" target="_blank" rel="noopener" class="contact-link">
+                    github.com/Abtahi360
                   </a>
                 </div>
               </div>
               <div class="contact-row">
                 <div class="contact-label">LinkedIn</div>
                 <div class="contact-value">
-                  <a href="https://linkedin.com/in/your-linkedin" target="_blank" rel="noopener" class="contact-link">
-                    linkedin.com/in/your-linkedin
+                  <a href="https://www.linkedin.com/in/abtahi-islam/" target="_blank" rel="noopener" class="contact-link">
+                    linkedin.com/in/abtahi-islam
+                  </a>
+                </div>
+              </div>
+              <div class="contact-row">
+                <div class="contact-label">Facebook</div>
+                <div class="contact-value">
+                  <a href="https://www.facebook.com/abtahi360" target="_blank" rel="noopener" class="contact-link">
+                    facebook.com/abtahi360
                   </a>
                 </div>
               </div>
@@ -2396,8 +2735,8 @@
 
     <footer class="footer">
       <div class="footer-inner">
-        <div>© 2026 Akash Kumar. Portfolio tailored for software and ML roles.</div>
-        <div>Built with Spring Boot, Python ML, and curiosity.</div>
+        <div>© 2026 Abtahi Islam. Portfolio tailored for software and ML roles.</div>
+        <div>Built with HTML, CSS, JavaScript.</div>
       </div>
     </footer>
   </div>
@@ -2415,6 +2754,225 @@
       certificates: document.getElementById("certificates"),
       contact: document.getElementById("contact")
     };
+
+    const skillsGrid = document.getElementById("skills-grid");
+
+    const skillsData = [
+      {
+        id: "languages",
+        title: "Programming Languages",
+        highlightLevels: ["Strong"],
+        maxVisible: 6,
+        skills: [
+          { name: "C++", level: "Strong" },
+          { name: "Python", level: "Strong" },
+          { name: "Java", level: "Strong" },
+          { name: "C#", level: "Strong" },
+          { name: "JavaScript", level: "Intermediate" },
+          { name: "HTML", level: "Intermediate" }
+        ]
+      },
+      {
+        id: "frameworks",
+        title: "Frameworks & Libraries",
+        highlightLevels: ["Strong"],
+        maxVisible: 5,
+        skills: [
+          { name: "Spring Boot", level: "Strong" },
+          { name: "Pandas", level: "Strong" },
+          { name: "Keras", level: "Intermediate" },
+          { name: "TensorFlow", level: "Intermediate" },
+          { name: "NumPy", level: "Intermediate" }
+        ]
+      },
+      {
+        id: "tools",
+        title: "Software Tools",
+        highlightLevels: ["Strong", "Daily use"],
+        maxVisible: 6,
+        skills: [
+          { name: "Git", level: "Daily use" },
+          { name: "MySQL", level: "Strong" },
+          { name: "Code::Blocks", level: "Strong" },
+          { name: "Jupyter Notebook", level: "Strong" },
+          { name: "Anaconda", level: "Strong" },
+          { name: "VS Code", level: "Daily use" },
+          { name: "IntelliJ IDEA", level: "Daily use" },
+          { name: "LaTeX", level: "Daily use" },
+          { name: "MATLAB", level: "Academic" },
+          { name: "SPSS", level: "Academic" },
+          { name: "Oracle VM VirtualBox", level: "Intermediate" },
+          { name: "Figma", level: "Intermediate" }
+        ]
+      }
+    ];
+
+    function renderSkills() {
+      if (!skillsGrid) return;
+      skillsGrid.innerHTML = "";
+
+      const levelOrder = ["Strong", "Daily use", "Intermediate", "Academic"];
+
+      function normalizeLevel(level) {
+        if (!level) return "Intermediate";
+        const lower = level.toLowerCase();
+        if (lower.startsWith("strong")) return "Strong";
+        if (lower.startsWith("daily")) return "Daily use";
+        if (lower.startsWith("academic")) return "Academic";
+        return "Intermediate";
+      }
+
+      skillsData.forEach(category => {
+        const card = document.createElement("article");
+        card.className = "skills-group-card";
+        if (category.id === "tools") {
+          card.id = "tools";
+        }
+
+        const header = document.createElement("div");
+        header.className = "skills-group-header";
+
+        const titleEl = document.createElement("div");
+        titleEl.className = "skills-group-title";
+        titleEl.textContent = category.title;
+        header.appendChild(titleEl);
+
+        const body = document.createElement("div");
+        body.className = "skills-group-body";
+
+        const visibleWrapper = document.createElement("div");
+        visibleWrapper.className = "skills-visible";
+
+        const extraWrapper = document.createElement("div");
+        extraWrapper.className = "skills-extra";
+
+        const levelGroupsVisible = {};
+        const levelGroupsExtra = {};
+
+        function ensureGroup(wrapper, groups, levelLabel) {
+          if (groups[levelLabel]) return groups[levelLabel];
+          const group = document.createElement("div");
+          group.className = "skills-proficiency-group";
+
+          const label = document.createElement("div");
+          label.className = "skills-proficiency-label";
+          label.textContent = levelLabel;
+          group.appendChild(label);
+
+          const row = document.createElement("div");
+          row.className = "skills-chips-row";
+          group.appendChild(row);
+
+          wrapper.appendChild(group);
+          groups[levelLabel] = row;
+          return row;
+        }
+
+        function createChip(skill) {
+          const chip = document.createElement("div");
+          chip.className = "skill-icon-pill";
+          chip.setAttribute("role", "listitem");
+
+          const labelEl = document.createElement("div");
+          labelEl.className = "skill-icon-label";
+          labelEl.textContent = skill.name;
+
+          const levelEl = document.createElement("div");
+          levelEl.className = "skill-icon-level";
+          levelEl.textContent = normalizeLevel(skill.level);
+
+          chip.appendChild(labelEl);
+          chip.appendChild(levelEl);
+          return chip;
+        }
+
+        const sortedSkills = category.skills
+          .slice()
+          .sort((a, b) => {
+            const aLevel = normalizeLevel(a.level);
+            const bLevel = normalizeLevel(b.level);
+            const aIndex = levelOrder.indexOf(aLevel);
+            const bIndex = levelOrder.indexOf(bLevel);
+            if (aIndex !== bIndex) return aIndex - bIndex;
+            return a.name.localeCompare(b.name);
+          });
+
+        const maxVisible = category.maxVisible || 6;
+        const visibleSkills = sortedSkills.slice(0, maxVisible);
+        const extraSkills = sortedSkills.slice(maxVisible);
+
+        function addSkillToWrapper(skill, wrapper, groups) {
+          const levelLabel = normalizeLevel(skill.level);
+          const row = ensureGroup(wrapper, groups, levelLabel);
+          const chip = createChip(skill);
+          row.appendChild(chip);
+        }
+
+        visibleSkills.forEach(skill => addSkillToWrapper(skill, visibleWrapper, levelGroupsVisible));
+        extraSkills.forEach(skill => addSkillToWrapper(skill, extraWrapper, levelGroupsExtra));
+
+        visibleWrapper.setAttribute("role", "list");
+        extraWrapper.setAttribute("role", "list");
+
+        body.appendChild(visibleWrapper);
+
+        if (extraSkills.length) {
+          const extraId = "skills-extra-" + category.id;
+          extraWrapper.id = extraId;
+          extraWrapper.setAttribute("aria-hidden", "true");
+          extraWrapper.hidden = true;
+          extraWrapper.style.maxHeight = "0px";
+          body.appendChild(extraWrapper);
+
+          const footer = document.createElement("div");
+          footer.className = "skills-group-footer";
+
+          const toggleBtn = document.createElement("button");
+          toggleBtn.type = "button";
+          toggleBtn.className = "skills-toggle";
+          toggleBtn.setAttribute("aria-expanded", "false");
+          toggleBtn.setAttribute("aria-controls", extraId);
+          toggleBtn.innerHTML = '<span class="skills-toggle-label">Show more</span><span class="skills-toggle-icon">⌄</span>';
+
+          toggleBtn.addEventListener("click", () => {
+            const isExpanded = toggleBtn.getAttribute("aria-expanded") === "true";
+            const nextExpanded = !isExpanded;
+            toggleBtn.setAttribute("aria-expanded", String(nextExpanded));
+            extraWrapper.setAttribute("aria-hidden", String(!nextExpanded));
+            card.classList.toggle("skills-card-expanded", nextExpanded);
+
+            const labelEl = toggleBtn.querySelector(".skills-toggle-label");
+
+            if (nextExpanded) {
+              extraWrapper.hidden = false;
+              const targetHeight = extraWrapper.scrollHeight;
+              extraWrapper.style.maxHeight = targetHeight + "px";
+              if (labelEl) labelEl.textContent = "Show less";
+            } else {
+              extraWrapper.style.maxHeight = "0px";
+              const onTransitionEnd = () => {
+                extraWrapper.hidden = true;
+                extraWrapper.removeEventListener("transitionend", onTransitionEnd);
+              };
+              extraWrapper.addEventListener("transitionend", onTransitionEnd);
+              if (labelEl) labelEl.textContent = "Show more";
+            }
+          });
+
+          footer.appendChild(toggleBtn);
+          card.appendChild(footer);
+        }
+
+        card.appendChild(header);
+        card.appendChild(body);
+        skillsGrid.appendChild(card);
+      });
+    }
+
+    renderSkills();
+    if (sections && Object.prototype.hasOwnProperty.call(sections, "tools")) {
+      sections.tools = document.getElementById("tools") || sections.tools;
+    }
 
     function scrollToSection(id) {
       const el = sections[id];
@@ -2514,14 +3072,21 @@
     const sectionKeys = Object.keys(sections);
     window.addEventListener("scroll", () => {
       let current = "home";
-      const offset = window.innerHeight * 0.25;
+      const viewportCenter = window.pageYOffset + window.innerHeight * 0.35;
+      let closestDistance = Infinity;
+
       sectionKeys.forEach(key => {
         const el = sections[key];
-        const top = el.offsetTop - offset - 80;
-        if (window.pageYOffset >= top) {
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const sectionCenter = window.pageYOffset + rect.top + rect.height / 2;
+        const distance = Math.abs(sectionCenter - viewportCenter);
+        if (distance < closestDistance) {
+          closestDistance = distance;
           current = key;
         }
       });
+
       setActiveNav(current);
     });
 
@@ -2567,6 +3132,8 @@
       }
     });
   </script>
+  <script src="view-repo-button.js"></script>
+  <script src="project-details.js"></script>
   <script src="resume-cursor-effect.js"></script>
   <div id="repoModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
     <div style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 500px; border-radius: 10px;">
