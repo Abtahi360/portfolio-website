@@ -6,6 +6,15 @@
   <title>E-Portfolio | Software Developer & ML Enthusiast</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    // Theme toggle initialization (prevents flash of light mode)
+    (function() {
+      const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
   <style>
     :root {
       --color-primary: #0F172A;
@@ -23,6 +32,18 @@
       --transition-med: 240ms ease-out;
       --nav-height: 72px;
       --max-width: 1120px;
+    }
+
+    [data-theme="dark"] {
+      --color-primary: #F8FAFC;
+      --color-secondary-start: #3B82F6;
+      --color-secondary-end: #6366F1;
+      --color-accent: #22D3EE;
+      --color-bg: #0F172A;
+      --color-card: #1E293B;
+      --color-muted: #94A3B8;
+      --color-border: #334155;
+      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.3);
     }
 
     * {
@@ -220,6 +241,245 @@
 
     .nav-toggle-line::after {
       bottom: -5px;
+    }
+
+    /* Theme Toggle Button */
+    .theme-toggle {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      border: 1px solid var(--color-border);
+      background: var(--color-card);
+      color: var(--color-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      font-size: 18px;
+      position: relative;
+      z-index: 50;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--color-accent);
+      background: var(--color-bg);
+      transform: translateY(-1px);
+    }
+
+    /* Fixed visibility for theme icons */
+    .theme-icon-light, .theme-icon-dark {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+    }
+
+    [data-theme="dark"] .theme-icon-light {
+      display: none !important;
+    }
+
+    html:not([data-theme="dark"]) .theme-icon-dark {
+      display: none !important;
+    }
+
+    [data-theme="dark"] .nav-shell {
+      background: rgba(15, 23, 42, 0.92);
+      border-bottom: 1px solid rgba(51, 65, 85, 0.6);
+    }
+
+    [data-theme="dark"] .nav-cta-btn,
+    [data-theme="dark"] .nav-toggle,
+    [data-theme="dark"] .nav-link-chip,
+    [data-theme="dark"] .hero-meta,
+    [data-theme="dark"] .hero-badge,
+    [data-theme="dark"] .btn-ghost,
+    [data-theme="dark"] .link-pill {
+      background: rgba(30, 41, 59, 0.8);
+      border-color: rgba(71, 85, 105, 0.7);
+      color: var(--color-primary);
+    }
+
+    [data-theme="dark"] .pill-tag {
+      background: rgba(30, 41, 59, 0.6);
+      border-color: rgba(71, 85, 105, 0.8);
+      color: var(--color-muted);
+    }
+
+    [data-theme="dark"] .hero-card {
+      background: linear-gradient(145deg, #1E293B, #0F172A);
+      border-color: rgba(51, 65, 85, 0.8);
+    }
+
+    [data-theme="dark"] .hero-highlight-pill {
+      background: rgba(248, 250, 252, 0.1);
+      color: var(--color-primary);
+    }
+
+    [data-theme="dark"] .hero-highlight-stat {
+      background: rgba(248, 250, 252, 0.05);
+      border-color: rgba(51, 65, 85, 0.8);
+    }
+
+    [data-theme="dark"] .card:hover {
+      background: #1E293B;
+      border-color: var(--color-accent);
+    }
+
+    [data-theme="dark"] .nav-links-mobile {
+      background: rgba(15, 23, 42, 0.98);
+      border-top: 1px solid rgba(51, 65, 85, 0.8);
+    }
+
+    [data-theme="dark"] .resume-frame,
+    [data-theme="dark"] .resume-summary-group,
+    [data-theme="dark"] .project-main-card,
+    [data-theme="dark"] .project-compact-card,
+    [data-theme="dark"] .project-modal,
+    [data-theme="dark"] .research-card,
+    [data-theme="dark"] .research-timeline-item,
+    [data-theme="dark"] .skills-group-card,
+    [data-theme="dark"] .cert-card,
+    [data-theme="dark"] .contact-details,
+    [data-theme="dark"] .contact-form-card {
+      background: var(--color-card);
+      border-color: var(--color-border);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    [data-theme="dark"] .project-tab,
+    [data-theme="dark"] .project-modal-close,
+    [data-theme="dark"] .skill-icon-pill,
+    [data-theme="dark"] .skill-icon-level,
+    [data-theme="dark"] .skills-toggle {
+      background: rgba(30, 41, 59, 0.6);
+      border-color: var(--color-border);
+      color: var(--color-muted);
+    }
+
+    [data-theme="dark"] .project-tab.active,
+    [data-theme="dark"] .skills-toggle:hover {
+      background: var(--color-secondary-start);
+      border-color: var(--color-secondary-end);
+      color: white;
+    }
+
+    [data-theme="dark"] .project-visual,
+    [data-theme="dark"] .project-compact-visual,
+    [data-theme="dark"] .cert-thumb {
+      background: radial-gradient(circle at 10% 0%, rgba(34, 211, 238, 0.15), rgba(15, 23, 42, 0.8));
+      border-color: var(--color-border);
+    }
+
+    [data-theme="dark"] .research-badge {
+      background: rgba(59, 130, 246, 0.2);
+      border-color: rgba(59, 130, 246, 0.4);
+      color: var(--color-accent);
+    }
+
+    [data-theme="dark"] .timeline-dot {
+      background: var(--color-secondary-end);
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+
+    [data-theme="dark"] .skill-icon-pill:hover {
+      background: rgba(30, 41, 59, 0.9);
+      border-color: var(--color-accent);
+    }
+
+    [data-theme="dark"] .resume-frame-body {
+      background: repeating-linear-gradient(-45deg, #1E293B, #1E293B 8px, #0F172A 8px, #0F172A 16px);
+      border-color: var(--color-border);
+    }
+
+    [data-theme="dark"] .resume-dot:nth-child(1) { background: #EF4444; }
+    [data-theme="dark"] .resume-dot:nth-child(2) { background: #F59E0B; }
+    [data-theme="dark"] .resume-dot:nth-child(3) { background: #10B981; }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-content {
+      background-color: var(--color-card);
+      margin: 15% auto;
+      padding: 24px;
+      border: 1px solid var(--color-border);
+      width: 90%;
+      max-width: 500px;
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-soft);
+      color: var(--color-primary);
+    }
+
+    .close-button {
+      color: var(--color-muted);
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .close-button:hover {
+      color: var(--color-primary);
+    }
+
+    .modal-content h2 {
+      margin-bottom: 12px;
+      font-size: 20px;
+    }
+
+    .modal-content p {
+      margin-bottom: 16px;
+      font-size: 14px;
+      color: var(--color-muted);
+    }
+
+    #tempRepoLink {
+      width: 100%;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+      background: var(--color-bg);
+      color: var(--color-primary);
+      font-family: inherit;
+    }
+
+    #openTempRepo {
+      background-color: var(--color-secondary-end);
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: opacity var(--transition-fast);
+    }
+
+    #openTempRepo:hover {
+      opacity: 0.9;
+    }
+
+    .modal-footnote {
+      font-size: 11px !important;
+      color: var(--color-muted);
+      margin-top: 16px;
+      margin-bottom: 0 !important;
+    }
+
+    [data-theme="dark"] .modal {
+      background-color: rgba(0,0,0,0.6);
     }
 
     .nav-toggle.open .nav-toggle-line {
@@ -1884,6 +2144,10 @@
           <a class="nav-link" data-target="contact">Contact</a>
         </nav>
         <div class="nav-cta">
+          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+            <span class="theme-icon-light">☀️</span>
+            <span class="theme-icon-dark">🌙</span>
+          </button>
           <button class="nav-cta-btn" data-scroll="projects">
             <span>●</span>
             Projects
@@ -3132,18 +3396,30 @@
       }
     });
   </script>
+  <script>
+    // Theme toggle logic
+    const themeToggle = document.getElementById('theme-toggle');
+
+    themeToggle.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const newTheme = isDark ? 'light' : 'dark';
+      
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    });
+  </script>
   <script src="view-repo-button.js"></script>
   <script src="project-details.js"></script>
   <script src="resume-cursor-effect.js"></script>
-  <div id="repoModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
-    <div style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 500px; border-radius: 10px;">
-      <span class="close-button" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+  <div id="repoModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
       <h2>Repository Not Found</h2>
       <p>The repository for <strong id="modalProjectName"></strong> could not be found.</p>
       <p>If you have a link, you can temporarily paste it below:</p>
-      <input type="text" id="tempRepoLink" placeholder="Paste repository URL here" style="width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
-      <button id="openTempRepo" style="background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">Open Link</button>
-      <p style="font-size: 0.8em; color: #666; margin-top: 10px;">This link will only be stored locally in your browser for this session.</p>
+      <input type="text" id="tempRepoLink" placeholder="Paste repository URL here">
+      <button id="openTempRepo">Open Link</button>
+      <p class="modal-footnote">This link will only be stored locally in your browser for this session.</p>
     </div>
   </div>
 </body>
