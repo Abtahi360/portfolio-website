@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="resume-cursor-effect.css">
+  <link rel="stylesheet" href="design.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- keep your existing Google verification meta if present -->
+<meta name="google-site-verification" content="zhBnLDx3Z5Mdy-11aTI4vvPQZYoLo8eS42be5qH6dJ0" />
+  <title>Projects — Abtahi Islam</title>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="index.html">Abtahi Islam</a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="about.html">About</a>
+        <a class="nav-link nav-active" href="projects.html">Projects</a>
+        <a class="nav-link" href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <h1 class="section-title">Projects</h1>
+      <p class="section-lead">A selection of projects I built — focuses on web, APIs, and machine learning.</p>
+
+      <div class="grid grid-3">
+        <!-- Project card 1 -->
+        <article class="card">
+          <h3 class="card-title">Spring Boot REST API — Student Management</h3>
+          <p class="card-desc">A CRUD REST API built with Spring Boot, using JPA/Hibernate and PostgreSQL. Includes JWT-based auth and Swagger docs.</p>
+          <p class="card-meta">Tech: Java, Spring Boot, PostgreSQL, Docker</p>
+          <p class="card-links"><a href="https://github.com/Abtahi360/Bootcamp-with-Spring-by-Abtahi" target="_blank">Source Code</a></p>
+        </article>
+
+        <!-- Project card 2 -->
+        <article class="card">
+          <h3 class="card-title">ML Classifier — Text Sentiment</h3>
+          <p class="card-desc">A pipeline that preprocesses text, trains classification models, and serves predictions via a Flask microservice.</p>
+          <p class="card-meta">Tech: Python, scikit-learn, Flask, Docker</p>
+          <p class="card-links"><a href="https://github.com/Abtahi360/A-Comparative-Study-of-Keras-Models-for-Brain-Tumor-MRI-Segmentation" target="_blank"></a></p>
+        </article>
+
+        <!-- Project card 3 -->
+        <article class="card">
+          <h3 class="card-title">Personal Portfolio (this site)</h3>
+          <p class="card-desc">A simple, responsive static portfolio built with HTML, CSS and hosted on Netlify. Optimized for performance and SEO.</p>
+          <p class="card-meta">Tech: HTML, CSS, Netlify</p>
+          <p class="card-links"><a href="https://abtahiislam.netlify.app/" target="_blank">Live</a> • <a href="https://github.com/Abtahi360/portfolio-website" target="_blank">Source</a></p>
+        </article>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© <span id="year"></span> Abtahi Islam — Built with ❤️</div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+
+</html>

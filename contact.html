@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="resume-cursor-effect.css">
+  <link rel="stylesheet" href="design.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="zhBnLDx3Z5Mdy-11aTI4vvPQZYoLo8eS42be5qH6dJ0" />
+  <title>Contact — Abtahi Islam</title>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="index.html">Abtahi Islam</a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="about.html">About</a>
+        <a class="nav-link" href="projects.html">Projects</a>
+        <a class="nav-link nav-active" href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <h1 class="section-title">Contact</h1>
+      <p class="section-lead">Want to collaborate? Send a message — I usually reply within a days.</p>
+
+      <div class="two-col">
+        <div>
+          <!-- Netlify form (works if site is hosted on Netlify). If you are not using Netlify, change action to a Formspree endpoint or use mailto fallback. -->
+          <form name="contact" method="POST" data-netlify="true">
+            <input type="hidden" name="form-name" value="contact">
+
+            <label for="name">Name</label>
+            <input id="name" name="name" required>
+
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required>
+
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="6" required></textarea>
+
+            <button type="submit" class="btn">Send message</button>
+          </form>
+
+          <p style="margin-top:1rem;">Or email me directly: <a href="mailto:abtahibinislam2018@gmail.com">abtahibinislam2018@gmail.com</a></p>
+        </div>
+
+        <aside>
+          <div class="card">
+            <h3>Other ways to connect</h3>
+            <p><strong>GitHub:</strong> <a href="https://github.com/Abtahi360" target="_blank">github.com/Abtahi360</a></p>
+            <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/abtahi-islam/" target="_blank">linkedin.com/in/abtahi-islam</a></p>
+            <p><strong>Location:</strong> Dhaka, Bangladesh</p>
+          </div>
+        </aside>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© <span id="year3"></span> Abtahi Islam — Built with ❤️</div>
+  </footer>
+
+  <script>
+    document.getElementById('year3').textContent = new Date().getFullYear();
+  </script>
+</body>
+
+</html>
