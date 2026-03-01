@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <link rel="stylesheet" href="resume-cursor-effect.css">
   <link rel="stylesheet" href="design.css">
@@ -9,14 +10,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script>
     // Theme toggle initialization (prevents flash of light mode)
-    (function() {
+    (function () {
       const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       if (theme === 'dark') {
         document.documentElement.setAttribute('data-theme', 'dark');
       }
     })();
   </script>
+  <meta charset="UTF-8">
+
+  <!-- Google verification -->
+  <meta name="google-site-verification" content="zhBnLDx3Z5Mdy-11aTI4vvPQZYoLo8eS42be5qH6dJ0" />
+  <title>Abtahi Islam | Portfolio</title>
 </head>
+
 <body>
   <div class="page">
     <header class="nav-shell">
@@ -72,7 +79,7 @@
             </div>
             <h1 class="hero-name">Abtahi Islam</h1>
             <p class="hero-tagline">
-               Aspiring Software Developer | Machine Learning Research Enthusiast.
+              Aspiring Software Developer | Machine Learning Research Enthusiast.
               Building reliable Spring Boot APIs and ML classification systems with real-world impact.
             </p>
             <div class="hero-badges">
@@ -176,12 +183,16 @@
               <div class="card-body">
                 <div class="edu-hx-institution">American International University - Bangladesh</div>
                 <ul class="edu-hx-list">
-                  <li><strong>Skills: </strong> · Object-Oriented Programming (OOP) · Problem Solving · AutoCAD · C# · Data Structures 
-                    · Python (Programming Language) · Data Science · Genetic Algorithms · Algorithms · Machine Learning 
-                    · Academic Publishing · Oracle Database · Java Database Connectivity (JDBC) · SQL · Theory of Computation 
+                  <li><strong>Skills: </strong> · Object-Oriented Programming (OOP) · Problem Solving · AutoCAD · C# ·
+                    Data Structures
+                    · Python (Programming Language) · Data Science · Genetic Algorithms · Algorithms · Machine Learning
+                    · Academic Publishing · Oracle Database · Java Database Connectivity (JDBC) · SQL · Theory of
+                    Computation
                     · Project Management · Project Planning · User Interface Design</li>
-                  <li><strong>Activities and societies: </strong> · Chess, Football, Badminton, Volleyball, Basketball, Cricket, Ludo, Table Tennis</li>
-                  <li><strong>Coursework: </strong> · Data Structures and Algorithms · Database Systems · Computer Networks 
+                  <li><strong>Activities and societies: </strong> · Chess, Football, Badminton, Volleyball, Basketball,
+                    Cricket, Ludo, Table Tennis</li>
+                  <li><strong>Coursework: </strong> · Data Structures and Algorithms · Database Systems · Computer
+                    Networks
                     · Operating Systems · Artificial Intelligence · Machine Learning · Data Science</li>
                 </ul>
                 <p class="edu-hx-summary">
@@ -205,7 +216,8 @@
                 <div class="edu-hx-institution">Ishwardi Government College</div>
                 <ul class="edu-hx-list">
                   <li><strong>Skills: </strong> C++ · C (Programming Language) · HTML</li>
-                  <li><strong>Activities and societies: </strong> Chess, Ludo, Cricket, Football, Badminton, Volleyball, Basketball</li>
+                  <li><strong>Activities and societies: </strong> Chess, Ludo, Cricket, Football, Badminton, Volleyball,
+                    Basketball</li>
                   <li><strong>Coursework: </strong> · High Mathematics · Physics · Chemistry · Biology</li>
                 </ul>
               </div>
@@ -235,310 +247,291 @@
       </section>
 
       <section class="section-shell" id="projects">
-  <div class="section-anchor-offset" id="projects-anchor"></div>
-  <div class="section-inner fade-in">
-    <div class="section-header">
-      <div>
-        <div class="section-kicker">Projects</div>
-        <h2 class="section-title">Selected work</h2>
+        <div class="section-anchor-offset" id="projects-anchor"></div>
+        <div class="section-inner fade-in">
+          <div class="section-header">
+            <div>
+              <div class="section-kicker">Projects</div>
+              <h2 class="section-title">Selected work</h2>
+            </div>
+            <div class="section-subtitle">
+              A collection of projects that highlight my skills in software development, machine learning, and data
+              science.
+            </div>
+          </div>
+
+          <div class="cards-grid">
+            <!-- Project A -->
+            <article class="card" data-project-key="spring-boot-practice">
+              <div class="card-header">
+                <div>
+                  <div class="card-kicker">Spring Boot</div>
+                  <h3 class="card-title">Spring Boot 3 Practice</h3>
+                </div>
+                <div class="pill-tag-row">
+                  <span class="pill-tag pill-tag-strong">Java 17</span>
+                  <span class="pill-tag">Spring 6</span>
+                  <span class="pill-tag">Hibernate</span>
+                </div>
+              </div>
+              <div class="project-images-row">
+                <img src="Images/spring1.png" alt="Spring Boot 1" class="project-image">
+                <img src="Images/spring2.png" alt="Spring Boot 2" class="project-image">
+              </div>
+              <div class="card-body">
+                <p>Collection of hands-on practice modules following a Spring Boot + Hibernate course.</p>
+              </div>
+              <div class="card-footer">
+                <div class="view-repo-button"
+                  data-repo-url="https://github.com/Abtahi360/Bootcamp-with-Spring-by-Abtahi"
+                  data-project-name="Spring Boot 3 Practice – Udemy Learning Projects"></div>
+              </div>
+            </article>
+
+            <!-- Project B -->
+            <article class="card" data-project-key="brain-tumor-segmentation">
+              <div class="card-header">
+                <div>
+                  <div class="card-kicker">Machine Learning</div>
+                  <h3 class="card-title">Brain Tumor MRI Segmentation</h3>
+                </div>
+                <div class="pill-tag-row">
+                  <span class="pill-tag pill-tag-strong">Keras</span>
+                  <span class="pill-tag">TensorFlow</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="project-images-row">
+                  <img src="Images/mri1.png" alt="MRI 1" class="project-image">
+                  <img src="Images/mri2.png" alt="MRI 2" class="project-image">
+                </div>
+                <p>Comparative sweep of Keras models for MRI segmentation - training, evaluation, and single-image
+                  demos.</p>
+              </div>
+              <div class="card-footer">
+                <div class="view-repo-button"
+                  data-repo-url="https://github.com/Abtahi360/A-Comparative-Study-of-Keras-Models-for-Brain-Tumor-MRI-Segmentation"
+                  data-project-name="Brain Tumor MRI Segmentation"></div>
+              </div>
+            </article>
+
+            <!-- Project C -->
+            <article class="card" data-project-key="cat-vs-dog-classification">
+              <div class="card-header">
+                <div>
+                  <div class="card-kicker">Machine Learning</div>
+                  <h3 class="card-title">Cat vs Dog Classification</h3>
+                </div>
+                <div class="pill-tag-row">
+                  <span class="pill-tag pill-tag-strong">CNN</span>
+                  <span class="pill-tag">TensorFlow</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="project-images-row">
+                  <img src="Images/cat1.png" alt="Cat 1" class="project-image">
+                  <img src="Images/cat2.png" alt="Cat 2" class="project-image">
+                </div>
+                <p>Binary image classifier using TensorFlow/Keras — demonstrates a full training &amp; evaluation
+                  workflow.</p>
+              </div>
+              <div class="card-footer">
+                <div class="view-repo-button"
+                  data-repo-url="https://github.com/Abtahi360/Cat-vs-Dog-Image-Classification-using-Convolutional-Neural-Network-CNN"
+                  data-project-name="Cat vs Dog Classification using CNN"></div>
+              </div>
+            </article>
+
+            <!-- Project D -->
+            <article class="card" data-project-key="space-shooter-game">
+              <div class="card-header">
+                <div>
+                  <div class="card-kicker">Game Development</div>
+                  <h3 class="card-title">Space Shooter (OpenGL)</h3>
+                </div>
+                <div class="pill-tag-row">
+                  <span class="pill-tag pill-tag-strong">C++</span>
+                  <span class="pill-tag">OpenGL</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="project-images-row">
+                  <img src="Images/game1.png" alt="Space Shooter 1" class="project-image">
+                  <img src="Images/game2.png" alt="Space Shooter 2" class="project-image">
+                </div>
+                <p>Three-level C++ OpenGL game with power-ups, boss fights, save/load, and final walk-home cutscene.</p>
+              </div>
+              <div class="card-footer">
+                <div class="view-repo-button"
+                  data-repo-url="https://github.com/Abtahi360/Space-Shooter-A-three-level-OpenGL-game-with-final-walk-home-cutscene"
+                  data-project-name="Space Shooter (OpenGL)"></div>
+              </div>
+            </article>
+
+            <!-- Project E -->
+            <article class="card" data-project-key="presento-ai-assessment">
+              <div class="card-header">
+                <div>
+                  <div class="card-kicker">AI/ML</div>
+                  <h3 class="card-title">Presento — AI Presentation Assessment</h3>
+                </div>
+                <div class="pill-tag-row">
+                  <span class="pill-tag pill-tag-strong">System Design</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="project-images-row">
+                  <img src="Images/cv1.png" alt="Presento CV 1" class="project-image">
+                  <img src="Images/cv2.png" alt="Presento CV 2" class="project-image">
+                </div>
+                <p>Multimodal system design (CV, speech, slide analysis) to evaluate presentation skills and generate
+                  reports.</p>
+              </div>
+              <div class="card-footer">
+                <div class="view-repo-button"
+                  data-repo-url="https://github.com/Abtahi360/Presento-AI-Powered-Multimodal-Presentation-Skill-Assessment"
+                  data-project-name="Presento — AI Presentation Assessment"></div>
+              </div>
+            </article>
+
+            <!-- Project F -->
+            <article class="card" data-project-key="network-topology-simulation">
+              <div class="card-header">
+                <div>
+                  <div class="card-kicker">Networking</div>
+                  <h3 class="card-title">Network Topology Simulation</h3>
+                </div>
+                <div class="pill-tag-row">
+                  <span class="pill-tag pill-tag-strong">Cisco Packet Tracer</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="project-images-row">
+                  <img src="Images/cisco1.png" alt="Cisco Packet Tracer 1" class="project-image">
+                  <img src="Images/cisco2.png" alt="Cisco Packet Tracer 2" class="project-image">
+                </div>
+                <p>Educational Packet Tracer labs: multi-level topology and router-based inter-switch communication.</p>
+              </div>
+              <div class="card-footer">
+                <div class="view-repo-button"
+                  data-repo-url="https://github.com/Abtahi360/Network-Topology-Simulation-with-Cisco-Packet-Tracer"
+                  data-project-name="Network Topology Simulation"></div>
+              </div>
+            </article>
+
+            <!-- Project G -->
+            <article class="card" data-project-key="autocad-electrical-diagrams">
+              <div class="card-header">
+                <div>
+                  <div class="card-kicker">CAD</div>
+                  <h3 class="card-title">AutoCAD Electrical Diagrams</h3>
+                </div>
+                <div class="pill-tag-row">
+                  <span class="pill-tag pill-tag-strong">AutoCAD 2007</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="project-images-row">
+                  <img src="Images/cad1.png" alt="AutoCAD Electrical 1" class="project-image">
+                  <img src="Images/cad2.png" alt="AutoCAD Electrical 2" class="project-image">
+                </div>
+                <p>Four electrical circuit schematics (.dwg) created for a CAD assignment — AutoCAD 2007 format.</p>
+              </div>
+              <div class="card-footer">
+                <div class="view-repo-button"
+                  data-repo-url="https://github.com/Abtahi360/Showcasing-electrical-circuit-diagrams-designed-in-AutoCAD-2007"
+                  data-project-name="AutoCAD Electrical Diagrams"></div>
+              </div>
+            </article>
+
+            <!-- Project H -->
+            <article class="card" data-project-key="stopwatch-timer-csharp">
+              <div class="card-header">
+                <div>
+                  <div class="card-kicker">Desktop App</div>
+                  <h3 class="card-title">Stopwatch Timer – C# WinForms</h3>
+                </div>
+                <div class="pill-tag-row">
+                  <span class="pill-tag pill-tag-strong">C#</span>
+                  <span class="pill-tag">.NET</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="project-images-row">
+                  <img src="Images/Stopwatch_Pink.png" alt="Stopwatch Pink Theme" class="project-image">
+                  <img src="Images/Stopwatch_Dark.png" alt="Stopwatch Dark Theme" class="project-image">
+                </div>
+                <p>Simple stopwatch app with start/stop/pause/reset, history log, and dark/light theme toggle.</p>
+              </div>
+              <div class="card-footer">
+                <div class="view-repo-button" data-repo-url="https://github.com/Abtahi360/Stopwatch_Timer"
+                  data-project-name="Stopwatch Timer – C# WinForms"></div>
+              </div>
+            </article>
+
+            <!-- Project I -->
+            <article class="card" data-project-key="electricity-billing-system-java">
+              <div class="card-header">
+                <div>
+                  <div class="card-kicker">Desktop App</div>
+                  <h3 class="card-title">Electricity Billing System – Java</h3>
+                </div>
+                <div class="pill-tag-row">
+                  <span class="pill-tag pill-tag-strong">Java</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="project-images-row">
+                  <img src="Images/bill1.png" alt="Bill 1" class="project-image">
+                  <img src="Images/bill2.png" alt="Bill 2" class="project-image">
+                </div>
+                <p>Desktop Java application for billing, customer mgmt, and payment processing (file-based storage).</p>
+              </div>
+              <div class="card-footer">
+                <div class="view-repo-button" data-repo-url="https://github.com/Abtahi360/Electricity_Billing_System"
+                  data-project-name="Electricity Billing System – Java"></div>
+              </div>
+            </article>
+
+            <!-- Project J -->
+            <article class="card" data-project-key="boi-jatra-bookstore-java">
+              <div class="card-header">
+                <div>
+                  <div class="card-kicker">Desktop App</div>
+                  <h3 class="card-title">Boi Jatra – Bookstore Management</h3>
+                </div>
+                <div class="pill-tag-row">
+                  <span class="pill-tag pill-tag-strong">Java</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="project-images-row">
+                  <img src="Images/boi1.png" alt="Boi Jatra 1" class="project-image">
+                  <img src="Images/boi2.png" alt="Boi Jatra 2" class="project-image">
+                </div>
+                <p>Text-file based bookstore app with admin/user panels, cart &amp; payment simulation.</p>
+              </div>
+              <div class="card-footer">
+                <div class="view-repo-button" data-repo-url="https://github.com/Abtahi360/Boi_Jatra"
+                  data-project-name="Boi Jatra – Bookstore Management"></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <div class="project-modal-backdrop" id="project-modal-backdrop" aria-hidden="true">
+        <div class="project-modal" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
+          <div class="project-modal-header">
+            <h3 class="project-modal-title" id="project-modal-title"></h3>
+            <button type="button" class="project-modal-close" aria-label="Close project details">Close</button>
+          </div>
+          <div class="project-modal-body" id="project-modal-body"></div>
+          <div class="project-modal-footer">
+            <button type="button" class="link-pill" id="project-modal-close-btn">Close</button>
+          </div>
+        </div>
       </div>
-      <div class="section-subtitle">
-        A collection of projects that highlight my skills in software development, machine learning, and data science.
-      </div>
-    </div>
-
-    <div class="cards-grid">
-    <!-- Project A -->
-    <article class="card" data-project-key="spring-boot-practice">
-        <div class="card-header">
-            <div>
-                <div class="card-kicker">Spring Boot</div>
-                <h3 class="card-title">Spring Boot 3 Practice</h3>
-            </div>
-             <div class="pill-tag-row">
-                <span class="pill-tag pill-tag-strong">Java 17</span>
-                <span class="pill-tag">Spring 6</span>
-                <span class="pill-tag">Hibernate</span>
-            </div>
-        </div>
-        <div class="project-images-row">
-            <img src="Images/spring1.png" alt="Spring Boot 1" class="project-image">
-            <img src="Images/spring2.png" alt="Spring Boot 2" class="project-image">
-        </div>
-        <div class="card-body">
-            <p>Collection of hands-on practice modules following a Spring Boot + Hibernate course.</p>
-        </div>
-        <div class="card-footer">
-          <div
-            class="view-repo-button"
-            data-repo-url="https://github.com/Abtahi360/Bootcamp-with-Spring-by-Abtahi"
-            data-project-name="Spring Boot 3 Practice – Udemy Learning Projects"
-          ></div>
-        </div>
-    </article>
-
-    <!-- Project B -->
-    <article class="card" data-project-key="brain-tumor-segmentation">
-        <div class="card-header">
-            <div>
-                <div class="card-kicker">Machine Learning</div>
-                <h3 class="card-title">Brain Tumor MRI Segmentation</h3>
-            </div>
-            <div class="pill-tag-row">
-                <span class="pill-tag pill-tag-strong">Keras</span>
-                <span class="pill-tag">TensorFlow</span>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="project-images-row">
-                <img src="Images/mri1.png" alt="MRI 1" class="project-image">
-                <img src="Images/mri2.png" alt="MRI 2" class="project-image">
-            </div>
-            <p>Comparative sweep of Keras models for MRI segmentation - training, evaluation, and single-image demos.</p>
-        </div>
-        <div class="card-footer">
-          <div
-            class="view-repo-button"
-            data-repo-url="https://github.com/Abtahi360/A-Comparative-Study-of-Keras-Models-for-Brain-Tumor-MRI-Segmentation"
-            data-project-name="Brain Tumor MRI Segmentation"
-          ></div>
-        </div>
-    </article>
-
-    <!-- Project C -->
-    <article class="card" data-project-key="cat-vs-dog-classification">
-        <div class="card-header">
-            <div>
-                <div class="card-kicker">Machine Learning</div>
-                <h3 class="card-title">Cat vs Dog Classification</h3>
-            </div>
-            <div class="pill-tag-row">
-                <span class="pill-tag pill-tag-strong">CNN</span>
-                <span class="pill-tag">TensorFlow</span>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="project-images-row">
-                <img src="Images/cat1.png" alt="Cat 1" class="project-image">
-                <img src="Images/cat2.png" alt="Cat 2" class="project-image">
-            </div>
-            <p>Binary image classifier using TensorFlow/Keras — demonstrates a full training &amp; evaluation workflow.</p>
-        </div>
-        <div class="card-footer">
-          <div
-            class="view-repo-button"
-            data-repo-url="https://github.com/Abtahi360/Cat-vs-Dog-Image-Classification-using-Convolutional-Neural-Network-CNN"
-            data-project-name="Cat vs Dog Classification using CNN"
-          ></div>
-        </div>
-    </article>
-
-    <!-- Project D -->
-    <article class="card" data-project-key="space-shooter-game">
-        <div class="card-header">
-            <div>
-                <div class="card-kicker">Game Development</div>
-                <h3 class="card-title">Space Shooter (OpenGL)</h3>
-            </div>
-            <div class="pill-tag-row">
-                <span class="pill-tag pill-tag-strong">C++</span>
-                <span class="pill-tag">OpenGL</span>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="project-images-row">
-                <img src="Images/game1.png" alt="Space Shooter 1" class="project-image">
-                <img src="Images/game2.png" alt="Space Shooter 2" class="project-image">
-            </div>
-            <p>Three-level C++ OpenGL game with power-ups, boss fights, save/load, and final walk-home cutscene.</p>
-        </div>
-        <div class="card-footer">
-          <div
-            class="view-repo-button"
-            data-repo-url="https://github.com/Abtahi360/Space-Shooter-A-three-level-OpenGL-game-with-final-walk-home-cutscene"
-            data-project-name="Space Shooter (OpenGL)"
-          ></div>
-        </div>
-    </article>
-
-    <!-- Project E -->
-    <article class="card" data-project-key="presento-ai-assessment">
-        <div class="card-header">
-            <div>
-                <div class="card-kicker">AI/ML</div>
-                <h3 class="card-title">Presento — AI Presentation Assessment</h3>
-            </div>
-            <div class="pill-tag-row">
-                <span class="pill-tag pill-tag-strong">System Design</span>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="project-images-row">
-                <img src="Images/cv1.png" alt="Presento CV 1" class="project-image">
-                <img src="Images/cv2.png" alt="Presento CV 2" class="project-image">
-            </div>
-            <p>Multimodal system design (CV, speech, slide analysis) to evaluate presentation skills and generate reports.</p>
-        </div>
-        <div class="card-footer">
-          <div
-            class="view-repo-button"
-            data-repo-url="https://github.com/Abtahi360/Presento-AI-Powered-Multimodal-Presentation-Skill-Assessment"
-            data-project-name="Presento — AI Presentation Assessment"
-          ></div>
-        </div>
-    </article>
-
-    <!-- Project F -->
-    <article class="card" data-project-key="network-topology-simulation">
-        <div class="card-header">
-            <div>
-                <div class="card-kicker">Networking</div>
-                <h3 class="card-title">Network Topology Simulation</h3>
-            </div>
-            <div class="pill-tag-row">
-                <span class="pill-tag pill-tag-strong">Cisco Packet Tracer</span>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="project-images-row">
-                <img src="Images/cisco1.png" alt="Cisco Packet Tracer 1" class="project-image">
-                <img src="Images/cisco2.png" alt="Cisco Packet Tracer 2" class="project-image">
-            </div>
-            <p>Educational Packet Tracer labs: multi-level topology and router-based inter-switch communication.</p>
-        </div>
-        <div class="card-footer">
-          <div
-            class="view-repo-button"
-            data-repo-url="https://github.com/Abtahi360/Network-Topology-Simulation-with-Cisco-Packet-Tracer"
-            data-project-name="Network Topology Simulation"
-          ></div>
-        </div>
-    </article>
-
-    <!-- Project G -->
-    <article class="card" data-project-key="autocad-electrical-diagrams">
-        <div class="card-header">
-            <div>
-                <div class="card-kicker">CAD</div>
-                <h3 class="card-title">AutoCAD Electrical Diagrams</h3>
-            </div>
-            <div class="pill-tag-row">
-                <span class="pill-tag pill-tag-strong">AutoCAD 2007</span>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="project-images-row">
-                <img src="Images/cad1.png" alt="AutoCAD Electrical 1" class="project-image">
-                <img src="Images/cad2.png" alt="AutoCAD Electrical 2" class="project-image">
-            </div>
-            <p>Four electrical circuit schematics (.dwg) created for a CAD assignment — AutoCAD 2007 format.</p>
-        </div>
-        <div class="card-footer">
-          <div
-            class="view-repo-button"
-            data-repo-url="https://github.com/Abtahi360/Showcasing-electrical-circuit-diagrams-designed-in-AutoCAD-2007"
-            data-project-name="AutoCAD Electrical Diagrams"
-          ></div>
-        </div>
-    </article>
-
-    <!-- Project H -->
-    <article class="card" data-project-key="stopwatch-timer-csharp">
-        <div class="card-header">
-            <div>
-                <div class="card-kicker">Desktop App</div>
-                <h3 class="card-title">Stopwatch Timer – C# WinForms</h3>
-            </div>
-            <div class="pill-tag-row">
-                <span class="pill-tag pill-tag-strong">C#</span>
-                <span class="pill-tag">.NET</span>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="project-images-row">
-                <img src="Images/Stopwatch_Pink.png" alt="Stopwatch Pink Theme" class="project-image">
-                <img src="Images/Stopwatch_Dark.png" alt="Stopwatch Dark Theme" class="project-image">
-            </div>
-            <p>Simple stopwatch app with start/stop/pause/reset, history log, and dark/light theme toggle.</p>
-        </div>
-        <div class="card-footer">
-          <div
-            class="view-repo-button"
-            data-repo-url="https://github.com/Abtahi360/Stopwatch_Timer"
-            data-project-name="Stopwatch Timer – C# WinForms"
-          ></div>
-        </div>
-    </article>
-
-    <!-- Project I -->
-    <article class="card" data-project-key="electricity-billing-system-java">
-        <div class="card-header">
-            <div>
-                <div class="card-kicker">Desktop App</div>
-                <h3 class="card-title">Electricity Billing System – Java</h3>
-            </div>
-            <div class="pill-tag-row">
-                <span class="pill-tag pill-tag-strong">Java</span>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="project-images-row">
-                <img src="Images/bill1.png" alt="Bill 1" class="project-image">
-                <img src="Images/bill2.png" alt="Bill 2" class="project-image">
-            </div>
-            <p>Desktop Java application for billing, customer mgmt, and payment processing (file-based storage).</p>
-        </div>
-        <div class="card-footer">
-          <div
-            class="view-repo-button"
-            data-repo-url="https://github.com/Abtahi360/Electricity_Billing_System"
-            data-project-name="Electricity Billing System – Java"
-          ></div>
-        </div>
-    </article>
-
-    <!-- Project J -->
-    <article class="card" data-project-key="boi-jatra-bookstore-java">
-        <div class="card-header">
-            <div>
-                <div class="card-kicker">Desktop App</div>
-                <h3 class="card-title">Boi Jatra – Bookstore Management</h3>
-            </div>
-            <div class="pill-tag-row">
-                <span class="pill-tag pill-tag-strong">Java</span>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="project-images-row">
-                <img src="Images/boi1.png" alt="Boi Jatra 1" class="project-image">
-                <img src="Images/boi2.png" alt="Boi Jatra 2" class="project-image">
-            </div>
-            <p>Text-file based bookstore app with admin/user panels, cart &amp; payment simulation.</p>
-        </div>
-        <div class="card-footer">
-          <div
-            class="view-repo-button"
-            data-repo-url="https://github.com/Abtahi360/Boi_Jatra"
-            data-project-name="Boi Jatra – Bookstore Management"
-          ></div>
-        </div>
-    </article>
-</div>
-  </div>
-</section>
-
-<div class="project-modal-backdrop" id="project-modal-backdrop" aria-hidden="true">
-  <div class="project-modal" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
-    <div class="project-modal-header">
-      <h3 class="project-modal-title" id="project-modal-title"></h3>
-      <button type="button" class="project-modal-close" aria-label="Close project details">Close</button>
-    </div>
-    <div class="project-modal-body" id="project-modal-body"></div>
-    <div class="project-modal-footer">
-      <button type="button" class="link-pill" id="project-modal-close-btn">Close</button>
-    </div>
-  </div>
-</div>
 
 
       <section class="section-shell" id="research">
@@ -556,26 +549,31 @@
           <div class="research-grid">
             <div class="research-card">
               <div class="research-status">Journal Publication</div>
-              <h3 class="research-title">The Ethics of AI Technology in Academic Work: Assessing the Line Between Assistance and Plagiarism</h3>
+              <h3 class="research-title">The Ethics of AI Technology in Academic Work: Assessing the Line Between
+                Assistance and Plagiarism</h3>
               <div class="pill-tag-row">
                 <span class="research-badge">
                   <span class="link-icon">✓</span>
-                  𝙄𝙣𝙩𝙚𝙧𝙣𝙖𝙩𝙞𝙤𝙣𝙖𝙡 𝙅𝙤𝙪𝙧𝙣𝙖𝙡 𝙤𝙛 𝙀𝙡𝙚𝙘𝙩𝙧𝙞𝙘𝙖𝙡 𝙖𝙣𝙙 𝘾𝙤𝙢𝙥𝙪𝙩𝙚𝙧 𝙀𝙣𝙜𝙞𝙣𝙚𝙚𝙧𝙞𝙣𝙜 (𝙄𝙅𝙀𝘾𝙀) (Q - 3)
+                  𝙄𝙣𝙩𝙚𝙧𝙣𝙖𝙩𝙞𝙤𝙣𝙖𝙡 𝙅𝙤𝙪𝙧𝙣𝙖𝙡 𝙤𝙛 𝙀𝙡𝙚𝙘𝙩𝙧𝙞𝙘𝙖𝙡 𝙖𝙣𝙙 𝘾𝙤𝙢𝙥𝙪𝙩𝙚𝙧
+                  𝙀𝙣𝙜𝙞𝙣𝙚𝙚𝙧𝙞𝙣𝙜 (𝙄𝙅𝙀𝘾𝙀) (Q - 3)
                 </span>
               </div>
               <p class="research-meta">
-                This study explores the ethical boundaries of AI in academic work, examining assistance versus plagiarism.
-                 A survey of 498 respondents revealed correlations between AI usage frequency, dependency, 
-                 and critical engagement. Statistical analysis highlighted concerns about inaccuracies, misuse, 
-                 and absent institutional policies. Findings emphasize responsible integration, ethical frameworks, 
-                 and educational interventions to ensure AI enhances learning while preserving academic integrity.
+                This study explores the ethical boundaries of AI in academic work, examining assistance versus
+                plagiarism.
+                A survey of 498 respondents revealed correlations between AI usage frequency, dependency,
+                and critical engagement. Statistical analysis highlighted concerns about inaccuracies, misuse,
+                and absent institutional policies. Findings emphasize responsible integration, ethical frameworks,
+                and educational interventions to ensure AI enhances learning while preserving academic integrity.
               </p>
               <div class="card-list">
                 <div class="card-list-item">
-                  <span>Contribution:</span> Survey design, statistical analysis, chi-square testing, regression modeling, and ethical framework development.
+                  <span>Contribution:</span> Survey design, statistical analysis, chi-square testing, regression
+                  modeling, and ethical framework development.
                 </div>
                 <div class="card-list-item">
-                  <span>Keywords:</span> AI Ethics, AI Dependency, Academic Integrity, Responsible AI Integration, AI Tools in Education.
+                  <span>Keywords:</span> AI Ethics, AI Dependency, Academic Integrity, Responsible AI Integration, AI
+                  Tools in Education.
                 </div>
               </div>
               <div class="research-actions">
@@ -589,16 +587,18 @@
               <div class="research-timeline-item">
                 <div class="timeline-dot"></div>
                 <div>
-                  <div class="timeline-content-title">Early prediction of cellular damage using deep learning microscopy</div>
+                  <div class="timeline-content-title">Early prediction of cellular damage using deep learning microscopy
+                  </div>
                   <div class="timeline-content-sub">
                     Ongoing Deep Learning Research for Medical Image Classification.
                   </div>
                   <div class="card-list">
                     <div class="card-list-item">
-                      <span>Focus:</span> The focus is on advancing deep learning applications in biomedical imaging for early 
-                      detection, segmentation, and monitoring of cellular and tissue changes. These studies emphasize 
-                      real-time, label-free analysis, predictive modeling, and explainability, aiming to 
-                      improve clinical translation, robustness across diverse datasets, and 
+                      <span>Focus:</span> The focus is on advancing deep learning applications in biomedical imaging for
+                      early
+                      detection, segmentation, and monitoring of cellular and tissue changes. These studies emphasize
+                      real-time, label-free analysis, predictive modeling, and explainability, aiming to
+                      improve clinical translation, robustness across diverse datasets, and
                       integration into practical healthcare workflows.
                     </div>
                   </div>
@@ -607,17 +607,18 @@
               <div class="research-timeline-item">
                 <div class="timeline-dot"></div>
                 <div>
-                  <div class="timeline-content-title">The Role of Industry 4.0 Technologies on Carbon Footprint Reduction in the 
+                  <div class="timeline-content-title">The Role of Industry 4.0 Technologies on Carbon Footprint
+                    Reduction in the
                     Textile Sector: Challenges and Future Prospects</div>
                   <div class="timeline-content-sub">
                     Ongoing Machine Learning Research.
                   </div>
                   <div class="card-list">
                     <div class="card-list-item">
-                      <span>Focus:</span> This study investigates how Industry 4.0 technologies IoT, 
-                      AI, big data, and automation can reduce carbon emissions in textile manufacturing. 
-                      It highlights adoption levels, sustainability impacts, and challenges such as high 
-                      costs, skill gaps, and resistance to change, while emphasizing policy incentives, 
+                      <span>Focus:</span> This study investigates how Industry 4.0 technologies IoT,
+                      AI, big data, and automation can reduce carbon emissions in textile manufacturing.
+                      It highlights adoption levels, sustainability impacts, and challenges such as high
+                      costs, skill gaps, and resistance to change, while emphasizing policy incentives,
                       workforce training, and collaboration for a greener textile industry.
                     </div>
                   </div>
@@ -637,7 +638,8 @@
               <h2 class="section-title">Technical strengths</h2>
             </div>
             <div class="section-subtitle">
-              A strong technical foundation built through hands-on projects, continuous learning, and practical problem-solving.
+              A strong technical foundation built through hands-on projects, continuous learning, and practical
+              problem-solving.
             </div>
           </div>
           <div class="skills-grid" id="skills-grid"></div>
@@ -661,10 +663,12 @@
               <div class="cert-title">Android Course Build 3 Applications from Scratch with Java</div>
               <div class="cert-meta">Udemy - May 2025</div>
               <div class="cert-skills">
-                <span>Skills:</span> Java, Android Development, Mobile Application Development, Object-Oriented Programming (OOP), UI/UX Implementation.
+                <span>Skills:</span> Java, Android Development, Mobile Application Development, Object-Oriented
+                Programming (OOP), UI/UX Implementation.
               </div>
               <div class="research-actions">
-                <a href="Images/Android Course Build 3 Applications from Scratch with Java.jpg" class="link-pill" target="_blank" rel="noopener">
+                <a href="Images/Android Course Build 3 Applications from Scratch with Java.jpg" class="link-pill"
+                  target="_blank" rel="noopener">
                   <span class="link-icon">⬇</span>
                   View Certificate
                 </a>
@@ -674,11 +678,13 @@
               <div class="cert-title">Spring Boot 4, Spring 7 & Hibernate for Beginners</div>
               <div class="cert-meta">Udemy - January 2026</div>
               <div class="cert-skills">
-                <span>Skills:</span> Spring Boot 3, Spring Framework 6, REST API development, Spring MVC, Spring Security, MySQL + Hibernate/JPA, 
+                <span>Skills:</span> Spring Boot 3, Spring Framework 6, REST API development, Spring MVC, Spring
+                Security, MySQL + Hibernate/JPA,
                 Maven, Thymeleaf, IntelliJ IDEA, Backend Architecture, AOP Logging.
               </div>
               <div class="research-actions">
-                <a href="Images/Spring Boot 4, Spring 7 & Hibernate for Beginners.jpg" class="link-pill" target="_blank" rel="noopener">
+                <a href="Images/Spring Boot 4, Spring 7 & Hibernate for Beginners.jpg" class="link-pill" target="_blank"
+                  rel="noopener">
                   <span class="link-icon">⬇</span>
                   View Certificate
                 </a>
@@ -688,7 +694,8 @@
               <div class="cert-title">Scrum Master Certification</div>
               <div class="cert-meta">Udemy - September 2025</div>
               <div class="cert-skills">
-                <span>Skills:</span> Scrum, Agile Methodologies, Project Management, Project Planning, Team Leadership, Communication, Problem Solving.
+                <span>Skills:</span> Scrum, Agile Methodologies, Project Management, Project Planning, Team Leadership,
+                Communication, Problem Solving.
               </div>
               <div class="research-actions">
                 <a href="Images/Scrum Master Certification.jpg" class="link-pill" target="_blank" rel="noopener">
@@ -702,11 +709,13 @@
               <div class="cert-title">Java Complete Course Using Visual Studio Code</div>
               <div class="cert-meta">Udemy - July 2025</div>
               <div class="cert-skills">
-                <span>Skills:</span> Java, Object-Oriented Programming (OOP), Microsoft Visual Studio Code, Microsoft Visual Studio Code, 
+                <span>Skills:</span> Java, Object-Oriented Programming (OOP), Microsoft Visual Studio Code, Microsoft
+                Visual Studio Code,
                 Debugging & Code Optimization, Software Development Fundamentals.
               </div>
               <div class="research-actions">
-                <a href="Images/Java Complete Course Using Visual Studio Code.jpg" class="link-pill" target="_blank" rel="noopener">
+                <a href="Images/Java Complete Course Using Visual Studio Code.jpg" class="link-pill" target="_blank"
+                  rel="noopener">
                   <span class="link-icon">⬇</span>
                   View Certificate
                 </a>
@@ -717,10 +726,12 @@
               <div class="cert-title">IT Essentials: PC Hardware and Software</div>
               <div class="cert-meta">Cisco Networking Academy - June 2023</div>
               <div class="cert-skills">
-                <span>Skills:</span> Computer Hardware Troubleshooting · Operating Systems · Networking Concepts · IT Support Basics.
+                <span>Skills:</span> Computer Hardware Troubleshooting · Operating Systems · Networking Concepts · IT
+                Support Basics.
               </div>
               <div class="research-actions">
-                <a href="Images/IT Essentials PC Hardware and Software.jpg" class="link-pill" target="_blank" rel="noopener">
+                <a href="Images/IT Essentials PC Hardware and Software.jpg" class="link-pill" target="_blank"
+                  rel="noopener">
                   <span class="link-icon">⬇</span>
                   View Certificate
                 </a>
@@ -762,7 +773,8 @@
                 <span>Skills:</span> Google AI · Prompting and AI Usage · Responsible AI
               </div>
               <div class="research-actions">
-                <a href="Images/Gemini Certified University Student.jpg" class="link-pill" target="_blank" rel="noopener">
+                <a href="Images/Gemini Certified University Student.jpg" class="link-pill" target="_blank"
+                  rel="noopener">
                   <span class="link-icon">⬇</span>
                   View Certificate
                 </a>
@@ -786,7 +798,8 @@
               <div class="cert-title">Agile Project Management</div>
               <div class="cert-meta">HP LIFE - February 2026</div>
               <div class="cert-skills">
-                <span>Skills:</span> Agile Project Management · Agile Methodologies · Scrum · Project Planning · Digital Business
+                <span>Skills:</span> Agile Project Management · Agile Methodologies · Scrum · Project Planning · Digital
+                Business
               </div>
               <div class="research-actions">
                 <a href="Images/Agile Project Management.png" class="link-pill" target="_blank" rel="noopener">
@@ -842,7 +855,8 @@
               <div class="contact-row">
                 <div class="contact-label">LinkedIn</div>
                 <div class="contact-value">
-                  <a href="https://www.linkedin.com/in/abtahi-islam/" target="_blank" rel="noopener" class="contact-link">
+                  <a href="https://www.linkedin.com/in/abtahi-islam/" target="_blank" rel="noopener"
+                    class="contact-link">
                     linkedin.com/in/abtahi-islam
                   </a>
                 </div>
@@ -871,7 +885,8 @@
                 </div>
                 <div class="form-field">
                   <label class="form-label" for="message">Message</label>
-                  <textarea class="form-textarea" id="message" placeholder="Briefly share what you’d like to collaborate on"></textarea>
+                  <textarea class="form-textarea" id="message"
+                    placeholder="Briefly share what you’d like to collaborate on"></textarea>
                 </div>
                 <div class="form-footer">
                   <button type="submit" class="btn-primary">
@@ -1264,19 +1279,19 @@
     });
 
     if (closeModalButton) {
-        closeModalButton.addEventListener('click', () => {
+      closeModalButton.addEventListener('click', () => {
         repoModal.style.display = 'none';
-        });
+      });
     }
 
     if (openTempRepoButton) {
-        openTempRepoButton.addEventListener('click', () => {
+      openTempRepoButton.addEventListener('click', () => {
         const url = tempRepoLinkInput.value;
         if (url) {
-            window.open(url, '_blank', 'noopener,noreferrer');
-            localStorage.setItem('tempRepoUrl-' + modalProjectName.textContent, url);
+          window.open(url, '_blank', 'noopener,noreferrer');
+          localStorage.setItem('tempRepoUrl-' + modalProjectName.textContent, url);
         }
-        });
+      });
     }
 
 
@@ -1293,7 +1308,7 @@
     themeToggle.addEventListener('click', () => {
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
       const newTheme = isDark ? 'light' : 'dark';
-      
+
       document.documentElement.setAttribute('data-theme', newTheme);
       localStorage.setItem('theme', newTheme);
     });
@@ -1313,4 +1328,5 @@
     </div>
   </div>
 </body>
+
 </html>
