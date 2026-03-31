@@ -24,11 +24,6 @@ function initViewRepoButtons() {
     link.setAttribute("aria-label", ariaLabel);
     link.title = ariaLabel;
 
-    var leftIcon = document.createElement("span");
-    leftIcon.className = "view-repo-icon-left";
-    leftIcon.setAttribute("aria-hidden", "true");
-    leftIcon.textContent = "";
-
     var label = document.createElement("span");
     label.className = "view-repo-label";
     label.textContent = "View Repository";
@@ -38,7 +33,6 @@ function initViewRepoButtons() {
     rightIcon.setAttribute("aria-hidden", "true");
     rightIcon.textContent = "↗";
 
-    link.appendChild(leftIcon);
     link.appendChild(label);
     link.appendChild(rightIcon);
 
@@ -56,16 +50,12 @@ function initViewRepoButtons() {
     button.disabled = true;
     button.title = "Repository not available";
 
-    var leftIcon = document.createElement("span");
-    leftIcon.className = "view-repo-icon-left";
-    leftIcon.setAttribute("aria-hidden", "true");
-    leftIcon.textContent = "";
+
 
     var label = document.createElement("span");
     label.className = "view-repo-label";
     label.textContent = "View Repository";
 
-    button.appendChild(leftIcon);
     button.appendChild(label);
 
     wrapper.appendChild(button);
