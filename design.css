@@ -90,21 +90,20 @@ button {
     align-items: center;
     gap: 10px;
 }
-
-.nav-logo-mark {
-    width: 32px;
-    height: 32px;
-    border-radius: 12px;
-    background: radial-gradient(circle at 0% 0%, var(--color-accent), transparent 55%),
-        linear-gradient(135deg, var(--color-secondary-start), var(--color-secondary-end));
+.nav-brand {
     display: flex;
     align-items: center;
-    justify-content: center;
-    color: #E5F6FF;
-    font-weight: 700;
-    font-size: 16px;
+    gap: 10px;
+    text-decoration: none;
 }
 
+.nav-logo-img {
+    width: 160px;
+    height: 160px;
+    object-fit: contain;
+    display: block;
+    border-radius: 12px;
+}
 .nav-title {
     font-weight: 700;
     letter-spacing: 0.04em;
