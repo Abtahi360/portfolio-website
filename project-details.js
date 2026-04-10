@@ -224,6 +224,33 @@ var projectDetails = {
         <li>OOP Concepts</li>
       </ul>
     `
+  },
+  "trigram-language-model-story-generation": {
+    title: "Trigram Language Model with Story Generation",
+    body: `
+      <h3>About This Repository</h3>
+      <p>This repository contains my hands-on implementation of a trigram-based language model built from scratch as part of my NLP learning journey. The project focuses on understanding how statistical language models work without using any built-in n-gram libraries.</p>
+
+      <h3>What’s Included</h3>
+      <ul>
+        <li><b>Text Preprocessing:</b> Lowercasing, punctuation removal, and tokenization.</li>
+        <li><b>Trigram Language Model:</b> Word sequence probability using frequency counts.</li>
+        <li><b>Laplace Smoothing:</b> Add-1 smoothing to handle unseen word sequences.</li>
+        <li><b>Text Generation:</b> Greedy-based 30-word story generation from a seed input.</li>
+        <li><b>Perplexity Evaluation:</b> Measuring model performance.</li>
+        <li><b>Interpolation (Bonus):</b> Combining unigram, bigram, and trigram probabilities.</li>
+      </ul>
+      <h3>Skills Gained</h3>
+      <ul>
+        <li>Natural Language Processing (NLP)</li>
+        <li>Statistical Language Modeling</li>
+        <li>Probability & Smoothing Techniques</li>
+        <li>Model Evaluation (Perplexity)</li>
+        <li>Python-based NLP Implementation</li>
+      </ul>
+      <h3>Purpose of This Repository</h3>
+      <p>Track my NLP learning progress, build strong fundamentals in language modeling, and gain practical experience in implementing core NLP concepts from scratch.</p>
+    `
   }
 };
 
