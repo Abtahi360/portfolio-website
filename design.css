@@ -1723,10 +1723,47 @@ html:not([data-theme="dark"]) .theme-icon-dark {
     transform: rotate(180deg);
 }
 
-.cert-grid {
+.cert-container {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 20px 0;
+}
+
+.cert-container.marquee-mode {
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.cert-container.marquee-mode .cert-grid {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    animation: marquee 40s linear infinite;
+    padding-left: 0;
+}
+
+.cert-container.marquee-mode:hover .cert-grid {
+    animation-play-state: paused;
+}
+
+/* For slowing down on hover instead of pausing, we use a separate class or duration change */
+.cert-container.marquee-mode:hover .cert-grid {
+    animation-duration: 120s; /* Slow down on hover */
+    animation-play-state: running; /* Ensure it keeps running but slower */
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-50% - 10px)); }
+}
+
+.cert-container.grid-mode .cert-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
+    gap: 20px;
+    animation: none;
+    width: 100%;
 }
 
 .cert-card {
@@ -1737,6 +1774,89 @@ html:not([data-theme="dark"]) .theme-icon-dark {
     padding: 14px 14px 12px;
     display: grid;
     gap: 8px;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.cert-container.marquee-mode .cert-card {
+    width: 340px; /* Fixed width for consistency */
+    flex-shrink: 0; /* Prevent shrinking in flex/marquee */
+}
+
+.cert-container.grid-mode .cert-card {
+    width: auto; /* Allow cards to fill grid cells */
+}
+
+.cert-view-more-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+.cert-view-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 24px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-border);
+    background: var(--color-card);
+    color: var(--color-primary);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-med);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.cert-view-more-btn:hover {
+    border-color: var(--color-secondary-end);
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.15);
+    transform: translateY(-2px);
+}
+
+.cert-view-more-btn .view-more-icon {
+    transition: transform var(--transition-med);
+}
+
+.cert-view-more-btn.active .view-more-icon {
+    transform: rotate(180deg);
+}
+
+[data-theme="dark"] .cert-view-more-btn {
+    background: var(--color-card);
+    border-color: var(--color-border);
+    color: var(--color-primary);
+}
+
+[data-theme="dark"] .cert-view-more-btn:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 8px 24px rgba(34, 211, 238, 0.2);
+}
+
+@media (max-width: 768px) {
+    .cert-container.marquee-mode .cert-grid {
+        animation-duration: 25s; /* Faster on mobile if needed, or adjust */
+    }
+    
+    .cert-container.grid-mode .cert-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    
+    .cert-container.marquee-mode .cert-card {
+        width: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cert-container.grid-mode .cert-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .cert-container.marquee-mode .cert-card {
+        width: 280px;
+        max-width: calc(100vw - 40px); /* Leave room for section padding */
+    }
 }
 
 .cert-thumb {
@@ -1758,6 +1878,9 @@ html:not([data-theme="dark"]) .theme-icon-dark {
     font-size: 13px;
     font-weight: 600;
     color: var(--color-primary);
+    line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .cert-meta {
@@ -1768,6 +1891,11 @@ html:not([data-theme="dark"]) .theme-icon-dark {
 .cert-skills {
     font-size: 11px;
     color: var(--color-muted);
+    line-height: 1.5;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    display: block; /* Ensure it's not inline, although <div> is block */
 }
 
 .cert-skills span {
