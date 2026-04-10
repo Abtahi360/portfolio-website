@@ -257,6 +257,16 @@
       </section>
 
       <section class="section-shell" id="projects">
+        <div class="projects-hint-overlay" id="projects-hint-overlay">
+          <div class="projects-hint-content">
+            <div class="projects-hint-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 18l-6-6 6-6"/>
+              </svg>
+            </div>
+            <p>Click any project card to view more details.</p>
+          </div>
+        </div>
         <div class="section-anchor-offset" id="projects-anchor"></div>
         <div class="section-inner fade-in">
           <div class="section-header">
@@ -320,10 +330,8 @@
               </div>
               <div class="card-body">
                 <p>Collection of hands-on practice modules following a Spring Boot + 
-                  Hibernate course. Each folder represents a separate module, demo, or 
-                  real-time project built during my learning. The goal of this repository 
-                  is to organize my work, show my progress, and build practical backend 
-                  development skills.</p>
+                  Hibernate course. The goal of this repository is to organize my work, 
+                  show my progress, and build practical backend development skills.</p>
               </div>
               <div class="card-footer">
                 <div class="view-repo-button"
@@ -1420,6 +1428,50 @@
         setupMarquee();
       }
     });
+
+    // Projects Section Guidance Hint Logic
+    const projectsSection = document.getElementById('projects');
+    const projectsHint = document.getElementById('projects-hint-overlay');
+    let hintShown = false;
+
+    function showProjectsHint() {
+      if (hintShown) return;
+      
+      // Only show if the hint hasn't been shown in this session
+      if (sessionStorage.getItem('projectsHintShown')) {
+        hintShown = true;
+        return;
+      }
+
+      projectsHint.classList.add('visible');
+      hintShown = true;
+      sessionStorage.setItem('projectsHintShown', 'true');
+
+      // Auto-hide after 4 seconds
+      setTimeout(() => {
+        projectsHint.style.opacity = '0';
+        setTimeout(() => {
+          projectsHint.classList.remove('visible');
+          projectsHint.remove(); // Clean up from DOM
+        }, 600);
+      }, 4000);
+    }
+
+    // Trigger hint on scroll using IntersectionObserver
+    const hintObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          showProjectsHint();
+          hintObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.2 // Trigger when 20% of the section is visible
+    });
+
+    if (projectsSection) {
+      hintObserver.observe(projectsSection);
+    }
   </script>
   <script src="view-repo-button.js"></script>
   <script src="project-details.js"></script>

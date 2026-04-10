@@ -2068,6 +2068,91 @@ html:not([data-theme="dark"]) .theme-icon-dark {
     transform: translateY(0);
 }
 
+/* Projects Section Hint Overlay */
+.projects-hint-overlay {
+    position: absolute;
+    top: 100px; /* Position it above the cards grid */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.projects-hint-overlay.visible {
+    opacity: 1;
+}
+
+.projects-hint-content {
+    background: rgba(15, 23, 42, 0.9);
+    backdrop-filter: blur(8px);
+    color: white;
+    padding: 12px 20px;
+    border-radius: var(--radius-pill);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    white-space: nowrap;
+    animation: pulse-hint 4.5s infinite ease-in-out;
+}
+
+[data-theme="dark"] .projects-hint-content {
+    background: rgba(30, 41, 59, 0.9);
+    border: 1px solid rgba(34, 211, 238, 0.3);
+}
+
+.projects-hint-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-secondary-end));
+    border-radius: 50%;
+    animation: bounce-x 1s infinite alternate ease-in-out;
+}
+
+.projects-hint-icon svg {
+    width: 16px;
+    height: 16px;
+    stroke: white;
+}
+
+.projects-hint-content p {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+}
+
+@keyframes pulse-hint {
+    0%, 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); }
+    50% { transform: scale(1.02); box-shadow: 0 15px 40px rgba(34, 211, 238, 0.2); }
+}
+
+@keyframes bounce-x {
+    from { transform: translateX(0); }
+    to { transform: translateX(-4px); }
+}
+
+#projects {
+    position: relative;
+}
+
+@media (max-width: 768px) {
+    .projects-hint-overlay {
+        top: 80px;
+        width: 90%;
+        max-width: 320px;
+    }
+    .projects-hint-content {
+        padding: 10px 16px;
+        white-space: normal;
+        text-align: center;
+    }
+}
+
 .project-images-row {
     display: flex;
     gap: 10px;
