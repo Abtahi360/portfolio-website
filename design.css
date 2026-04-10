@@ -1761,6 +1761,7 @@ html:not([data-theme="dark"]) .theme-icon-dark {
 .cert-container.grid-mode .cert-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
     gap: 20px;
     animation: none;
     width: 100%;
@@ -1772,10 +1773,16 @@ html:not([data-theme="dark"]) .theme-icon-dark {
     border: 1px solid rgba(226, 232, 240, 0.9);
     box-shadow: var(--shadow-soft);
     padding: 14px 14px 12px;
-    display: grid;
-    gap: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     min-width: 0;
     max-width: 100%;
+}
+
+.cert-card .research-actions {
+    margin-top: auto;
+    padding-top: 8px;
 }
 
 .cert-container.marquee-mode .cert-card {
