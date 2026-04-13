@@ -52,9 +52,8 @@ cd portfolio-website
 ## 📸 Screenshots
 
 ### 🏠 Home Page
-
-![Home](Images/homepageLight.png)
-![Home](Images/homepageDark.png)
+<img width="1919" height="965" alt="Image" src="https://github.com/user-attachments/assets/4f720490-5952-40e1-bf1e-fe7c1d93fc58" />
+<img width="1919" height="962" alt="Image" src="https://github.com/user-attachments/assets/393237b9-bd74-44e3-b7ab-cc13068c3aff" />
 
 ### 💼 Projects Section
 
