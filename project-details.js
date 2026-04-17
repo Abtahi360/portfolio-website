@@ -251,6 +251,43 @@ var projectDetails = {
       <h3>Purpose of This Repository</h3>
       <p>Track my NLP learning progress, build strong fundamentals in language modeling, and gain practical experience in implementing core NLP concepts from scratch.</p>
     `
+  },
+  "docx-to-excel-generator": {
+    title: "Automatic Excel Sheet Generator from DOCX Book Data",
+    body: `
+    <h3>About This Repository</h3>
+    <p>This repository contains a Python-based automation tool that extracts structured information from a Bangla .docx book file and converts it into organized Excel files. The system detects chapters, bold sub-sections, and numbered hadith entries without manual effort.</p>
+
+    <h3>What’s Included</h3>
+    <ul>
+      <li><b>Chapter Extraction:</b> Automatically identifies all "অধ্যায়" sections.</li>
+      <li><b>Sub-section Detection:</b> Detects bold text blocks with proper formatting.</li>
+      <li><b>Hadith Extraction:</b> Extracts numbered entries like [১], [২], etc.</li>
+      <li><b>Data Cleaning:</b> Removes blank lines and unnecessary spaces.</li>
+      <li><b>Excel Generation:</b> Creates three structured .xlsx files with IDs.</li>
+    </ul>
+
+    <h3>Skills Gained</h3>
+    <ul>
+      <li>Python Programming</li>
+      <li>Text Processing & Pattern Recognition</li>
+      <li>Data Extraction from Documents</li>
+      <li>Data Cleaning & Structuring</li>
+      <li>Automation with Pandas & python-docx</li>
+    </ul>
+
+    <h3>Real-Life Use Cases & Impact</h3>
+    <ul>
+      <li>Convert books into structured datasets for research</li>
+      <li>Build searchable databases (e.g., hadith collections)</li>
+      <li>Reduce manual data entry time and errors</li>
+      <li>Prepare clean data for NLP and machine learning tasks</li>
+      <li>Useful for digital libraries and content management systems</li>
+    </ul>
+
+    <h3>Purpose of This Repository</h3>
+    <p>The main purpose of this project is to automate repetitive document-to-Excel tasks, improve efficiency, and make unstructured text data easy to use for analysis, applications, and research.</p>
+  `
   }
 };
 
