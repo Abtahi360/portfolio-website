@@ -147,7 +147,7 @@ const portfolioData = {
   certificates: [
     {
       title: "Certificate Program in Applied AI (Statistics to NLP)",
-      meta: "GUVI GEEK - April 2026",
+      meta: "HCL GUVI - April 2026",
       skills: "Artificial Intelligence, Statistics, Natural Language Processing (NLP), Data Analysis, Text Processing.",
       image: "Images/Certificate Program in Applied AI (Statistics to NLP).png"
     },
