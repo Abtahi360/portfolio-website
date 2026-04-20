@@ -146,6 +146,12 @@ const portfolioData = {
   ],
   certificates: [
     {
+      title: "Certificate Program in Applied AI (Statistics to NLP)",
+      meta: "GUVI GEEK - April 2026",
+      skills: "Artificial Intelligence, Statistics, Natural Language Processing (NLP), Data Analysis, Text Processing.",
+      image: "Images/Certificate Program in Applied AI (Statistics to NLP).png"
+    },
+    {
       title: "Android Course Build 3 Applications from Scratch with Java",
       meta: "Udemy - May 2025",
       skills: "Java, Android Development, Mobile Application Development, Object-Oriented Programming (OOP), UI/UX Implementation.",
