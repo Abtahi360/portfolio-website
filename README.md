@@ -78,7 +78,7 @@ cd portfolio-website
 
 ## 📬 Contact
 
-If you want to connect or give feedback, feel free to reach out!
+If you want to connect or give feedback, feel free to reach out..!
 
 ---
 
