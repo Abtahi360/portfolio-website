@@ -7,31 +7,40 @@ function initViewRepoButtons() {
     return;
   }
 
-  function buildAriaLabel(projectName) {
+  function buildAriaLabel(projectName, isLive) {
+    var prefix = isLive ? "Open live version of " : "Open repository for ";
     if (projectName && projectName.trim().length > 0) {
-      return "Open repository for " + projectName.trim();
+      return prefix + projectName.trim();
     }
-    return "Open repository";
+    return isLive ? "Open live project" : "Open repository";
   }
 
-  function createAnchor(repoUrl, projectName) {
+  function createAnchor(repoUrl, projectName, isLive) {
     var link = document.createElement("a");
-    link.className = "link-pill link-pill-primary view-repo-btn";
-    link.href = repoUrl;
+    link.className = "link-pill view-repo-btn";
+    
+    if (isLive) {
+      link.classList.add("link-pill-live");
+      link.href = repoUrl; // repoUrl is actually liveLink here
+    } else {
+      link.classList.add("link-pill-primary");
+      link.href = repoUrl;
+    }
+
     link.target = "_blank";
     link.rel = "noopener noreferrer";
-    var ariaLabel = buildAriaLabel(projectName);
+    var ariaLabel = buildAriaLabel(projectName, isLive);
     link.setAttribute("aria-label", ariaLabel);
     link.title = ariaLabel;
 
     var label = document.createElement("span");
     label.className = "view-repo-label";
-    label.textContent = "View Repository";
+    label.textContent = isLive ? "Live Project" : "View Repository";
 
     var rightIcon = document.createElement("span");
     rightIcon.className = "view-repo-icon-right";
     rightIcon.setAttribute("aria-hidden", "true");
-    rightIcon.textContent = "↗";
+    rightIcon.textContent = isLive ? "▶" : "↗";
 
     link.appendChild(label);
     link.appendChild(rightIcon);
@@ -90,8 +99,9 @@ function initViewRepoButtons() {
   nodes.forEach(function (node) {
     var projectName = node.getAttribute("data-project-name") || "";
     var repoUrl = node.getAttribute("data-repo-url") || "";
+    var liveLink = node.getAttribute("data-live-link") || "";
 
-    if (!repoUrl && projectName) {
+    if (!repoUrl && !liveLink && projectName) {
       try {
         var tempKey = "tempRepoUrl-" + projectName;
         var stored = window.localStorage.getItem(tempKey);
@@ -102,8 +112,10 @@ function initViewRepoButtons() {
     }
 
     var replacement;
-    if (repoUrl) {
-      replacement = createAnchor(repoUrl, projectName);
+    if (liveLink) {
+      replacement = createAnchor(liveLink, projectName, true);
+    } else if (repoUrl) {
+      replacement = createAnchor(repoUrl, projectName, false);
     } else {
       replacement = createDisabled(projectName);
     }
