@@ -111,16 +111,24 @@ function initViewRepoButtons() {
       } catch (e) {}
     }
 
-    var replacement;
+    var container = document.createDocumentFragment();
+    var hasButtons = false;
+
     if (liveLink) {
-      replacement = createAnchor(liveLink, projectName, true);
-    } else if (repoUrl) {
-      replacement = createAnchor(repoUrl, projectName, false);
-    } else {
-      replacement = createDisabled(projectName);
+      container.appendChild(createAnchor(liveLink, projectName, true));
+      hasButtons = true;
     }
 
-    node.replaceWith(replacement);
+    if (repoUrl) {
+      container.appendChild(createAnchor(repoUrl, projectName, false));
+      hasButtons = true;
+    }
+
+    if (!hasButtons) {
+      container.appendChild(createDisabled(projectName));
+    }
+
+    node.replaceWith(container);
   });
 }
 
