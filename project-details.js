@@ -101,12 +101,6 @@ var projectDetails = {
       <li><b>Concepts:</b> DOM manipulation, event listeners, conditional logic</li>
     </ul>
 
-    <h3>Deployment</h3>
-    <ul>
-      <li><b>Platform:</b> Vercel</li>
-      <li><b>Live URL:</b> <a href="https://tic-tac-toe-game-five-pied.vercel.app/" target="_blank">Play Game</a></li>
-    </ul>
-
     <h3>Future Improvements</h3>
     <ul>
       <li>Add AI opponent (Single-player mode)</li>
