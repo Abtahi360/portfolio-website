@@ -81,6 +81,15 @@ const portfolioData = {
       repoUrl: "https://github.com/Abtahi360/Cat-vs-Dog-Image-Classification-using-Convolutional-Neural-Network-CNN"
     },
     {
+      key: "tic-tac-toe-game",
+      kicker: "Web Development",
+      title: "Tic Tac Toe Game",
+      tags: ["HTML", "CSS", "JavaScript"],
+      images: ["Images/tic1.png", "Images/tic2.png"],
+      description: "Interactive browser-based Tic Tac Toe game demonstrating DOM manipulation and game logic using vanilla JavaScript.",
+      repoUrl: "https://tic-tac-toe-game-five-pied.vercel.app/"
+    },
+    {
       key: "space-shooter-game",
       kicker: "Game Development",
       title: "Space Shooter (OpenGL)",

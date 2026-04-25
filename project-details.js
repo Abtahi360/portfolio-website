@@ -79,6 +79,43 @@ var projectDetails = {
       </ul>
     `
   },
+  "tic-tac-toe-game": {
+    title: "Tic Tac Toe Game",
+    body: `
+    <h3>Project Overview</h3>
+    <p>Purpose: Develop a simple and interactive Tic Tac Toe game using HTML, CSS, and JavaScript. This project demonstrates core front-end development concepts including DOM manipulation, event handling, and game logic implementation.</p>
+
+    <h3>Game Features</h3>
+    <ul>
+      <li><b>Mode:</b> Two-player (Player X vs Player O)</li>
+      <li><b>Logic:</b> Real-time win detection and draw condition</li>
+      <li><b>UI:</b> Clean and responsive interface</li>
+      <li><b>Controls:</b> Reset / Restart game functionality</li>
+    </ul>
+
+    <h3>Technical Implementation</h3>
+    <ul>
+      <li><b>Structure:</b> HTML for layout</li>
+      <li><b>Styling:</b> CSS for design and responsiveness</li>
+      <li><b>Logic:</b> JavaScript for game mechanics</li>
+      <li><b>Concepts:</b> DOM manipulation, event listeners, conditional logic</li>
+    </ul>
+
+    <h3>Deployment</h3>
+    <ul>
+      <li><b>Platform:</b> Vercel</li>
+      <li><b>Live URL:</b> <a href="https://tic-tac-toe-game-five-pied.vercel.app/" target="_blank">Play Game</a></li>
+    </ul>
+
+    <h3>Future Improvements</h3>
+    <ul>
+      <li>Add AI opponent (Single-player mode)</li>
+      <li>Score tracking system</li>
+      <li>Sound effects and animations</li>
+      <li>Mobile UI enhancements</li>
+    </ul>
+  `
+  },
   "space-shooter-game": {
     title: "Space Shooter Game using OpenGL",
     body: `
