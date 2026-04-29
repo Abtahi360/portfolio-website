@@ -165,7 +165,7 @@ const portfolioData = {
       title: "Android Course Build 3 Applications from Scratch with Java",
       meta: "Udemy - May 2025",
       skills: "Java, Android Development, Mobile Application Development, Object-Oriented Programming (OOP), UI/UX Implementation.",
-      image: "Images/Android Course Build 3 Applications from Scratch with Java.jpg"
+      image: "https://www.udemy.com/certificate/UC-9f75f1ea-f89c-456c-83ff-4073415177c4/"
     },
     {
       title: "Spring Boot 4, Spring 7 & Hibernate for Beginners",
