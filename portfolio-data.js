@@ -162,6 +162,18 @@ const portfolioData = {
       image: "Images/Certificate Program in Applied AI (Statistics to NLP).png"
     },
     {
+      title: "Network Smarter with AI",
+      meta: "Grameenphone Academy - April 2026",
+      skills: "Artificial Intelligence, AI Networking Concepts, Network Optimization, Problem Solving",
+      image: "Images/Network Smarter with AI.png"
+    },
+    {
+      title: "AI-Powered Communication",
+      meta: "Grameenphone Academy - April 2026",
+      skills: "Artificial Intelligence, AI Communication, Digital Communication, Smart Communication Systems, Communication Technology",
+      image: "Images/AI-Powered Communication.png"
+    },
+    {
       title: "Android Course Build 3 Applications from Scratch with Java",
       meta: "Udemy - May 2025",
       skills: "Java, Android Development, Mobile Application Development, Object-Oriented Programming (OOP), UI/UX Implementation.",
