@@ -159,7 +159,8 @@ const portfolioData = {
       title: "Certificate Program in Applied AI (Statistics to NLP)",
       meta: "HCL GUVI - April 2026",
       skills: "Artificial Intelligence, Statistics, Natural Language Processing (NLP), Data Analysis, Text Processing.",
-      image: "Images/Certificate Program in Applied AI (Statistics to NLP).png"
+      image: "Images/Certificate Program in Applied AI (Statistics to NLP).png",
+      premium: true
     },
     {
       title: "Network Smarter with AI",
@@ -183,7 +184,8 @@ const portfolioData = {
       title: "Spring Boot 4, Spring 7 & Hibernate for Beginners",
       meta: "Udemy - January 2026",
       skills: "Spring Boot 3, Spring Framework 6, REST API development, Spring MVC, Spring Security, MySQL + Hibernate/JPA, Maven, Thymeleaf, IntelliJ IDEA, Backend Architecture, AOP Logging.",
-      image: "Images/Spring Boot 4, Spring 7 & Hibernate for Beginners.jpg"
+      image: "Images/Spring Boot 4, Spring 7 & Hibernate for Beginners.jpg",
+      premium: true
     },
     {
       title: "Scrum Master Certification",

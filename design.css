@@ -1791,8 +1791,9 @@ html:not([data-theme="dark"]) .theme-icon-dark {
 }
 
 .cert-card {
+    position: relative;
     border-radius: 18px;
-    background: #FFFFFF;
+    background: var(--color-card);
     border: 1px solid rgba(226, 232, 240, 0.9);
     box-shadow: var(--shadow-soft);
     padding: 14px 14px 12px;
@@ -1801,6 +1802,60 @@ html:not([data-theme="dark"]) .theme-icon-dark {
     gap: 10px;
     min-width: 0;
     max-width: 100%;
+    z-index: 1;
+    overflow: hidden;
+}
+
+/* Premium Card Animated Border Effect */
+.card-premium {
+    border-color: transparent !important;
+}
+
+.card-premium::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        var(--color-accent) 45deg,
+        var(--color-secondary-end) 180deg,
+        var(--color-accent) 315deg,
+        transparent 360deg
+    );
+    z-index: -2;
+    animation: rotate-border 4s linear infinite;
+    filter: blur(0.5px);
+}
+
+.card-premium::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: var(--color-card);
+    border-radius: calc(18px - 2px);
+    z-index: -1;
+}
+
+[data-theme="dark"] .card-premium::before {
+    background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        #22D3EE 30deg,
+        #6366F1 180deg,
+        #22D3EE 330deg,
+        transparent 360deg
+    );
+    filter: blur(3px);
+}
+
+@keyframes rotate-border {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .cert-card .research-actions {

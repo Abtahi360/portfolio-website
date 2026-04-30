@@ -787,7 +787,7 @@
       if (certGrid && typeof portfolioData !== 'undefined' && portfolioData.certificates) {
         portfolioData.certificates.forEach(cert => {
           const div = document.createElement('div');
-          div.className = 'cert-card card';
+          div.className = 'cert-card card' + (cert.premium ? ' card-premium' : '');
           
           div.innerHTML = `
             <div class="cert-title">${cert.title}</div>
