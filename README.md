@@ -3,7 +3,7 @@
 This is my personal portfolio website built using **HTML, CSS, and JavaScript**.
 It showcases my profile, projects, certifications, and resume in a simple and interactive way.
 
-The goal of this project is to present my skills, academic work, and projects in one place.
+The goal of this project is to present my skills, academic work, and projects in one place. 
 
 ---
 
