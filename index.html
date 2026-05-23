@@ -3,8 +3,8 @@
 
 <head>
   <link rel="icon" type="image/png" href="favicon.png">
-  <link rel="stylesheet" href="resume-cursor-effect.css">
-  <link rel="stylesheet" href="design.css">
+  <link rel="stylesheet" href="view/css/resume-cursor-effect.css">
+  <link rel="stylesheet" href="view/css/design.css">
   <meta charset="UTF-8">
   <title>Abtahi Islam - Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +25,7 @@
   <meta name="description" content="Abtahi Portfolio - Official portfolio 
   website of Abtahi Islam, CSE student. Projects, skills, and contact information.">
   <title>Abtahi Portfolio | Abtahi Islam - CSE Student</title>
-  <script src="portfolio-data.js"></script>
+  <script src="model/portfolio-data.js"></script>
 </head>
 
 <body>
@@ -34,7 +34,7 @@
       <div class="nav">
         <div class="nav-left">
           <a href="index.html" class="nav-brand" aria-label="Home">
-            <img src="Images/logo.png" alt="Portfolio logo" class="nav-logo-img">
+            <img src="view/assets/Images/logo.png" alt="Portfolio logo" class="nav-logo-img">
           </a>
         </div>
         <nav class="nav-links" aria-label="Primary navigation">
@@ -102,11 +102,11 @@
               </span>
             </div>
             <div class="hero-actions">
-              <a href="documents/Resume.pdf" class="btn-primary" target="_blank" rel="noopener">
+              <a href="view/assets/documents/Resume.pdf" class="btn-primary" target="_blank" rel="noopener">
                 <span class="btn-icon">👁️‍🗨️</span>
                 View Resume
               </a>
-              <a href="documents/Resume.pdf" class="btn-ghost" download>
+              <a href="view/assets/documents/Resume.pdf" class="btn-ghost" download>
                 <span class="btn-icon">📥</span>
                 Download Resume (PDF)
               </a>
@@ -120,7 +120,7 @@
               <div class="hero-profile-wrap">
                 <div class="hero-profile-ring"></div>
                 <div class="hero-profile">
-                  <img src="Images/profile.jpg" alt="Profile portrait">
+                  <img src="view/assets/Images/profile.jpg" alt="Profile portrait">
                 </div>
                 <div class="hero-status-chip">
                   <div class="hero-status-dot"></div>
@@ -1084,10 +1084,10 @@
       hintObserver.observe(projectsSection);
     }
   </script>
-  <script src="view-repo-button.js"></script>
-  <script src="project-details.js"></script>
-  <script src="resume-cursor-effect.js"></script>
-  <script src="scroll-to-top.js"></script>
+  <script src="controller/view-repo-button.js"></script>
+  <script src="model/project-details.js"></script>
+  <script src="controller/resume-cursor-effect.js"></script>
+  <script src="controller/scroll-to-top.js"></script>
   <button id="scroll-to-top" class="scroll-to-top" aria-label="Scroll to top">
     <svg class="scroll-to-top-icon" viewBox="0 0 24 24">
       <path d="M12 19V5M5 12l7-7 7 7" />

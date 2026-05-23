@@ -1,5 +1,5 @@
 const { JSDOM } = require("jsdom");
-const { initViewRepoButtons } = require("../view-repo-button.js");
+const { initViewRepoButtons } = require("../controller/view-repo-button.js");
 
 describe("ViewRepoButton", () => {
   function setupDom(html) {
