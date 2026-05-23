@@ -88,7 +88,7 @@ const portfolioData = {
       images: ["view/assets/Images/tic-tac-toe-game 1.png", "view/assets/Images/tic-tac-toe-game 2.png"],
       description: "Interactive browser-based Tic Tac Toe game demonstrating DOM manipulation and game logic using vanilla JavaScript.",
       repoUrl: "https://github.com/Abtahi360/Tic-Tac-Toe-Game",
-      liveLink: "https://tic-tac-toe-game-five-pied.vercel.app/"
+      liveLink: "https://tic-tac-toe-abtahiislam.vercel.app/"
     },
     {
       key: "space-shooter-game",
