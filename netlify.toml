@@ -80,3 +80,15 @@
   from   = "/*"
   to     = "/index.html"
   status = 404
+  
+# Submit Sitemap plugin config
+[[plugins]]
+  package = "netlify-plugin-submit-sitemap"
+  [plugins.inputs]
+    baseUrl    = "https://abtahiislam.netlify.app"
+    sitemapPath = "/sitemap.xml"
+    providers  = ["google", "yandex"]
+
+# Subfont plugin config  
+[[plugins]]
+  package = "@subfont/netlify-plugin-subfont"
