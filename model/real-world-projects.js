@@ -6,7 +6,7 @@ var realWorldProjects = [
     subtitle: "A placeholder — replace with your actual project details.",
 
     /* ── Card thumbnail ──────────────────────────────────── */
-    coverImage: "view/assets/Images/homepageDark.png",
+    coverImage: "view/assets/Images/ElectricityBillingSystem.png",
 
     /* ── Pill tags shown on card & detail ────────────────── */
     tags: ["Python", "Machine Learning", "Flask"],
@@ -21,7 +21,7 @@ var realWorldProjects = [
       "solved, your approach, and the measurable impact.",
 
     /* ── Links ───────────────────────────────────────────── */
-    repoUrl: "https://github.com/Abtahi360",
+    repoUrl: "https://github.com/Abtahi360/Electricity_Billing_System",
     liveUrl: "",
 
     /* ── Stats row on detail page (like the reference) ───── */
@@ -87,12 +87,11 @@ var realWorldProjects = [
     /* ── YouTube video ID ─────────────────────────────────── */
     /* Paste only the ID part of the YouTube URL: ?v=THIS_PART */
     /* Leave empty "" if no video yet */
-    youtubeVideoId: "",
+    youtubeVideoId: "xjgRr8oeGkQ",
 
     /* ── Gallery screenshots ──────────────────────────────── */
     gallery: [
-      "view/assets/Images/homepageDark.png",
-      "view/assets/Images/homepageLight.png"
+      "view/assets/Images/ElectricityBillingSystem.png",
     ]
   }
 
