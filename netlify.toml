@@ -1,0 +1,82 @@
+# ================================================================
+#  netlify.toml — Portfolio Website
+#  Static site: no build command, serve from root
+# ================================================================
+
+[build]
+  publish = "."
+  command = ""
+
+# ── PLUGINS (controlled here → UI plugins ignored) ────────────
+# image-optim is EXCLUDED because it has a known bug in v0.4.0
+
+[[plugins]]
+  package = "@netlify/plugin-sitemap"
+
+[[plugins]]
+  package = "netlify-plugin-minify-html"
+  [plugins.inputs]
+    contexts = ["production"]
+
+# ── CACHE HEADERS — Assets (1 year) ───────────────────────────
+[[headers]]
+  for = "/view/assets/Images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/view/assets/documents/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/view/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/controller/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/model/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/favicon.png"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+# ── SECURITY + PERFORMANCE HEADERS — All pages ────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options            = "DENY"
+    X-Content-Type-Options     = "nosniff"
+    Referrer-Policy            = "strict-origin-when-cross-origin"
+    Permissions-Policy         = "camera=(), microphone=(), geolocation=()"
+    X-XSS-Protection           = "1; mode=block"
+
+# ── REDIRECTS — clean URLs for sub-pages ──────────────────────
+[[redirects]]
+  from   = "/about"
+  to     = "/view/pages/about.html"
+  status = 200
+
+[[redirects]]
+  from   = "/projects"
+  to     = "/view/pages/projects.html"
+  status = 200
+
+[[redirects]]
+  from   = "/contact"
+  to     = "/view/pages/contact.html"
+  status = 200
+
+# ── 404 fallback ───────────────────────────────────────────────
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 404
