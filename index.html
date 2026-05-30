@@ -12,13 +12,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script>
-    // Theme initialisation (before paint)
     (function () {
       var theme = localStorage.getItem('portfolio-theme') || 'light';
       if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
     })();
   </script>
-  <!-- Google verification -->
   <meta name="google-site-verification" content="zhBnLDx3Z5Mdy-11aTI4vvPQZYoLo8eS42be5qH6dJ0" />
   <meta name="description" content="Abtahi Portfolio - Official portfolio website of Abtahi Islam, CSE student. Projects, skills, and contact information.">
   <title>Abtahi Portfolio | Abtahi Islam - CSE Student</title>
@@ -73,9 +71,7 @@
 
     <main class="main">
 
-      <!-- ═══════════════════════════════════════════════════
-           HERO
-      ════════════════════════════════════════════════════ -->
+
       <section class="hero" id="home">
         <div class="section-anchor-offset" id="home-anchor"></div>
         <div class="hero-inner fade-in">
@@ -168,10 +164,8 @@
         </div>
       </section>
 
-      <!-- ═══════════════════════════════════════════════════
-           EDUCATION
-      ════════════════════════════════════════════════════ -->
-      <section class="section-shell edu-hx-section" id="educational-history">
+      
+      <section class="section-shell" id="educational-history">
         <div class="section-anchor-offset" id="education-anchor"></div>
         <div class="section-inner fade-in">
           <div class="section-header">
@@ -189,9 +183,7 @@
         </div>
       </section>
 
-      <!-- ═══════════════════════════════════════════════════
-           PROJECTS
-      ════════════════════════════════════════════════════ -->
+
       <section class="section-shell" id="projects">
         <div class="projects-hint-overlay" id="projects-hint-overlay">
           <div class="projects-hint-content">
@@ -207,11 +199,9 @@
         <div class="section-anchor-offset" id="projects-anchor"></div>
         <div class="section-inner fade-in">
 
-          <!-- Section header -->
           <div class="section-header">
             <div>
               <div class="section-kicker">Projects</div>
-              <h2 class="section-title">Selected work</h2>
             </div>
             <div class="section-subtitle">
               A collection of projects that highlight my skills in software development, machine learning, and data
@@ -219,26 +209,21 @@
             </div>
           </div>
 
-          <!-- ── Real-World Solutions sub-section ─────────── -->
           <div class="rw-solutions-section">
             <div class="rw-solutions-header">
               <div>
                 <div class="rw-solutions-kicker">Real-World Solutions</div>
               </div>
             </div>
-            <!-- Cards rendered by controller/real-world-projects.js -->
             <div class="rw-grid" id="rw-projects-grid"></div>
           </div>
 
-          <!-- ── Divider ───────────────────────────────────── -->
           <div class="rw-section-divider">
             <span class="rw-divider-label">Other Projects</span>
             <span class="rw-divider-line"></span>
           </div>
 
-          <!-- ── Regular projects grid ─────────────────────── -->
           <div class="cards-grid" id="projects-grid">
-            <!-- Rendered by controller/main.js -->
           </div>
 
         </div>
@@ -258,9 +243,7 @@
         </div>
       </div>
 
-      <!-- ═══════════════════════════════════════════════════
-           RESEARCH
-      ════════════════════════════════════════════════════ -->
+
       <section class="section-shell" id="research">
         <div class="section-anchor-offset" id="research-anchor"></div>
         <div class="section-inner fade-in">
@@ -357,9 +340,7 @@
         </div>
       </section>
 
-      <!-- ═══════════════════════════════════════════════════
-           SKILLS
-      ════════════════════════════════════════════════════ -->
+
       <section class="section-shell" id="skills">
         <div class="section-anchor-offset" id="skills-anchor"></div>
         <div class="section-inner fade-in">
@@ -377,9 +358,6 @@
         </div>
       </section>
 
-      <!-- ═══════════════════════════════════════════════════
-           CERTIFICATES
-      ════════════════════════════════════════════════════ -->
       <section class="section-shell" id="certificates">
         <div class="section-anchor-offset" id="certificates-anchor"></div>
         <div class="section-inner fade-in">
@@ -394,7 +372,6 @@
           </div>
           <div class="cert-container marquee-mode" id="cert-container">
             <div class="cert-grid" id="cert-grid">
-              <!-- Rendered by controller/main.js -->
             </div>
           </div>
           <div class="cert-view-more-container">
@@ -411,9 +388,7 @@
         </div>
       </section>
 
-      <!-- ═══════════════════════════════════════════════════
-           CONTACT
-      ════════════════════════════════════════════════════ -->
+
       <section class="section-shell" id="contact">
         <div class="section-anchor-offset" id="contact-anchor"></div>
         <div class="section-inner fade-in">
@@ -427,7 +402,6 @@
             </div>
           </div>
           <div class="contact-layout">
-            <!-- LEFT CARD -->
             <div class="contact-details">
               <div class="contact-card-orb"></div>
               <div class="contact-info-header">
@@ -581,8 +555,8 @@
                   </div>
                 </div>
               </form>
-            </div><!-- /contact-form-card -->
-          </div><!-- /contact-layout -->
+            </div>
+          </div>
         </div>
       </section>
     </main>
@@ -648,7 +622,6 @@
 
   </div><!-- /page -->
 
-  <!-- ── Scripts (order matters) ──────────────────────────── -->
   <script src="controller/view-repo-button.js"></script>
   <script src="model/project-details.js"></script>
   <script src="model/real-world-projects.js"></script>
@@ -657,14 +630,12 @@
   <script src="controller/resume-cursor-effect.js"></script>
   <script src="controller/scroll-to-top.js"></script>
 
-  <!-- Scroll-to-top button -->
   <button id="scroll-to-top" class="scroll-to-top" aria-label="Scroll to top">
     <svg class="scroll-to-top-icon" viewBox="0 0 24 24">
       <path d="M12 19V5M5 12l7-7 7 7" />
     </svg>
   </button>
 
-  <!-- Legacy repo modal (kept for regular project cards) -->
   <div id="repoModal" class="modal">
     <div class="modal-content">
       <span class="close-button">&times;</span>
