@@ -196,7 +196,7 @@
   background: var(--color-card);
   border: 1px solid var(--color-border);
   margin-bottom: 56px;
-  aspect-ratio: 16 / 7;
+  aspect-ratio: 16 / 8;
   box-shadow: var(--shadow-soft);
 }
 .detail-cover img {
