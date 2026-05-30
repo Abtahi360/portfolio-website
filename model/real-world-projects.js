@@ -84,7 +84,13 @@ var realWorldProjects = [
 
     /* ── Gallery screenshots ──────────────────────────────── */
     gallery: [
-      "view/assets/Images/ElectricityBillingSystem.png",
+      "view/assets/Images/Electricity Billing System/1.png",
+      "view/assets/Images/Electricity Billing System/2.png",
+      "view/assets/Images/Electricity Billing System/3.png",
+      "view/assets/Images/Electricity Billing System/4.png",
+      "view/assets/Images/Electricity Billing System/5.png",
+      "view/assets/Images/Electricity Billing System/6.png",
+      "view/assets/Images/Electricity Billing System/7.png",
     ]
   }
 
