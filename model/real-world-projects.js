@@ -2,34 +2,31 @@ var realWorldProjects = [
   {
     /* ── Identity ───────────────────────────────────────── */
     id:       "demo-project-1",
-    title:    "Demo Real-World Project",
-    subtitle: "A placeholder — replace with your actual project details.",
+    title:    "Electricity Billing System",
+    subtitle: "The Electricity Billing System is a Java desktop application built to simplify electricity billing operations. It is designed for utility companies and billing staff who need a better way to manage customer information, meter data, bill calculations, and payment records." + 
+    "The main goal of the project is to reduce manual billing work and make the process faster and more organized. Customers can register, log in, view billing information, and make payments through integrated payment options. The system also gives administrators a clear dashboard to manage and track billing activity." + 
+    "The core idea is simple: store and handle electricity billing data in a structured way so the full billing process becomes easier, faster, and more reliable.",
 
     /* ── Card thumbnail ──────────────────────────────────── */
     coverImage: "view/assets/Images/ElectricityBillingSystem.png",
 
-    /* ── Pill tags shown on card & detail ────────────────── */
-    tags: ["Python", "Machine Learning", "Flask"],
+    tags: ["Java", "Swing GUI", "File I/O", "OOP", "Desktop Application"],
 
-    /* ── GitHub stars / forks counters ───────────────────── */
     stars: 0,
     forks: 0,
 
     /* ── Short description for card ──────────────────────── */
     description:
-      "This is a demo entry. Replace with a real description of the problem you " +
-      "solved, your approach, and the measurable impact.",
+      "A Java-based desktop application that improves accuracy, " +
+      "reduces manual work, and makes billing easier for both staff and customers.",
 
-    /* ── Links ───────────────────────────────────────────── */
     repoUrl: "https://github.com/Abtahi360/Electricity_Billing_System",
     liveUrl: "",
 
-    /* ── Stats row on detail page (like the reference) ───── */
-    /* Remove or add items freely */
     stats: [
-      { value: "3 months", label: "Timeline" },
+      { value: "1 months", label: "Timeline" },
       { value: "Solo",     label: "Team size" },
-      { value: "Demo",     label: "Status" }
+      { value: "Completed",     label: "Status" }
     ],
 
     /* ── Numbered sections on detail page ────────────────── */
@@ -40,12 +37,13 @@ var realWorldProjects = [
         title:      "The Challenge",
         heading:    "The Challenge",
         body:
-          "Describe the real-world problem you set out to solve. What pain point " +
-          "existed? Who was affected? What were the constraints?",
+          "Managing electricity billing manually can be time-consuming and difficult to maintain. " +
+          "Utility companies need to handle customer information, meter data, bill calculations, payment records, and billing history accurately. As the number of customers grows, manual processes become harder to manage and more prone to errors.",
         highlights: [
-          "Specific bottleneck or user pain point",
-          "Scale or scope of the problem",
-          "Existing solutions and why they fell short"
+          "Manual bill calculation increases the risk of mistakes.",
+          "Customer and meter information can become difficult to organize.",
+          "Tracking payment history requires significant administrative effort.",
+          "Different user roles required separate interfaces and workflows."
         ]
       },
       {
@@ -53,12 +51,12 @@ var realWorldProjects = [
         title:      "The Solution",
         heading:    "The Solution",
         body:
-          "Explain the architecture and approach you chose. What technologies did " +
-          "you select and why? What trade-offs did you make?",
+          "To address these challenges, a Java-based desktop application was developed to centralize electricity " +
+          "billing operations. The system combines customer management, meter tracking, bill calculation, payment processing, and billing history into a single user-friendly platform.",
         highlights: [
-          "Key technical decision and rationale",
-          "Architecture pattern used",
-          "Notable implementation detail"
+          "Authentication system for user registration and login.",
+          "Separate interfaces for administrators and customers.",
+          "Modular class-based structure following OOP principles."
         ]
       },
       {
@@ -66,28 +64,23 @@ var realWorldProjects = [
         title:      "Results & Impact",
         heading:    "Results & Impact",
         body:
-          "Share measurable outcomes. Numbers matter: speed improvements, " +
-          "accuracy gains, time saved, users served.",
-        highlights: [
-          "Quantified result #1 (e.g. 40% faster inference)",
-          "Quantified result #2 (e.g. 95% classification accuracy)",
-          "User or stakeholder feedback"
-        ]
+          "The system makes electricity billing more organized and less time-consuming. It supports faster customer data handling, automatic bill calculation, and better tracking of payment records." +
+          "For users, the main benefit is convenience. For administrators, the benefit is a clearer and more efficient billing workflow. Even without a database, the project provides a functional and structured solution for basic billing operations."
       }
     ],
 
     /* ── Tech stack shown in sidebar ─────────────────────── */
     techStack: [
-      { category: "Language",   items: ["Python 3.11"] },
-      { category: "Framework",  items: ["Flask", "Scikit-learn"] },
-      { category: "ML / Data",  items: ["Pandas", "NumPy", "Matplotlib"] },
-      { category: "Deployment", items: ["Render"] }
+      { category: "Language", items: ["Java"] },
+      { category: "Framework", items: ["Swing"] },
+      { category: "ML / Data", items: ["File I/O", "text file-based storage"] },
+      /*{ category: "Deployment", items: ["Render"] },*/
+      { category: "Other", items: ["OOP", "Desktop Application"] }
     ],
 
     /* ── YouTube video ID ─────────────────────────────────── */
     /* Paste only the ID part of the YouTube URL: ?v=THIS_PART */
-    /* Leave empty "" if no video yet */
-    youtubeVideoId: "xjgRr8oeGkQ",
+    youtubeVideoId: "IsSQt_O2Qqc",
 
     /* ── Gallery screenshots ──────────────────────────────── */
     gallery: [
