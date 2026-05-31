@@ -214,29 +214,29 @@ var projectDetails = {
       </ul>
     `
   },
-  "electricity-billing-system-java": {
-    title: "Electricity Billing System using Java",
-    body: `
-      <h3>Project Overview</h3>
-      <p>A Java-based desktop application designed to automate and streamline electricity billing operations. It helps utility companies manage customer data, calculate bills, process payments, and generate details.</p>
-      <h3>Key Features</h3>
-      <ul>
-        <li>Customer registration and login.</li>
-        <li>Meter details management.</li>
-        <li>Automatic bill calculation.</li>
-        <li>Payment gateway integration (Bkash, Bank).</li>
-        <li>Admin dashboard and billing overview.</li>
-      </ul>
-      <h3>Modules / Classes</h3>
-      <p>Includes modules for Bank, BillDetails, Bkash, CalculateBill, CustomerDetails, MeterInfo, and more.</p>
-      <h3>Technologies Used</h3>
-      <ul>
-        <li>Java (Swing for GUI)</li>
-        <li>File I/O (Text file-based storage)</li>
-        <li>OOP Concepts</li>
-      </ul>
-    `
-  },
+  // "electricity-billing-system-java": {
+  //   title: "Electricity Billing System using Java",
+  //   body: `
+  //     <h3>Project Overview</h3>
+  //     <p>A Java-based desktop application designed to automate and streamline electricity billing operations. It helps utility companies manage customer data, calculate bills, process payments, and generate details.</p>
+  //     <h3>Key Features</h3>
+  //     <ul>
+  //       <li>Customer registration and login.</li>
+  //       <li>Meter details management.</li>
+  //       <li>Automatic bill calculation.</li>
+  //       <li>Payment gateway integration (Bkash, Bank).</li>
+  //       <li>Admin dashboard and billing overview.</li>
+  //     </ul>
+  //     <h3>Modules / Classes</h3>
+  //     <p>Includes modules for Bank, BillDetails, Bkash, CalculateBill, CustomerDetails, MeterInfo, and more.</p>
+  //     <h3>Technologies Used</h3>
+  //     <ul>
+  //       <li>Java (Swing for GUI)</li>
+  //       <li>File I/O (Text file-based storage)</li>
+  //       <li>OOP Concepts</li>
+  //     </ul>
+  //   `
+  // },
   "boi-jatra-bookstore-java": {
     title: "Boi Jatra – Bookstore Management System (Java)",
     body: `
