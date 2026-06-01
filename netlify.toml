@@ -7,18 +7,14 @@
   publish = "."
   command = ""
 
-# ── PLUGINS (controlled here → UI plugins ignored) ────────────
-# image-optim is EXCLUDED because it has a known bug in v0.4.0
+# NOTE: netlify-plugin-minify-html removed intentionally —
+# it mangles inline JavaScript inside <script> tags which
+# breaks the project detail page rendering.
 
 [[plugins]]
   package = "@netlify/plugin-sitemap"
 
-[[plugins]]
-  package = "netlify-plugin-minify-html"
-  [plugins.inputs]
-    contexts = ["production"]
-
-# ── CACHE HEADERS — Assets (1 year) ───────────────────────────
+# ── CACHE HEADERS ─────────────────────────────────────────────
 [[headers]]
   for = "/view/assets/Images/*"
   [headers.values]
@@ -49,17 +45,16 @@
   [headers.values]
     Cache-Control = "public, max-age=604800"
 
-# ── SECURITY + PERFORMANCE HEADERS — All pages ────────────────
+# ── SECURITY HEADERS ──────────────────────────────────────────
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Frame-Options            = "DENY"
     X-Content-Type-Options     = "nosniff"
     Referrer-Policy            = "strict-origin-when-cross-origin"
     Permissions-Policy         = "camera=(), microphone=(), geolocation=()"
     X-XSS-Protection           = "1; mode=block"
 
-# ── REDIRECTS — clean URLs for sub-pages ──────────────────────
+# ── REDIRECTS ─────────────────────────────────────────────────
 [[redirects]]
   from   = "/about"
   to     = "/view/pages/about.html"
@@ -75,7 +70,7 @@
   to     = "/view/pages/contact.html"
   status = 200
 
-# ── 404 fallback ───────────────────────────────────────────────
+# ── 404 fallback ──────────────────────────────────────────────
 [[redirects]]
   from   = "/*"
   to     = "/index.html"
