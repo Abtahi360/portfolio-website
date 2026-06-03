@@ -115,7 +115,7 @@ try {
     ]);
 
     /*
-     * Prepared statement — user input is NEVER interpolated into SQL.
+     * Prepared statement - user input is NEVER interpolated into SQL.
      * PDO binds values separately from the query, making SQL injection
      * structurally impossible for these fields.
      */
