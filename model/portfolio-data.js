@@ -135,15 +135,15 @@ const portfolioData = {
       description: "Simple stopwatch app with start/stop/pause/reset, history log, and dark/light theme toggle.",
       repoUrl: "https://github.com/Abtahi360/Stopwatch_Timer"
     },
-    {
-      key: "electricity-billing-system-java",
-      kicker: "Desktop App",
-      title: "Electricity Billing System – Java",
-      tags: ["Java"],
-      images: ["view/assets/Images/bill1.png", "view/assets/Images/bill2.png"],
-      description: "Desktop Java application for billing, customer mgmt, and payment processing (file-based storage).",
-      repoUrl: "https://github.com/Abtahi360/Electricity_Billing_System"
-    },
+    // {
+    //   key: "electricity-billing-system-java",
+    //   kicker: "Desktop App",
+    //   title: "Electricity Billing System – Java",
+    //   tags: ["Java"],
+    //   images: ["view/assets/Images/bill1.png", "view/assets/Images/bill2.png"],
+    //   description: "Desktop Java application for billing, customer mgmt, and payment processing (file-based storage).",
+    //   repoUrl: "https://github.com/Abtahi360/Electricity_Billing_System"
+    // },
     {
       key: "boi-jatra-bookstore-java",
       kicker: "Desktop App",
