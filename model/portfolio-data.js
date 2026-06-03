@@ -3,7 +3,7 @@ const portfolioData = {
     {
       kicker: "Undergraduate",
       title: "B.Sc. in Computer Science",
-      period: "2023 — Ongoing",
+      period: "2023 - Ongoing",
       location: "Dhaka, Bangladesh",
       institution: "American International University - Bangladesh",
       skills: "· Object-Oriented Programming (OOP) · Problem Solving · AutoCAD · C# · Data Structures · Python (Programming Language) · Data Science · Genetic Algorithms · Algorithms · Machine Learning · Academic Publishing · Oracle Database · Java Database Connectivity (JDBC) · SQL · Theory of Computation · Project Management · Project Planning · User Interface Design",
@@ -14,7 +14,7 @@ const portfolioData = {
     {
       kicker: "Higher Secondary Certificate",
       title: "Science",
-      period: "2019 — 2021",
+      period: "2019 - 2021",
       location: "Ishwardi, Pabna, Bangladesh",
       institution: "Ishwardi Government College",
       skills: "C++ · C (Programming Language) · HTML",
@@ -24,7 +24,7 @@ const portfolioData = {
     {
       kicker: "Secondary School Certificate",
       title: "Science",
-      period: "2016 — 2018",
+      period: "2016 - 2018",
       location: "Ishwardi, Pabna, Bangladesh",
       institution: "Govt. Sara Marwari Model School and College",
       activities: "Chess, Carrom, Sudoku, Ludo",
@@ -77,7 +77,7 @@ const portfolioData = {
       title: "Cat vs Dog Classification",
       tags: ["CNN", "TensorFlow"],
       images: ["view/assets/Images/cat1.png", "view/assets/Images/cat2.png"],
-      description: "Binary image classifier using TensorFlow/Keras — demonstrates a full training & evaluation workflow.",
+      description: "Binary image classifier using TensorFlow/Keras - demonstrates a full training & evaluation workflow.",
       repoUrl: "https://github.com/Abtahi360/Cat-vs-Dog-Image-Classification-using-Convolutional-Neural-Network-CNN"
     },
     {
@@ -102,7 +102,7 @@ const portfolioData = {
     {
       key: "presento-ai-assessment",
       kicker: "AI/ML",
-      title: "Presento — AI Presentation Assessment",
+      title: "Presento - AI Presentation Assessment",
       tags: ["System Design", "Figma"],
       images: ["view/assets/Images/cv1.png", "view/assets/Images/cv2.png"],
       description: "Multimodal system design (CV, speech, slide analysis) to evaluate presentation skills and generate reports.",
@@ -123,7 +123,7 @@ const portfolioData = {
       title: "AutoCAD Electrical Diagrams",
       tags: ["AutoCAD 2007"],
       images: ["view/assets/Images/cad1.png", "view/assets/Images/cad2.png"],
-      description: "Four electrical circuit schematics (.dwg) created for a CAD assignment — AutoCAD 2007 format.",
+      description: "Four electrical circuit schematics (.dwg) created for a CAD assignment - AutoCAD 2007 format.",
       repoUrl: "https://github.com/Abtahi360/Showcasing-electrical-circuit-diagrams-designed-in-AutoCAD-2007"
     },
     {

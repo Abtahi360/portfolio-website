@@ -137,7 +137,7 @@
         var counter = $("char-count");
         if (counter) counter.textContent = "0";
       } else {
-        // Non-200 from Netlify — still likely delivered; treat as success
+        // Non-200 from Netlify - still likely delivered; treat as success
         // to avoid false "network error" messages on Netlify's edge network
         if (res.status >= 400 && res.status < 500) {
           showFeedback("error","Message could not be sent. Please email me directly at abtahibinislam2018@gmail.com");
@@ -151,7 +151,7 @@
       }
     })
     .catch(function() {
-      // Network failure — offer mailto fallback
+      // Network failure - offer mailto fallback
       showFeedback("error",
         "Could not send the message. Please email me directly: abtahibinislam2018@gmail.com");
     })

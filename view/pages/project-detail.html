@@ -77,6 +77,15 @@
 </style>
 
 <script>
+/*
+ * ★ HOW DATA IS LOADED — NO EXTERNAL SCRIPT DEPENDENCY
+ *
+ * Primary path  → sessionStorage  (set by controller/real-world-projects.js before navigation)
+ * Fallback path → window.realWorldProjects (if the model script happened to load)
+ *
+ * This means the page works on Netlify, Vercel, VS Code Live Server, GitHub Pages
+ * regardless of how the server resolves script paths.
+ */
 (function () {
   "use strict";
 
@@ -214,6 +223,8 @@
   sections.forEach(function (sec, idx) {
     var div = document.createElement("div");
     div.className = "detail-numbered-section";
+
+    /* Highlights */
     var hlHtml = "";
     if (sec.highlights && sec.highlights.length) {
       hlHtml =
@@ -221,11 +232,43 @@
         sec.highlights.map(function (h) { return "<li>" + esc(h) + "</li>"; }).join("") +
         "</ul>";
     }
+
+    /* Table */
+    var tableHtml = "";
+    if (sec.table && sec.table.headers && sec.table.rows) {
+      var t = sec.table;
+      var lastColIdx = t.headers.length - 1;
+
+      var theadCells = t.headers.map(function (h) {
+        return "<th>" + esc(h) + "</th>";
+      }).join("");
+
+      var tbodyRows = t.rows.map(function (row) {
+        var cells = row.map(function (cell, ci) {
+          /* Last column gets the accent metric pill */
+          var inner = ci === lastColIdx
+            ? '<span class="detail-table-metric">' + esc(cell) + "</span>"
+            : esc(cell);
+          return "<td>" + inner + "</td>";
+        }).join("");
+        return "<tr>" + cells + "</tr>";
+      }).join("");
+
+      tableHtml =
+        '<div class="detail-table-wrap">' +
+        '<table class="detail-table">' +
+        "<thead><tr>" + theadCells + "</tr></thead>" +
+        "<tbody>" + tbodyRows + "</tbody>" +
+        "</table></div>";
+    }
+
     div.innerHTML =
       '<div class="detail-section-number">' + esc(sec.number || "0" + (idx + 1)) + ". " + esc(sec.title) + "</div>" +
       '<h2 class="detail-section-heading">' + esc(sec.heading || sec.title) + "</h2>" +
       '<div class="detail-section-body"><p>' + esc(sec.body || "") + "</p></div>" +
-      hlHtml;
+      hlHtml +
+      tableHtml;
+
     mainEl.appendChild(div);
   });
 
