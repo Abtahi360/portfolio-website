@@ -3,11 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Project Details - Abtahi Islam</title>
+  <title>Project Details — Abtahi Islam</title>
   <link rel="icon" type="image/png" href="../../favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/design.css">
-  <link rel="stylesheet" href="../css/project-detail.css">
+  
+  <link rel="stylesheet" href="../css/design.css"
+        onerror="this.onerror=null;this.href='/view/css/design.css'">
+  <link rel="stylesheet" href="../css/project-detail.css"
+        onerror="this.onerror=null;this.href='/view/css/project-detail.css'">
   <script>
     (function () {
       var stored = localStorage.getItem("portfolio-theme");
@@ -77,15 +80,7 @@
 </style>
 
 <script>
-/*
- * ★ HOW DATA IS LOADED — NO EXTERNAL SCRIPT DEPENDENCY
- *
- * Primary path  → sessionStorage  (set by controller/real-world-projects.js before navigation)
- * Fallback path → window.realWorldProjects (if the model script happened to load)
- *
- * This means the page works on Netlify, Vercel, VS Code Live Server, GitHub Pages
- * regardless of how the server resolves script paths.
- */
+
 (function () {
   "use strict";
 
@@ -120,7 +115,6 @@
   var projectId = qp("id");
   var project   = null;
 
-  // 1) Primary: sessionStorage (set by controller before navigation)
   try {
     var cached = sessionStorage.getItem("rw_projects_cache");
     if (cached) {
