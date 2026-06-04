@@ -1,18 +1,10 @@
 # ================================================================
 #  netlify.toml — Portfolio Website
-#  Static site: no build command, serve from root
 # ================================================================
 
 [build]
   publish = "."
   command = ""
-
-# NOTE: netlify-plugin-minify-html removed intentionally —
-# it mangles inline JavaScript inside <script> tags which
-# breaks the project detail page rendering.
-
-[[plugins]]
-  package = "@netlify/plugin-sitemap"
 
 # ── CACHE HEADERS ─────────────────────────────────────────────
 [[headers]]
@@ -28,49 +20,27 @@
 [[headers]]
   for = "/view/css/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=86400"
 
 [[headers]]
   for = "/controller/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=86400"
 
 [[headers]]
   for = "/model/*.js"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/favicon.png"
-  [headers.values]
-    Cache-Control = "public, max-age=604800"
+    Cache-Control = "public, max-age=86400"
 
 # ── SECURITY HEADERS ──────────────────────────────────────────
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Content-Type-Options     = "nosniff"
-    Referrer-Policy            = "strict-origin-when-cross-origin"
-    Permissions-Policy         = "camera=(), microphone=(), geolocation=()"
-    X-XSS-Protection           = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection       = "1; mode=block"
+    Referrer-Policy        = "strict-origin-when-cross-origin"
 
-# ── REDIRECTS ─────────────────────────────────────────────────
-[[redirects]]
-  from   = "/about"
-  to     = "/view/pages/about.html"
-  status = 200
-
-[[redirects]]
-  from   = "/projects"
-  to     = "/view/pages/projects.html"
-  status = 200
-
-[[redirects]]
-  from   = "/contact"
-  to     = "/view/pages/contact.html"
-  status = 200
-
-# ── 404 fallback ──────────────────────────────────────────────
+# ── 404 fallback (for SPA routing) ────────────────────────────
 [[redirects]]
   from   = "/*"
   to     = "/index.html"
