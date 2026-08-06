@@ -156,6 +156,13 @@ const portfolioData = {
   ],
   certificates: [
     {
+      title: "Code to Cloud: Practical DevOps with AWS",
+      meta: "Cloudly Infotech Limited - May 2026",
+      skills: "DevOps Fundamentals, AWS Cloud Services, CI/CD Pipelines, Deployment Workflows, Cloud Infrastructure, Cloud-based Application Deployment.",
+      image: "view/assets/Images/Code to Cloud.jpg",
+      premium: true
+    },
+    {
       title: "Certificate Program in Applied AI (Statistics to NLP)",
       meta: "HCL GUVI - April 2026",
       skills: "Artificial Intelligence, Statistics, Natural Language Processing (NLP), Data Analysis, Text Processing.",
