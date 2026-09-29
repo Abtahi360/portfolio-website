@@ -163,6 +163,12 @@ const portfolioData = {
       premium: true
     },
     {
+      title: "AI Awareness Opportunities, Risks, and Responsibility",
+      meta: "NeuroFlight Lab - May 2026",
+      skills: "Responsibility, Ethical Considerations, AI Literacy.",
+      image: "view/assets/Images/AI Awareness Opportunities, Risks, and Responsibility, organized by NeuroFlight Lab.png",
+    },
+    {
       title: "Certificate Program in Applied AI (Statistics to NLP)",
       meta: "HCL GUVI - April 2026",
       skills: "Artificial Intelligence, Statistics, Natural Language Processing (NLP), Data Analysis, Text Processing.",
@@ -229,6 +235,12 @@ const portfolioData = {
       meta: "Google - November 2025",
       skills: "Google AI · Prompting and AI Usage · Responsible AI",
       image: "view/assets/Images/Gemini Certified University Student.jpg"
+    },
+    {
+      title: "Critical Thinking in the AI Era",
+      meta: "HP LIFE - February 2026",
+      skills: "Critical Thinking · Fact-checking · AI Literacy · Analytical Thinking.",
+      image: "view/assets/Images/Critical Thinking in the AI Era.png"
     },
     {
       title: "Critical Thinking in the AI Era",
