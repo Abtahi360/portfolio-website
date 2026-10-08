@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="view/css/design.css">
   <link rel="stylesheet" href="view/css/contact-upgrade.css">
   <link rel="stylesheet" href="view/css/real-world-projects.css">
+  <link rel="stylesheet" href="view/css/education.css">
   <link rel="stylesheet" href="view/css/motion.css">
   <meta charset="UTF-8">
   <title>Abtahi Islam - Portfolio</title>
@@ -168,20 +169,33 @@
       </section>
 
 
-      <section class="section-shell" id="educational-history">
+      <section class="section-shell" id="educational-history" aria-labelledby="education-title">
         <div class="section-anchor-offset" id="education-anchor"></div>
+        <!-- Decorative backdrop: perspective floor grid, ambient glow, tiny nodes (parallax driven by controller/education.js) -->
+        <div class="edu-atmos" aria-hidden="true">
+          <div class="edu-atmos__layer edu-atmos__floor"><svg class="edu-atmos__grid" viewBox="0 0 1000 480" preserveAspectRatio="none" focusable="false"><path d="M147.1 0L-700 480M176.5 0L-600 480M205.9 0L-500 480M235.3 0L-400 480M264.7 0L-300 480M294.1 0L-200 480M323.5 0L-100 480M352.9 0L0 480M382.4 0L100 480M411.8 0L200 480M441.2 0L300 480M470.6 0L400 480M500.0 0L500 480M529.4 0L600 480M558.8 0L700 480M588.2 0L800 480M617.6 0L900 480M647.1 0L1000 480M676.5 0L1100 480M705.9 0L1200 480M735.3 0L1300 480M764.7 0L1400 480M794.1 0L1500 480M823.5 0L1600 480M852.9 0L1700 480M0 4.8H1000M0 19.2H1000M0 43.2H1000M0 76.8H1000M0 120.0H1000M0 172.8H1000M0 235.2H1000M0 307.2H1000M0 388.8H1000"/></svg></div>
+          <div class="edu-atmos__layer edu-atmos__ambient">
+            <span class="edu-atmos__orb edu-atmos__orb--a"></span>
+            <span class="edu-atmos__orb edu-atmos__orb--b"></span>
+            <span class="edu-atmos__dot" style="--x:11%;--y:18%"></span>
+            <span class="edu-atmos__dot" style="--x:86%;--y:31%"></span>
+            <span class="edu-atmos__dot" style="--x:72%;--y:64%"></span>
+            <span class="edu-atmos__dot" style="--x:19%;--y:77%"></span>
+            <span class="edu-atmos__dot" style="--x:93%;--y:86%"></span>
+          </div>
+        </div>
         <div class="section-inner fade-in">
           <div class="section-header">
             <div>
               <div class="section-kicker">Education</div>
-              <h2 class="section-title">Educational History</h2>
+              <h2 class="section-title" id="education-title">Educational History</h2>
             </div>
             <div class="section-subtitle">
               A summary of my academic journey, highlighting key milestones and achievements.
             </div>
           </div>
-          <div class="cards-grid-two edu-hx-grid" id="education-grid">
-            <!-- Rendered by controller/main.js -->
+          <div class="edu-journey" id="education-grid">
+            <!-- Rendered by controller/main.js (markup) and animated by controller/education.js -->
           </div>
         </div>
       </section>
@@ -669,6 +683,7 @@
   <script src="model/real-world-projects.js"></script>
   <script src="controller/real-world-projects.js"></script>
   <script src="controller/main.js"></script>
+  <script src="controller/education.js"></script>
   <script src="controller/resume-cursor-effect.js"></script>
   <script src="controller/scroll-to-top.js"></script>
   <script src="controller/motion.js"></script>

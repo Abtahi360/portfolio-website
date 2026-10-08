@@ -1,0 +1,904 @@
+/* ══════════════════════════════════════════════════════════════
+   Education — "3D Academic Growth Path"
+   Scope: #educational-history only. Nothing here targets another
+   section. Markup comes from controller/main.js, behaviour from
+   controller/education.js.
+
+   Contents
+     1. Tokens (light + dark)
+     2. Section frame + atmosphere
+     3. Spine (the knowledge path) + nodes
+     4. Slab: geometry, extruded edges, surfaces
+     5. Slab: content hierarchy
+     6. Progressive disclosure
+     7. Bridge to Projects / Research
+     8. States + motion
+     9. Responsive: tablet, mobile
+    10. Reduced motion
+   ══════════════════════════════════════════════════════════════ */
+
+/* Transform inputs are registered non-inherited: changing one re-resolves only the slab
+   itself, never its subtree (text, chips, buttons). Graceful snap if unsupported. */
+@property --edu-y    { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --edu-s    { syntax: "<number>"; inherits: false; initial-value: 1; }
+@property --edu-rx   { syntax: "<angle>";  inherits: false; initial-value: 0deg; }
+@property --edu-ry   { syntax: "<angle>";  inherits: false; initial-value: 0deg; }
+@property --edu-tx   { syntax: "<angle>";  inherits: false; initial-value: 0deg; }
+@property --edu-ty   { syntax: "<angle>";  inherits: false; initial-value: 0deg; }
+
+/* ── 1. Tokens ─────────────────────────────────────────────── */
+#educational-history {
+  --edu-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --edu-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --edu-bg: var(--color-bg);
+  --edu-ink: var(--color-primary);
+  --edu-ink-2: #334155;
+  --edu-muted: #475569;
+  --edu-accent: var(--color-accent);          /* graphics only; too light for text on white */
+  --edu-accent-ink: #0B6680;                  /* accent as text on light surfaces (AA on tinted fills too) */
+  --edu-blue: var(--color-secondary-end);
+  --edu-glow-rgb: 8 145 178;
+  --edu-blue-rgb: 37 99 235;
+  --edu-shadow-rgb: 15 23 42;
+
+  --edu-face-a: #FFFFFF;
+  --edu-face-b: #F1F5F9;
+  --edu-sheen: rgb(255 255 255 / 0.9);
+  --edu-edge: rgb(15 23 42 / 0.12);
+  --edu-side-a: #DCE4EE;
+  --edu-side-b: #C3CEDC;
+  --edu-base-a: #B9C5D5;
+  --edu-base-b: #A7B5C8;
+  --edu-track: #CBD5E1;
+  --edu-ground: rgb(15 23 42 / 0.24);
+  --edu-chip-bg: #F1F5F9;
+  --edu-chip-edge: #DCE3EC;
+  --edu-focus-ring: #0369A1;
+  --edu-grid-line: rgb(15 23 42 / 0.05);
+  --edu-orb: 0.06;
+
+  --edu-r: 7px;
+  --edu-spine-x: 50%;
+  --edu-node-col: 96px;
+
+  position: relative;
+  isolation: isolate;
+}
+
+[data-theme="dark"] #educational-history {
+  --edu-ink-2: #CBD5E1;
+  --edu-muted: #94A3B8;
+  --edu-accent-ink: #67E8F9;
+  --edu-glow-rgb: 34 211 238;
+  --edu-blue-rgb: 99 102 241;
+  --edu-shadow-rgb: 0 0 0;
+
+  --edu-face-a: #1E293B;
+  --edu-face-b: #172136;
+  --edu-sheen: rgb(255 255 255 / 0.07);
+  --edu-edge: rgb(148 163 184 / 0.22);
+  --edu-side-a: #1A2740;
+  --edu-side-b: #101B2F;
+  --edu-base-a: #0C1526;
+  --edu-base-b: #070E1C;
+  --edu-track: #334155;
+  --edu-ground: rgb(0 0 0 / 0.6);
+  --edu-chip-bg: rgb(148 163 184 / 0.1);
+  --edu-chip-edge: rgb(148 163 184 / 0.22);
+  --edu-focus-ring: #67E8F9;
+  --edu-grid-line: rgb(34 211 238 / 0.12);
+  --edu-orb: 0.11;
+}
+
+/* ── 2. Section frame + atmosphere ─────────────────────────── */
+.edu-journey {
+  position: relative;
+  padding: 44px 0 8px;
+}
+
+.edu-atmos {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.edu-atmos__layer { position: absolute; }
+
+/* One moving layer for every ambient element (orbs + nodes): one transform per scroll frame */
+.edu-atmos__ambient { inset: 0; }
+
+/* Perspective floor: the "ground" the slabs stand on. A single static SVG (rays + progressively
+   spaced rows) instead of a rotated 3D plane, so it needs no offscreen render surface. */
+.edu-atmos__floor {
+  left: 50%;
+  bottom: 0;
+  width: min(1240px, 130vw);
+  height: 46%;
+  margin-left: calc(min(1240px, 130vw) / -2);
+}
+
+/* All four edges dissolve into the page colour with plain gradients (no masks, so no offscreen surfaces) */
+.edu-atmos__floor::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, var(--edu-bg) 0%, transparent 42%),
+    linear-gradient(to top, var(--edu-bg) 3%, transparent 50%),
+    linear-gradient(to right, var(--edu-bg) 0%, transparent 26%, transparent 74%, var(--edu-bg) 100%);
+}
+
+.edu-atmos__grid {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: var(--edu-grid-line);
+  stroke-width: 1;
+}
+
+.edu-atmos__grid path { vector-effect: non-scaling-stroke; }
+
+.edu-atmos__orb {
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+}
+
+.edu-atmos__orb--a {
+  left: -140px;
+  top: 6%;
+  background: radial-gradient(closest-side, rgb(var(--edu-glow-rgb) / var(--edu-orb)), transparent);
+}
+
+.edu-atmos__orb--b {
+  right: -160px;
+  bottom: 8%;
+  background: radial-gradient(closest-side, rgb(var(--edu-blue-rgb) / calc(var(--edu-orb) * 1.1)), transparent);
+}
+
+.edu-atmos__dot {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgb(var(--edu-glow-rgb) / 0.6);
+  box-shadow: 0 0 10px rgb(var(--edu-glow-rgb) / 0.5);
+  opacity: 0.55;
+}
+
+
+/* Only promote layers while the section is actually on screen */
+#educational-history.edu-live .edu-atmos__ambient { will-change: transform; }
+
+/* ── 3. Spine (the knowledge path) + nodes ─────────────────── */
+.edu-path {
+  --path-h: 0px;
+  position: absolute;
+  top: 0;
+  left: var(--edu-spine-x);
+  width: 2px;
+  margin-left: -1px;
+  height: var(--path-h);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.edu-path__track,
+.edu-path__fill {
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+}
+
+.edu-path__track {
+  background: linear-gradient(to bottom, transparent 0, var(--edu-track) 52px, var(--edu-track) 100%);
+}
+
+.edu-path__fill {
+  transform-origin: 50% 0;
+  transform: scaleY(0);                         /* JS writes the real value inline */
+  background: linear-gradient(to bottom, var(--edu-accent), var(--edu-blue));
+  box-shadow: 0 0 12px rgb(var(--edu-glow-rgb) / 0.45);
+}
+
+.edu-path__head {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: var(--edu-accent);
+  box-shadow: 0 0 0 4px rgb(var(--edu-glow-rgb) / 0.18), 0 0 18px rgb(var(--edu-glow-rgb) / 0.75);
+  opacity: 0;
+  transform: translate3d(0, 0, 0);
+  transition: opacity 0.4s ease-out;
+}
+
+#educational-history.edu-live .edu-path__fill,
+#educational-history.edu-live .edu-path__head { will-change: transform; }
+
+.edu-node {
+  position: relative;
+  z-index: 3;
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: center;
+  align-self: start;
+  margin-top: 34px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--edu-bg);
+  border: 2px solid var(--edu-track);
+  transition: background 0.5s var(--edu-ease), border-color 0.5s var(--edu-ease), box-shadow 0.6s var(--edu-ease), transform 0.6s var(--edu-ease), opacity 0.6s var(--edu-ease);
+}
+
+/* Branch from node to slab (side slabs only) */
+.edu-node::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40px;
+  height: 1px;
+  background: var(--edu-track);
+  transition: background 0.6s var(--edu-ease);
+}
+
+.edu-stage--left .edu-node::before  { right: 100%; }
+.edu-stage--right .edu-node::before { left: 100%; }
+.edu-stage--center .edu-node::before { display: none; }
+
+/* Expanding ring on the node of the active milestone */
+.edu-node::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 1px solid rgb(var(--edu-glow-rgb) / 0.7);
+  opacity: 0;
+}
+
+.edu-stage[data-state="past"] .edu-node,
+.edu-stage[data-state="active"] .edu-node {
+  background: linear-gradient(135deg, var(--edu-accent), var(--edu-blue));
+  border-color: var(--edu-bg);
+  box-shadow: 0 0 0 1.5px rgb(var(--edu-glow-rgb) / 0.55), 0 0 12px rgb(var(--edu-glow-rgb) / 0.4);
+}
+
+.edu-stage[data-state="past"] .edu-node::before,
+.edu-stage[data-state="active"] .edu-node::before {
+  background: linear-gradient(to var(--edu-branch-dir, right), rgb(var(--edu-glow-rgb) / 0.8), rgb(var(--edu-glow-rgb) / 0.25));
+}
+.edu-stage--left .edu-node  { --edu-branch-dir: left; }
+.edu-stage--right .edu-node { --edu-branch-dir: right; }
+
+.edu-stage[data-state="active"] .edu-node {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 2px rgb(var(--edu-glow-rgb) / 0.7), 0 0 20px rgb(var(--edu-glow-rgb) / 0.65);
+}
+
+.edu-stage[data-state="active"] .edu-node::after {
+  animation: edu-node-ring 2.8s var(--edu-ease-out) infinite;
+}
+
+@keyframes edu-node-ring {
+  0%   { opacity: 0.8; transform: scale(1); }
+  70%  { opacity: 0;   transform: scale(2.4); }
+  100% { opacity: 0;   transform: scale(2.4); }
+}
+
+/* ── 4. Slab: geometry, extruded edges, surfaces ───────────── */
+.edu-list {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 52px;
+}
+
+.edu-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--edu-node-col) minmax(0, 1fr);
+  align-items: start;
+}
+
+/* Asymmetric rhythm: the right-hand slab starts higher, so nodes alternate
+   without forming a rigid zig-zag. Nodes stay chronological. */
+.edu-stage--right { margin-top: -64px; }
+
+.edu-stage--left   > .edu-slab { grid-column: 1; grid-row: 1; justify-self: end; }
+.edu-stage--right  > .edu-slab { grid-column: 3; grid-row: 1; justify-self: start; }
+.edu-stage--center > .edu-slab { grid-column: 1 / -1; grid-row: 2; justify-self: center; margin-top: -8px; }
+.edu-stage--center > .edu-node { margin-top: 0; }
+
+/* Scale of the three tiers = scale of the journey */
+.edu-stage[data-tier="base"] { --edu-w: 360px; --edu-pad: 22px; --edu-dx: 9px;  --edu-dy: 11px; --edu-title: 19px; --edu-period: 13.5px; --edu-y-on: -4px; }
+.edu-stage[data-tier="mid"]  { --edu-w: 424px; --edu-pad: 26px; --edu-dx: 12px; --edu-dy: 15px; --edu-title: 22px; --edu-period: 14.5px; --edu-y-on: -6px; }
+.edu-stage[data-tier="hero"] { --edu-w: 640px; --edu-pad: 36px; --edu-dx: 16px; --edu-dy: 21px; --edu-title: 31px; --edu-period: 17px;   --edu-y-on: -9px; }
+
+.edu-slab {
+  --edu-y: 0px;
+  --edu-rx: 0deg;
+  --edu-ry: 0deg;
+  --edu-tx: 0deg;
+  --edu-ty: 0deg;
+  --edu-s: 1;
+
+  position: relative;
+  width: min(100%, var(--edu-w));
+  /* perspective() keeps each slab's 3D self-contained; no ancestor flattening issues */
+  transform:
+    perspective(1500px)
+    translate3d(0, var(--edu-y), 0)
+    rotateX(calc(var(--edu-rx) + var(--edu-ty)))
+    rotateY(calc(var(--edu-ry) + var(--edu-tx)))
+    scale(var(--edu-s));
+  transition:
+    transform 1s var(--edu-ease),
+    opacity 0.8s var(--edu-ease);
+}
+
+.edu-slab[data-tilt] {
+  transition:
+    transform 0.4s var(--edu-ease-out),
+    opacity 0.8s var(--edu-ease);
+}
+
+/* Soft contact shadow under the slab; it grows and darkens as the slab rises.
+   Opacity + transform only, so state changes never repaint. */
+.edu-slab__ground {
+  position: absolute;
+  z-index: -1;
+  left: 3%;
+  right: 3%;
+  bottom: -30px;
+  height: 52px;
+  background: radial-gradient(closest-side, var(--edu-ground), transparent);
+  opacity: 0.5;
+  transform: translate3d(0, calc(var(--edu-dy) * 0.55), 0) scaleX(0.96);
+  transition: opacity 0.7s var(--edu-ease), transform 0.9s var(--edu-ease);
+  pointer-events: none;
+}
+
+.edu-slab__body {
+  --d: var(--edu-dx);
+  --e: var(--edu-dy);
+  position: relative;
+}
+
+/* Extruded edges: two planes behind the face (right side, underside).
+   Drawn in 2D so the text face stays pixel-crisp at rest. */
+.edu-slab__body::before,
+.edu-slab__body::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% + var(--d));
+  height: calc(100% + var(--e));
+  pointer-events: none;
+}
+
+.edu-slab__body::before {
+  background: linear-gradient(90deg, var(--edu-side-a), var(--edu-side-b));
+  clip-path: polygon(calc(100% - var(--d)) var(--edu-r), 100% calc(var(--e) + var(--edu-r)), 100% 100%, calc(100% - var(--d)) calc(100% - var(--e)));
+}
+
+.edu-slab__body::after {
+  background: linear-gradient(180deg, var(--edu-base-a), var(--edu-base-b));
+  clip-path: polygon(0 calc(100% - var(--e)), calc(100% - var(--d)) calc(100% - var(--e)), 100% 100%, var(--d) 100%);
+}
+
+/* Slabs on the right lean toward the spine, so the whole composition converges on one axis */
+.edu-stage--right .edu-slab__body::before,
+.edu-stage--right .edu-slab__body::after {
+  left: calc(var(--d) * -1);
+  transform: scaleX(-1);
+}
+
+.edu-slab__face {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--edu-pad);
+  border-radius: var(--edu-r);
+  border: 1px solid transparent;
+  background:
+    linear-gradient(165deg, var(--edu-face-a), var(--edu-face-b)) padding-box,
+    linear-gradient(150deg, rgb(var(--edu-glow-rgb) / 0.3), var(--edu-edge) 42%, var(--edu-edge)) border-box;
+  box-shadow: 0 26px 46px -30px rgb(var(--edu-shadow-rgb) / 0.38);
+}
+
+/* Top sheen */
+.edu-slab__face::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, var(--edu-sheen), transparent 30%);
+  pointer-events: none;
+}
+
+/* Luminous edge along the front lower lip */
+.edu-slab__face::after {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--edu-accent), transparent);
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+/* Glow overlay: painted once, then only its opacity eases (compositor, no repaint).
+   Border + outer glow + a bright lower-lip line; transparent inside so text is untouched. */
+.edu-slab::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: var(--edu-r);
+  border: 1px solid rgb(var(--edu-glow-rgb) / 0.75);
+  box-shadow: 0 0 44px -14px rgb(var(--edu-glow-rgb) / 0.6);
+  background: linear-gradient(90deg, transparent, var(--edu-accent), transparent) 50% 100% / 84% 1px no-repeat;
+  opacity: 0;
+  transition: opacity 0.7s var(--edu-ease);
+  pointer-events: none;
+}
+
+/* Hero: accent bar on the upper edge + a touch more light */
+.edu-stage[data-tier="hero"] .edu-slab__face {
+  background:
+    linear-gradient(90deg, transparent, rgb(var(--edu-glow-rgb) / 0.85) 30%, rgb(var(--edu-blue-rgb) / 0.85) 70%, transparent) 50% 0 / 78% 2px no-repeat padding-box,
+    radial-gradient(120% 90% at 100% 0%, rgb(var(--edu-glow-rgb) / 0.09), transparent 60%) padding-box,
+    linear-gradient(165deg, var(--edu-face-a), var(--edu-face-b)) padding-box,
+    linear-gradient(150deg, rgb(var(--edu-glow-rgb) / 0.45), var(--edu-edge) 42%, var(--edu-edge)) border-box;
+}
+
+/* ── 5. Slab: content hierarchy ────────────────────────────── */
+.edu-slab__head {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.edu-slab__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font: inherit;
+  min-width: 0;
+}
+
+.edu-kicker {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+  color: var(--edu-accent-ink);
+}
+
+.edu-title {
+  font-size: var(--edu-title);
+  font-weight: 700;
+  line-height: 1.16;
+  letter-spacing: -0.02em;
+  color: var(--edu-ink);
+  text-wrap: balance;
+}
+
+.edu-badge {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px;
+  border: 1px solid rgb(var(--edu-glow-rgb) / 0.45);
+  border-radius: 999px;
+  background: rgb(var(--edu-glow-rgb) / 0.08);
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--edu-accent-ink);
+  white-space: nowrap;
+}
+
+.edu-badge__dot {
+  position: relative;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--edu-accent);
+}
+
+.edu-badge__dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgb(var(--edu-glow-rgb) / 0.5);
+  animation: edu-live-dot 2.8s var(--edu-ease-out) infinite;
+}
+
+@keyframes edu-live-dot {
+  0%   { transform: scale(1); opacity: 0.8; }
+  70%  { transform: scale(3.2); opacity: 0; }
+  100% { transform: scale(3.2); opacity: 0; }
+}
+
+.edu-period {
+  margin-top: 16px;
+  padding-left: 10px;
+  border-left: 2px solid var(--edu-accent);
+  font-size: var(--edu-period);
+  font-weight: 600;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+  color: var(--edu-ink);
+}
+
+.edu-inst {
+  margin-top: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--edu-ink);
+}
+
+.edu-loc {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: var(--edu-muted);
+}
+
+.edu-icon { flex: none; }
+
+.edu-summary {
+  margin-top: 16px;
+  max-width: 52ch;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--edu-ink-2);
+}
+
+.edu-focus {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.edu-focus__label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--edu-muted);
+}
+
+.edu-chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.edu-chips li {
+  padding: 4px 10px;
+  border: 1px solid var(--edu-chip-edge);
+  border-radius: 5px;
+  background: var(--edu-chip-bg);
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--edu-ink-2);
+}
+
+.edu-chips--focus li {
+  border-color: rgb(var(--edu-glow-rgb) / 0.4);
+  background: rgb(var(--edu-glow-rgb) / 0.08);
+  color: var(--edu-ink);
+}
+
+/* ── 6. Progressive disclosure ─────────────────────────────── */
+.edu-toggle {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--edu-edge);
+  border-radius: 6px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--edu-accent-ink);
+  cursor: pointer;
+  transition: background 0.2s ease-out, border-color 0.2s ease-out;
+}
+
+.edu-toggle:hover {
+  background: rgb(var(--edu-glow-rgb) / 0.08);
+  border-color: rgb(var(--edu-glow-rgb) / 0.5);
+}
+
+.edu-toggle__icon { transition: transform 0.45s var(--edu-ease); }
+.edu-toggle[aria-expanded="true"] .edu-toggle__icon { transform: rotate(180deg); }
+
+.edu-toggle:focus-visible,
+.edu-bridge:focus-visible {
+  outline: 2px solid var(--edu-focus-ring);
+  outline-offset: 3px;
+}
+
+/* grid-rows 0fr -> 1fr animates height without measuring it */
+.edu-details {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.55s var(--edu-ease);
+}
+
+.edu-details__inner {
+  min-height: 0;
+  overflow: hidden;
+  visibility: hidden;                         /* collapsed content leaves the tab order and a11y tree */
+  transition: visibility 0s linear 0.55s;
+}
+
+.edu-toggle[aria-expanded="true"] + .edu-details { grid-template-rows: 1fr; }
+.edu-toggle[aria-expanded="true"] + .edu-details .edu-details__inner {
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.edu-group { padding-top: 20px; }
+.edu-group + .edu-group { padding-top: 18px; }
+
+.edu-group__label {
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--edu-muted);
+}
+
+.edu-group__text {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--edu-ink-2);
+}
+
+/* ── 7. Bridge to Projects / Research ──────────────────────── */
+.edu-bridge {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-areas: "mark" "line" "label";
+  justify-items: center;
+  width: fit-content;
+  min-height: 44px;
+  margin: 28px auto 0;
+  color: var(--edu-muted);
+  text-decoration: none;
+  transition: color 0.25s ease-out;
+}
+
+.edu-bridge__mark {
+  grid-area: mark;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--edu-bg);
+  color: var(--edu-track);
+  transition: color 0.6s var(--edu-ease), filter 0.6s var(--edu-ease), transform 0.6s var(--edu-ease);
+}
+
+.edu-bridge[data-lit] .edu-bridge__mark {
+  color: var(--edu-accent);
+  filter: drop-shadow(0 0 7px rgb(var(--edu-glow-rgb) / 0.8));
+  transform: rotate(45deg);
+}
+
+.edu-bridge__line {
+  grid-area: line;
+  width: 1px;
+  height: 46px;
+  margin-top: 4px;
+  background: linear-gradient(to bottom, rgb(var(--edu-glow-rgb) / 0.55), transparent);
+}
+
+.edu-bridge__label {
+  grid-area: label;
+  padding-bottom: 4px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--edu-muted);
+}
+
+.edu-bridge:hover .edu-bridge__label { color: var(--edu-accent-ink); }
+
+/* ── 8. States + motion ────────────────────────────────────── */
+/* Surfaces carry the emphasis; text keeps full contrast in every state.
+   Everything below is transform or opacity, so it runs on the compositor. */
+.edu-stage[data-state="past"] > .edu-slab::after   { opacity: 0.4; }
+.edu-stage[data-state="past"] .edu-slab__ground    { opacity: 0.65; transform: translate3d(0, calc(var(--edu-dy) * 0.6), 0) scaleX(0.98); }
+
+/* "Forward" is an integer-pixel lift + stronger glow + deeper contact shadow.
+   A settled translateZ would scale the slab fractionally and soften the text being read. */
+.edu-stage[data-state="active"] > .edu-slab { --edu-y: var(--edu-y-on); }
+.edu-stage[data-state="active"] > .edu-slab::after { opacity: 1; }
+.edu-stage[data-state="active"] .edu-slab__ground  { opacity: 0.95; transform: translate3d(0, calc(var(--edu-dy) * 0.75 + 6px), 0) scaleX(1.04); }
+
+@media (hover: hover) and (pointer: fine) {
+  .edu-stage:not([data-state="active"]) > .edu-slab:hover {
+    --edu-y: calc(var(--edu-y-on) * 0.5);
+  }
+  .edu-stage:not([data-state="active"]) > .edu-slab:hover::after { opacity: 0.75; }
+}
+
+/* Entry (only when the controller has switched motion on) */
+.edu-motion .edu-stage:not(.is-in) > .edu-slab {
+  opacity: 0;
+  --edu-y: 56px;
+  --edu-s: 0.96;
+  --edu-rx: 9deg;
+}
+
+.edu-motion .edu-stage:not(.is-in) > .edu-node { opacity: 0; transform: scale(0.5); }
+.edu-motion .edu-bridge:not(.is-in) { opacity: 0; transform: translate3d(0, 20px, 0); }
+.edu-motion .edu-bridge { transition: color 0.25s ease-out, opacity 0.9s var(--edu-ease), transform 0.9s var(--edu-ease); }
+
+/* ── 9. Responsive ─────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .edu-journey { --edu-node-col: 64px; padding-top: 36px; }
+  .edu-node::before { width: 26px; }
+  .edu-list { gap: 44px; }
+  .edu-stage--right { margin-top: -44px; }
+
+  /* Reduced depth, narrower slabs, same rhythm */
+  .edu-stage[data-tier="base"] { --edu-w: 300px; --edu-pad: 20px; --edu-dx: 6px;  --edu-dy: 8px;  --edu-title: 18px; --edu-y-on: -3px; }
+  .edu-stage[data-tier="mid"]  { --edu-w: 340px; --edu-pad: 22px; --edu-dx: 8px;  --edu-dy: 10px; --edu-title: 20px; --edu-y-on: -4px; }
+  .edu-stage[data-tier="hero"] { --edu-w: 540px; --edu-pad: 30px; --edu-dx: 11px; --edu-dy: 15px; --edu-title: 27px; --edu-period: 16px; --edu-y-on: -6px; }
+}
+
+@media (max-width: 720px) {
+  #educational-history { --edu-spine-x: 15px; }
+  .edu-journey { padding-top: 28px; }
+  .edu-list { gap: 38px; }
+
+  .edu-stage {
+    display: block;
+    padding: 0 12px 0 40px;                   /* right pad holds the extruded edge inside the viewport */
+  }
+
+  .edu-stage--right { margin-top: 0; }
+
+  .edu-node,
+  .edu-stage--center > .edu-node {
+    position: absolute;
+    left: 7px;
+    top: 28px;
+    margin: 0;
+  }
+
+  .edu-stage--center > .edu-node { top: 34px; }
+
+  .edu-node::before,
+  .edu-stage--left .edu-node::before,
+  .edu-stage--right .edu-node::before,
+  .edu-stage--center .edu-node::before {
+    display: block;
+    left: 100%;
+    right: auto;
+    width: 17px;
+    --edu-branch-dir: right;
+  }
+
+  .edu-stage--left > .edu-slab,
+  .edu-stage--right > .edu-slab,
+  .edu-stage--center > .edu-slab {
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .edu-stage[data-tier="base"],
+  .edu-stage[data-tier="mid"] { --edu-pad: 20px; --edu-dx: 5px; --edu-dy: 7px; --edu-title: 19px; --edu-y-on: -2px; }
+  .edu-stage[data-tier="hero"] { --edu-pad: 22px; --edu-dx: 7px; --edu-dy: 10px; --edu-title: 24px; --edu-period: 15px; --edu-y-on: -3px; }
+
+  /* Side planes always extrude outward on mobile (spine is on the left) */
+  .edu-stage--right .edu-slab__body::before,
+  .edu-stage--right .edu-slab__body::after {
+    left: 0;
+    transform: none;
+  }
+
+  .edu-motion .edu-stage:not(.is-in) > .edu-slab { --edu-y: 34px; --edu-rx: 5deg; }
+
+  .edu-slab__head { flex-direction: column; gap: 12px; }
+  .edu-inst { font-size: 16px; }
+  .edu-loc { font-size: 14px; }
+  .edu-summary { font-size: 15px; }
+  .edu-chips li { font-size: 13px; }
+
+  .edu-atmos__floor { height: 40%; }
+  .edu-atmos__orb { width: 360px; height: 360px; }
+
+  /* Bridge hangs off the spine on the left */
+  .edu-bridge {
+    grid-template-areas: "mark label" "line .";
+    grid-template-columns: 34px auto;
+    column-gap: 12px;
+    justify-items: start;
+    align-items: center;
+    margin: 20px 0 0 calc(var(--edu-spine-x) - 17px);
+  }
+
+  .edu-bridge__line { justify-self: center; }
+}
+
+@media (max-width: 420px) {
+  .edu-stage { padding-left: 36px; padding-right: 10px; }
+  .edu-stage[data-tier="hero"] { --edu-pad: 20px; --edu-title: 22px; }
+  .edu-badge { padding: 4px 10px; }
+}
+
+/* ── 10. Reduced motion ────────────────────────────────────── */
+/* Hierarchy and the lit path stay; every transform, loop and scroll-linked effect goes. */
+@media (prefers-reduced-motion: reduce) {
+  #educational-history *,
+  #educational-history *::before,
+  #educational-history *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .edu-slab,
+  .edu-atmos__layer,
+  .edu-bridge {
+    transform: none !important;
+  }
+
+  .edu-slab,
+  .edu-stage > .edu-node,
+  .edu-bridge { opacity: 1 !important; }
+
+  .edu-stage > .edu-slab::after { opacity: 0.5; }
+  .edu-stage[data-tier="hero"] > .edu-slab::after { opacity: 1; }
+
+  .edu-stage > .edu-node {
+    transform: none !important;
+    background: linear-gradient(135deg, var(--edu-accent), var(--edu-blue));
+    border-color: var(--edu-bg);
+    box-shadow: 0 0 0 1.5px rgb(var(--edu-glow-rgb) / 0.55);
+  }
+
+  .edu-stage > .edu-node::before { background: rgb(var(--edu-glow-rgb) / 0.6); }
+
+  .edu-path__fill { transform: scaleY(1) !important; }
+  .edu-path__head { display: none; }
+
+  .edu-bridge__mark { color: var(--edu-accent); filter: none; }
+}

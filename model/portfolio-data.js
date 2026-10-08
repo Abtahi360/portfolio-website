@@ -9,7 +9,8 @@ const portfolioData = {
       skills: "· Object-Oriented Programming (OOP) · Problem Solving · AutoCAD · C# · Data Structures · Python (Programming Language) · Data Science · Genetic Algorithms · Algorithms · Machine Learning · Academic Publishing · Oracle Database · Java Database Connectivity (JDBC) · SQL · Theory of Computation · Project Management · Project Planning · User Interface Design",
       activities: "· Chess, Football, Badminton, Volleyball, Basketball, Cricket, Ludo, Table Tennis",
       coursework: "· Data Structures and Algorithms · Database Systems · Computer Networks · Operating Systems · Artificial Intelligence · Machine Learning · Data Science",
-      summary: "Built strong CS fundamentals and delivered several team projects."
+      summary: "Built strong CS fundamentals and delivered several team projects.",
+      focus: ["Algorithms", "Machine Learning", "Data Science"]
     },
     {
       kicker: "Higher Secondary Certificate",
