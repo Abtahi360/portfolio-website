@@ -211,49 +211,164 @@
     });
   }
 
+  /* ── Education journey (markup only) ─────────────────────────
+     Visuals live in view/css/education.css, scroll + motion
+     behaviour in controller/education.js. Content is read from
+     portfolioData.education and never altered, only arranged:
+     chronological order, list splitting, typographic dash.     */
+  var EDU_PIN =
+    '<svg class="edu-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+    'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
+    '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>';
+  var EDU_CHEVRON =
+    '<svg class="edu-toggle__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+    'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
+    '<path d="M6 9l6 6 6-6"/></svg>';
+  var EDU_STAR =
+    '<svg class="edu-bridge__star" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+    '<path fill="currentColor" d="M12 1.5c.7 5.6 4.9 9.8 10.5 10.5-5.6.7-9.8 4.9-10.5 10.5-.7-5.6-4.9-9.8-10.5-10.5C7.1 11.3 11.3 7.1 12 1.5z"/></svg>';
+
+  function eduEsc(value) {
+    return String(value == null ? "" : value).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  /* "· A · B · C" or "A · B" -> ["A", "B", "C"] */
+  function eduList(value) {
+    return String(value || "")
+      .split("\u00B7")
+      .map(function (part) { return part.trim(); })
+      .filter(Boolean);
+  }
+
+  /* Text lists that are comma separated rather than dot separated */
+  function eduPlain(value) {
+    return String(value || "").replace(/^[\s\u00B7]+/, "").trim();
+  }
+
+  /* "2016 - 2018" -> "2016 – 2018" (typographic only; thin spaces) */
+  function eduPeriod(value) {
+    return eduEsc(String(value || "").replace(/\s*-\s*/g, "\u2009\u2013\u2009"));
+  }
+
+  function eduStartYear(period) {
+    var m = String(period || "").match(/\d{4}/);
+    return m ? parseInt(m[0], 10) : NaN;
+  }
+
+  function eduIsCurrent(period) {
+    return /ongoing|present|current/i.test(String(period || ""));
+  }
+
+  function eduChips(items, className) {
+    return (
+      '<ul class="edu-chips ' + (className || "") + '">' +
+      items.map(function (item) { return "<li>" + eduEsc(item) + "</li>"; }).join("") +
+      "</ul>"
+    );
+  }
+
+  function eduOrder(entries) {
+    var rows = entries.map(function (entry, i) {
+      return { entry: entry, i: i, year: eduStartYear(entry.period) };
+    });
+    var sortable = rows.every(function (r) { return !isNaN(r.year); });
+    if (sortable) {
+      rows.sort(function (a, b) { return a.year - b.year || a.i - b.i; });
+    } else {
+      rows.reverse(); /* data is authored newest-first */
+    }
+    return rows.map(function (r) { return r.entry; });
+  }
+
+  function renderEducationStage(edu, index, total) {
+    var tier = total === 1 ? "hero" : index === 0 ? "base" : index === total - 1 ? "hero" : "mid";
+    var side = tier === "hero" ? "center" : index % 2 === 0 ? "left" : "right";
+    var current = eduIsCurrent(edu.period);
+    var headId = "edu-heading-" + index;
+    var detailsId = "edu-details-" + index;
+
+    var skills = eduList(edu.skills);
+    var coursework = eduList(edu.coursework);
+    var activities = eduPlain(edu.activities);
+
+    /* Secondary tier: an explicit `focus` list, or a short skills list shown whole */
+    var explicitFocus = Array.isArray(edu.focus) && edu.focus.length;
+    var focus = explicitFocus ? edu.focus : skills.length && skills.length <= 4 ? skills : [];
+    var skillsInDetails = !explicitFocus && focus.length ? [] : skills;
+
+    var badge = current
+      ? '<span class="edu-badge"><span class="edu-badge__dot" aria-hidden="true"></span>Current stage</span>'
+      : "";
+    var summary = edu.summary ? '<p class="edu-summary">' + eduEsc(edu.summary) + "</p>" : "";
+    var focusHtml = focus.length
+      ? '<div class="edu-focus"><span class="edu-focus__label">Selected focus</span>' +
+        eduChips(focus, "edu-chips--focus") + "</div>"
+      : "";
+
+    var groups = "";
+    if (coursework.length) {
+      groups += '<section class="edu-group"><h4 class="edu-group__label">Coursework</h4>' +
+        eduChips(coursework) + "</section>";
+    }
+    if (skillsInDetails.length) {
+      groups += '<section class="edu-group"><h4 class="edu-group__label">Skills</h4>' +
+        eduChips(skillsInDetails) + "</section>";
+    }
+    if (activities) {
+      groups += '<section class="edu-group"><h4 class="edu-group__label">Activities and societies</h4>' +
+        '<p class="edu-group__text">' + eduEsc(activities) + "</p></section>";
+    }
+
+    var details = groups
+      ? '<button type="button" class="edu-toggle" aria-expanded="false" aria-controls="' + detailsId + '">' +
+        '<span class="edu-toggle__label">Explore details</span>' + EDU_CHEVRON + "</button>" +
+        '<div class="edu-details" id="' + detailsId + '"><div class="edu-details__inner">' + groups + "</div></div>"
+      : "";
+
+    return (
+      '<li class="edu-stage edu-stage--' + side + '" data-tier="' + tier + '" data-state="upcoming" data-edu-stage>' +
+      '<span class="edu-node" aria-hidden="true"></span>' +
+      '<article class="edu-slab edu-hx-entry" data-edu-hx-entry="true" aria-labelledby="' + headId + '">' +
+      '<span class="edu-slab__ground" aria-hidden="true"></span>' +
+      '<div class="edu-slab__body"><div class="edu-slab__face">' +
+      '<header class="edu-slab__head">' +
+      '<h3 class="edu-slab__heading" id="' + headId + '">' +
+      '<span class="edu-kicker">' + eduEsc(edu.kicker) + "</span>" +
+      '<span class="edu-title">' + eduEsc(edu.title) + "</span></h3>" + badge +
+      "</header>" +
+      '<p class="edu-period">' + eduPeriod(edu.period) + "</p>" +
+      '<p class="edu-inst">' + eduEsc(edu.institution) + "</p>" +
+      '<p class="edu-loc">' + EDU_PIN + "<span>" + eduEsc(edu.location) + "</span></p>" +
+      summary + focusHtml + details +
+      "</div></div></article></li>"
+    );
+  }
+
+  function renderEducationJourney(entries) {
+    var ordered = eduOrder(entries);
+    return (
+      '<div class="edu-path" aria-hidden="true">' +
+      '<span class="edu-path__track"></span><span class="edu-path__fill"></span><span class="edu-path__head"></span>' +
+      "</div>" +
+      '<ol class="edu-list" aria-label="Academic progression, earliest first">' +
+      ordered.map(function (edu, i) { return renderEducationStage(edu, i, ordered.length); }).join("") +
+      "</ol>" +
+      '<a class="edu-bridge" href="#projects" data-edu-bridge>' +
+      '<span class="edu-bridge__mark">' + EDU_STAR + "</span>" +
+      '<span class="edu-bridge__line" aria-hidden="true"></span>' +
+      '<span class="edu-bridge__label">Projects &amp; Research</span>' +
+      "</a>"
+    );
+  }
+
   /* ── Portfolio content renderer ──────────────────────────── */
   function renderPortfolioContent() {
     // Education
     var eduGrid = document.getElementById("education-grid");
     if (eduGrid && typeof portfolioData !== "undefined" && portfolioData.education) {
-      portfolioData.education.forEach(function (edu) {
-        var article = document.createElement("article");
-        article.className = "card edu-hx-entry";
-        article.setAttribute("data-edu-hx-entry", "true");
-
-        var skillsHtml = edu.skills
-          ? "<li><strong>Skills: </strong>" + edu.skills + "</li>"
-          : "";
-        var activitiesHtml = edu.activities
-          ? "<li><strong>Activities and societies: </strong>" + edu.activities + "</li>"
-          : "";
-        var courseworkHtml = edu.coursework
-          ? "<li><strong>Coursework: </strong>" + edu.coursework + "</li>"
-          : "";
-        var summaryHtml = edu.summary
-          ? '<p class="edu-hx-summary">' + edu.summary + "</p>"
-          : "";
-
-        article.innerHTML =
-          '<div class="card-header">' +
-          "<div>" +
-          '<div class="card-kicker">' + edu.kicker + "</div>" +
-          '<div class="card-title">' + edu.title + "</div>" +
-          "</div>" +
-          '<div class="edu-hx-meta">' +
-          '<span class="edu-hx-period">' + edu.period + "</span>" +
-          '<span class="edu-hx-location">• ' + edu.location + "</span>" +
-          "</div>" +
-          "</div>" +
-          '<div class="card-body">' +
-          '<div class="edu-hx-institution">' + edu.institution + "</div>" +
-          "<ul class=\"edu-hx-list\">" +
-          skillsHtml + activitiesHtml + courseworkHtml +
-          "</ul>" +
-          summaryHtml +
-          "</div>";
-        eduGrid.appendChild(article);
-      });
+      eduGrid.innerHTML = renderEducationJourney(portfolioData.education);
     }
 
     // Projects
@@ -421,15 +536,19 @@
     var current = "home";
     var viewportCenter = window.pageYOffset + window.innerHeight * 0.35;
     var closest = Infinity;
+    var containing = null; /* section that actually holds the reference line */
     sectionKeys.forEach(function (key) {
       var el = sections[key];
       if (!el) return;
       var rect = el.getBoundingClientRect();
-      var center = window.pageYOffset + rect.top + rect.height / 2;
+      var top = window.pageYOffset + rect.top;
+      if (!containing && top <= viewportCenter && top + rect.height > viewportCenter) containing = key;
+      var center = top + rect.height / 2;
       var dist = Math.abs(center - viewportCenter);
       if (dist < closest) { closest = dist; current = key; }
     });
-    setActiveNav(current);
+    /* Nearest-centre alone misreads tall sections (Education, Projects); it stays as the fallback. */
+    setActiveNav(containing || current);
   });
 
   setActiveNav("home");
