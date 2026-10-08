@@ -9,7 +9,8 @@ const portfolioData = {
       skills: "· Object-Oriented Programming (OOP) · Problem Solving · AutoCAD · C# · Data Structures · Python (Programming Language) · Data Science · Genetic Algorithms · Algorithms · Machine Learning · Academic Publishing · Oracle Database · Java Database Connectivity (JDBC) · SQL · Theory of Computation · Project Management · Project Planning · User Interface Design",
       activities: "· Chess, Football, Badminton, Volleyball, Basketball, Cricket, Ludo, Table Tennis",
       coursework: "· Data Structures and Algorithms · Database Systems · Computer Networks · Operating Systems · Artificial Intelligence · Machine Learning · Data Science",
-      summary: "Built strong CS fundamentals and delivered several team projects."
+      summary: "Built strong CS fundamentals and delivered several team projects.",
+      focus: ["Algorithms", "Machine Learning", "Data Science"]
     },
     {
       kicker: "Higher Secondary Certificate",
@@ -135,6 +136,15 @@ const portfolioData = {
       description: "Simple stopwatch app with start/stop/pause/reset, history log, and dark/light theme toggle.",
       repoUrl: "https://github.com/Abtahi360/Stopwatch_Timer"
     },
+    // {
+    //   key: "electricity-billing-system-java",
+    //   kicker: "Desktop App",
+    //   title: "Electricity Billing System – Java",
+    //   tags: ["Java"],
+    //   images: ["view/assets/Images/bill1.png", "view/assets/Images/bill2.png"],
+    //   description: "Desktop Java application for billing, customer mgmt, and payment processing (file-based storage).",
+    //   repoUrl: "https://github.com/Abtahi360/Electricity_Billing_System"
+    // },
     {
       key: "boi-jatra-bookstore-java",
       kicker: "Desktop App",
@@ -152,12 +162,6 @@ const portfolioData = {
       skills: "DevOps Fundamentals, AWS Cloud Services, CI/CD Pipelines, Deployment Workflows, Cloud Infrastructure, Cloud-based Application Deployment.",
       image: "view/assets/Images/Code to Cloud.jpg",
       premium: true
-    },
-    {
-      title: "AI Awareness Opportunities, Risks, and Responsibility",
-      meta: "NeuroFlight Lab - May 2026",
-      skills: "Responsibility, Ethical Considerations, AI Literacy.",
-      image: "view/assets/Images/AI Awareness Opportunities, Risks, and Responsibility, organized by NeuroFlight Lab.png",
     },
     {
       title: "Certificate Program in Applied AI (Statistics to NLP)",
@@ -226,12 +230,6 @@ const portfolioData = {
       meta: "Google - November 2025",
       skills: "Google AI · Prompting and AI Usage · Responsible AI",
       image: "view/assets/Images/Gemini Certified University Student.jpg"
-    },
-    {
-      title: "Critical Thinking in the AI Era",
-      meta: "HP LIFE - February 2026",
-      skills: "Critical Thinking · Fact-checking · AI Literacy · Analytical Thinking.",
-      image: "view/assets/Images/Critical Thinking in the AI Era.png"
     },
     {
       title: "Critical Thinking in the AI Era",
