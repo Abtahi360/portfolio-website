@@ -1,0 +1,571 @@
+/* ══════════════════════════════════════════════════════════════
+   Photo Gallery — "Visual Archive"
+   Scope: #photo-gallery and the lightbox (.gal-lb). Behaviour:
+   controller/gallery.js. Media comes from Google Drive via
+   /.netlify/functions/gallery; nothing is hard-coded here.
+
+   Personality: editorial and media-first. No card chrome: the photo
+   is the surface. Quiet filters, hairline edges, depth only on hover.
+
+   Contents
+     1. Tokens        4. Skeleton + states     7. Section end
+     2. Toolbar       5. Lightbox              8. Reduced motion
+     3. Masonry grid  6. Responsive
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── 1. Tokens ─────────────────────────────────────────────── */
+#photo-gallery {
+  --gal-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --gal-ink: var(--color-primary);
+  --gal-ink-2: #334155;
+  --gal-muted: #475569;
+  --gal-accent: var(--color-accent);
+  --gal-accent-ink: #0B6680;
+  --gal-glow-rgb: 8 145 178;
+  --gal-surface: #E8EDF3;
+  --gal-surface-2: #F3F6FA;
+  --gal-edge: rgb(15 23 42 / 0.1);
+  --gal-shadow-rgb: 15 23 42;
+  --gal-focus: #0369A1;
+  --gal-gap: 16px;
+  --gal-radius: 16px;
+
+  position: relative;
+}
+
+[data-theme="dark"] #photo-gallery {
+  --gal-ink-2: #CBD5E1;
+  --gal-muted: #94A3B8;
+  --gal-accent-ink: #67E8F9;
+  --gal-glow-rgb: 34 211 238;
+  --gal-surface: #172033;
+  --gal-surface-2: #1E293B;
+  --gal-edge: rgb(148 163 184 / 0.2);
+  --gal-shadow-rgb: 0 0 0;
+  --gal-focus: #67E8F9;
+}
+
+.gal { position: relative; min-height: 320px; }
+
+/* display:grid/flex would otherwise override the hidden attribute */
+#photo-gallery [hidden] { display: none !important; }
+
+/* ── 2. Toolbar ────────────────────────────────────────────── */
+.gal-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 22px;
+  margin-bottom: 22px;
+}
+
+.gal-segment {
+  display: inline-flex;
+  padding: 3px;
+  border: 1px solid var(--gal-edge);
+  border-radius: 999px;
+  background: var(--gal-surface-2);
+}
+
+.gal-seg-btn,
+.gal-chip {
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.25s ease-out, color 0.25s ease-out, border-color 0.25s ease-out;
+}
+
+.gal-seg-btn {
+  min-height: 38px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--gal-muted);
+}
+
+.gal-seg-btn:hover:not(:disabled) { color: var(--gal-ink); }
+.gal-seg-btn[aria-pressed="true"] {
+  background: rgb(var(--gal-glow-rgb) / 0.14);
+  color: var(--gal-accent-ink);
+  box-shadow: inset 0 0 0 1px rgb(var(--gal-glow-rgb) / 0.4);
+}
+.gal-seg-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.gal-seg-btn__n { margin-left: 6px; font-variant-numeric: tabular-nums; opacity: 0.8; font-weight: 500; }
+
+.gal-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.gal-chip {
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--gal-edge);
+  border-radius: 999px;
+  background: transparent;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--gal-ink-2);
+}
+.gal-chip:hover:not(:disabled) { border-color: rgb(var(--gal-glow-rgb) / 0.55); color: var(--gal-ink); }
+.gal-chip[aria-pressed="true"] {
+  border-color: rgb(var(--gal-glow-rgb) / 0.6);
+  background: rgb(var(--gal-glow-rgb) / 0.12);
+  color: var(--gal-accent-ink);
+  font-weight: 600;
+}
+.gal-chip:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.gal-count {
+  margin-left: auto;
+  font-size: 13.5px;
+  color: var(--gal-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.gal-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.gal-seg-btn:focus-visible,
+.gal-chip:focus-visible,
+.gal-btn:focus-visible,
+.gal-card:focus-visible,
+.gal-end__link:focus-visible {
+  outline: 2px solid var(--gal-focus);
+  outline-offset: 3px;
+}
+
+/* ── 3. Masonry grid ───────────────────────────────────────── */
+/* Row spans are computed from each file's real aspect ratio (controller/gallery.js),
+   so nothing is cropped awkwardly and nothing shifts when images load. The gap is
+   folded into each item's bottom padding so the spans stay exact. */
+.gal-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: 8px;
+  grid-auto-flow: dense;
+  column-gap: var(--gal-gap);
+}
+
+.gal-item { padding-bottom: var(--gal-gap); min-width: 0; }
+
+.gal-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 1px solid var(--gal-edge);
+  border-radius: var(--gal-radius);
+  background: var(--gal-surface);
+  overflow: hidden;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  transition: box-shadow 0.5s var(--gal-ease), border-color 0.4s ease-out;
+}
+
+.gal-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.9s var(--gal-ease), opacity 0.5s ease-out;
+}
+
+/* Broken thumbnail: a quiet tile that still opens the viewer */
+.gal-card.is-broken img { opacity: 0; }
+.gal-card.is-broken::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgb(var(--gal-glow-rgb) / 0.1), transparent 60%),
+    var(--gal-surface-2);
+}
+
+.gal-badge {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 10px 5px 6px;
+  border-radius: 999px;
+  background: rgb(8 12 22 / 0.72);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  color: #F8FAFC;
+  font-variant-numeric: tabular-nums;
+  transition: transform 0.5s var(--gal-ease);
+}
+
+.gal-badge__play {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.92);
+  color: #0F172A;
+}
+
+.gal-cap {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 40px 16px 14px;
+  background: linear-gradient(to top, rgb(6 10 20 / 0.78), transparent);
+  color: #F8FAFC;
+  opacity: 0;
+  transform: translate3d(0, 8px, 0);
+  transition: opacity 0.4s ease-out, transform 0.5s var(--gal-ease);
+  pointer-events: none;
+}
+
+.gal-cap__title { font-size: 14px; font-weight: 600; line-height: 1.3; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.gal-cap__meta { font-size: 12.5px; opacity: 0.85; }
+
+@media (hover: hover) and (pointer: fine) {
+  .gal-card:hover { border-color: rgb(var(--gal-glow-rgb) / 0.45); box-shadow: 0 22px 40px -26px rgb(var(--gal-shadow-rgb) / 0.55); }
+  .gal-card:hover img { transform: scale(1.04); }
+  .gal-card:hover .gal-cap { opacity: 1; transform: none; }
+  .gal-card:hover .gal-badge { transform: scale(1.06); }
+}
+.gal-card:focus-visible .gal-cap { opacity: 1; transform: none; }
+
+.gal-more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 0 6px;
+}
+.gal-more__text { font-size: 13.5px; color: var(--gal-muted); font-variant-numeric: tabular-nums; }
+
+.gal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 22px;
+  border: 1px solid rgb(var(--gal-glow-rgb) / 0.5);
+  border-radius: 999px;
+  background: rgb(var(--gal-glow-rgb) / 0.08);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gal-accent-ink);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.25s ease-out, border-color 0.25s ease-out;
+}
+.gal-btn:hover { background: rgb(var(--gal-glow-rgb) / 0.16); border-color: rgb(var(--gal-glow-rgb) / 0.75); }
+.gal-btn--quiet { border-color: var(--gal-edge); background: transparent; color: var(--gal-ink-2); }
+.gal-btn--quiet:hover { border-color: rgb(var(--gal-glow-rgb) / 0.5); background: transparent; }
+.gal-btn[disabled] { opacity: 0.6; cursor: progress; }
+
+/* ── 4. Skeleton + states ──────────────────────────────────── */
+.gal-skel {
+  position: relative;
+  height: 100%;
+  border-radius: var(--gal-radius);
+  background: var(--gal-surface);
+  overflow: hidden;
+}
+
+.gal-skel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 20%, rgb(255 255 255 / 0.5) 50%, transparent 80%);
+  transform: translateX(-100%);
+  animation: gal-shimmer 1.8s ease-in-out infinite;
+}
+[data-theme="dark"] .gal-skel::after { background: linear-gradient(100deg, transparent 20%, rgb(148 163 184 / 0.12) 50%, transparent 80%); }
+
+@keyframes gal-shimmer { to { transform: translateX(100%); } }
+
+/* Mixed ratios, matching how the real grid is composed (so nothing jumps) */
+.gal-item--skel:nth-child(1) { grid-column: span 2; grid-row: span 30; }
+.gal-item--skel:nth-child(2) { grid-row: span 22; }
+.gal-item--skel:nth-child(3) { grid-row: span 28; }
+.gal-item--skel:nth-child(4) { grid-row: span 20; }
+.gal-item--skel:nth-child(5) { grid-row: span 24; }
+.gal-item--skel:nth-child(6) { grid-row: span 18; }
+.gal-item--skel:nth-child(7) { grid-row: span 26; }
+.gal-item--skel:nth-child(8) { grid-row: span 22; }
+
+.gal-panel {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  max-width: 560px;
+  margin: 24px auto 8px;
+  padding: 44px 28px;
+  border: 1px dashed var(--gal-edge);
+  border-radius: var(--gal-radius);
+  text-align: center;
+}
+
+.gal-panel__icon { color: var(--gal-accent-ink); opacity: 0.85; }
+.gal-panel__title { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; color: var(--gal-ink); }
+.gal-panel__text { max-width: 44ch; font-size: 15px; line-height: 1.6; color: var(--gal-ink-2); }
+.gal-panel__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 10px; }
+
+/* ── 5. Lightbox ───────────────────────────────────────────── */
+html.gal-lock { overflow: hidden; }
+
+.gal-lb {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-columns: 72px minmax(0, 1fr) 72px;
+  grid-template-areas: "bar bar bar" "prev stage next" "cap cap cap";
+  color: #F8FAFC;
+  opacity: 0;
+  transition: opacity 0.28s ease-out;
+}
+.gal-lb.is-open { opacity: 1; }
+.gal-lb[hidden] { display: none; }
+
+.gal-lb__backdrop { position: absolute; inset: 0; background: rgb(5 8 16 / 0.97); }
+
+.gal-lb__bar {
+  grid-area: bar;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+}
+.gal-lb__count { font-size: 13.5px; font-weight: 600; font-variant-numeric: tabular-nums; color: rgb(248 250 252 / 0.8); }
+.gal-lb__tools { display: flex; gap: 8px; }
+
+.gal-lb__btn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgb(248 250 252 / 0.2);
+  border-radius: 50%;
+  background: rgb(15 23 42 / 0.6);
+  color: #F8FAFC;
+  cursor: pointer;
+  transition: background 0.2s ease-out, border-color 0.2s ease-out;
+}
+.gal-lb__btn:hover { background: rgb(34 211 238 / 0.18); border-color: rgb(34 211 238 / 0.6); }
+.gal-lb__btn:focus-visible { outline: 2px solid #67E8F9; outline-offset: 3px; }
+.gal-lb__btn[hidden] { display: none; }
+.gal-lb__btn:disabled { opacity: 0.35; cursor: default; }
+
+.gal-lb__nav { z-index: 1; align-self: center; justify-self: center; }
+.gal-lb__nav--prev { grid-area: prev; }
+.gal-lb__nav--next { grid-area: next; }
+
+.gal-lb__stage {
+  grid-area: stage;
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  min-width: 0;
+  touch-action: pan-y;
+}
+
+.gal-lb__media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.gal-lb__media img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 30px 80px -30px rgb(0 0 0 / 0.8);
+  opacity: 0;
+  transition: opacity 0.35s ease-out;
+}
+.gal-lb__media img.is-loaded { opacity: 1; }
+
+.gal-lb__media iframe {
+  width: min(100%, calc((100vh - 220px) * 16 / 9));
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 10px;
+  background: #000;
+}
+
+.gal-lb__loading {
+  position: absolute;
+  width: min(60%, 520px);
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  background: rgb(148 163 184 / 0.1);
+  overflow: hidden;
+  pointer-events: none;
+}
+.gal-lb__loading::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 20%, rgb(148 163 184 / 0.16) 50%, transparent 80%);
+  transform: translateX(-100%);
+  animation: gal-shimmer 1.6s ease-in-out infinite;
+}
+
+.gal-lb__fallback { font-size: 14px; color: rgb(248 250 252 / 0.85); text-align: center; }
+.gal-lb__fallback a { color: #67E8F9; }
+
+.gal-lb__cap {
+  grid-area: cap;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px 16px;
+  padding: 12px 20px 22px;
+  text-align: center;
+}
+.gal-lb__title { font-size: 16px; font-weight: 600; }
+.gal-lb__meta { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 14px; font-size: 13.5px; color: rgb(248 250 252 / 0.72); }
+.gal-lb__meta a { color: #67E8F9; }
+
+/* ── 6. Responsive ─────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .gal-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .gal-item--skel:nth-child(n+7) { display: none; }
+}
+
+@media (max-width: 720px) {
+  #photo-gallery { --gal-gap: 12px; --gal-radius: 14px; }
+  .gal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gal-item--skel:nth-child(n+7) { display: none; }
+  .gal-item--skel:nth-child(1) { grid-row: span 24; }
+
+  .gal-toolbar { gap: 12px; }
+  .gal-segment { width: 100%; }
+  .gal-seg-btn { flex: 1; padding: 0 8px; }
+  .gal-count { margin-left: 0; }
+  .gal-panel { padding: 34px 20px; }
+
+  /* Touch has no hover: videos always show their badge; titles live in the viewer */
+  .gal-badge { left: 8px; top: 8px; }
+
+  .gal-lb { grid-template-columns: 0 minmax(0, 1fr) 0; }
+  .gal-lb__nav { position: absolute; bottom: 74px; width: 48px; height: 48px; }
+  .gal-lb__nav--prev { left: 12px; }
+  .gal-lb__nav--next { right: 12px; }
+  .gal-lb__stage { padding: 0 8px; }
+}
+
+/* ── 7. Section end: a quiet frame leading into Contact ────── */
+.gal-end {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  margin-top: 36px;
+}
+
+.gal-end__frame {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  max-width: 520px;
+  height: 44px;
+}
+
+.gal-end__frame::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gal-edge) 20%, var(--gal-edge) 80%, transparent);
+}
+
+/* Four corner ticks, like a photo mount, around a small spark */
+.gal-end__mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  background: var(--color-bg);
+  color: var(--gal-accent-ink);
+}
+.gal-end__mark::before,
+.gal-end__mark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1.5px solid rgb(var(--gal-glow-rgb) / 0.55);
+  clip-path: polygon(0 0, 30% 0, 30% 1.5px, 1.5px 1.5px, 1.5px 30%, 0 30%, 0 0, 100% 0, 100% 30%, calc(100% - 1.5px) 30%, calc(100% - 1.5px) 1.5px, 70% 1.5px, 70% 0);
+}
+.gal-end__mark::after { transform: rotate(180deg); }
+
+.gal-end__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gal-accent-ink);
+  text-decoration: none;
+}
+.gal-end__link:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+/* ── 8. Entry motion + reduced motion ──────────────────────── */
+.gal-motion .gal-item:not(.is-in) .gal-card {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0) scale(0.98);
+}
+.gal-motion .gal-item .gal-card {
+  transition:
+    opacity 0.8s var(--gal-ease) calc(var(--gi, 0) * 45ms),
+    transform 0.9s var(--gal-ease) calc(var(--gi, 0) * 45ms),
+    box-shadow 0.5s var(--gal-ease),
+    border-color 0.4s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #photo-gallery *,
+  #photo-gallery *::before,
+  #photo-gallery *::after,
+  .gal-lb,
+  .gal-lb * {
+    transition: none !important;
+    animation: none !important;
+  }
+  .gal-card:hover img { transform: none !important; }
+  .gal-skel::after, .gal-lb__loading::after { display: none; }
+  .gal-item .gal-card { opacity: 1 !important; transform: none !important; }
+}
