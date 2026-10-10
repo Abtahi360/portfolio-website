@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# Secrets and local environment: never commit these
+.env
+.env.*
+
+# Netlify local state
+.netlify/
+
+# Logs and OS noise
+*.log
+.DS_Store
