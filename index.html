@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="view/css/contact-upgrade.css">
   <link rel="stylesheet" href="view/css/real-world-projects.css">
   <link rel="stylesheet" href="view/css/education.css">
+  <link rel="stylesheet" href="view/css/experience.css">
+  <link rel="stylesheet" href="view/css/gallery.css">
   <link rel="stylesheet" href="view/css/motion.css">
   <meta charset="UTF-8">
   <title>Abtahi Islam - Portfolio</title>
@@ -38,11 +40,13 @@
         </div>
         <nav class="nav-links" aria-label="Primary navigation">
           <a class="nav-link" data-target="home">Home</a>
+          <a class="nav-link" data-target="experience">Experience</a>
           <a class="nav-link" data-target="education">Education</a>
           <a class="nav-link" data-target="projects">Projects</a>
           <a class="nav-link" data-target="research">Research</a>
           <a class="nav-link" data-target="skills">Skills</a>
           <a class="nav-link" data-target="certificates">Certificates</a>
+          <a class="nav-link" data-target="photo-gallery">Photo Gallery</a>
           <a class="nav-link" data-target="contact">Contact</a>
         </nav>
         <div class="nav-cta">
@@ -62,11 +66,13 @@
       <div class="nav-links-mobile">
         <div class="nav-links-mobile-inner">
           <button class="nav-link-chip" data-target="home">Home</button>
+          <button class="nav-link-chip" data-target="experience">Experience</button>
           <button class="nav-link-chip" data-target="education">Education</button>
           <button class="nav-link-chip" data-target="projects">Projects</button>
           <button class="nav-link-chip" data-target="research">Research</button>
           <button class="nav-link-chip" data-target="skills">Skills</button>
           <button class="nav-link-chip" data-target="certificates">Certificates</button>
+          <button class="nav-link-chip" data-target="photo-gallery">Photo Gallery</button>
           <button class="nav-link-chip" data-target="contact">Contact</button>
         </div>
       </div>
@@ -168,6 +174,24 @@
         </div>
       </section>
 
+
+      <section class="section-shell" id="experience" aria-labelledby="experience-title">
+        <div class="section-anchor-offset" id="experience-anchor"></div>
+        <div class="section-inner fade-in">
+          <div class="section-header">
+            <div>
+              <div class="section-kicker">Experience</div>
+              <h2 class="section-title" id="experience-title">Professional Journey &amp; Contributions</h2>
+            </div>
+            <div class="section-subtitle">
+              Roles, responsibilities and the work I have contributed to along the way.
+            </div>
+          </div>
+          <div class="exp-timeline" id="experience-timeline">
+            <!-- Rendered by controller/experience.js from portfolioData.experience -->
+          </div>
+        </div>
+      </section>
 
       <section class="section-shell" id="educational-history" aria-labelledby="education-title">
         <div class="section-anchor-offset" id="education-anchor"></div>
@@ -441,6 +465,77 @@
       </section>
 
 
+      <section class="section-shell" id="photo-gallery" aria-labelledby="gallery-title">
+        <div class="section-anchor-offset" id="gallery-anchor"></div>
+        <div class="section-inner fade-in">
+          <div class="section-header">
+            <div>
+              <div class="section-kicker">Photo Gallery</div>
+              <h2 class="section-title" id="gallery-title">Visual Archive</h2>
+            </div>
+            <div class="section-subtitle">
+              Moments from campus, research, industry visits and everyday life. The collection updates itself whenever new photos or videos are added.
+            </div>
+          </div>
+
+          <div class="gal" id="gallery" data-state="loading" aria-busy="true">
+            <p class="gal-status" data-gal-status role="status" aria-live="polite"></p>
+            <div class="gal-toolbar" id="gallery-toolbar" hidden></div>
+
+            <!-- Loading skeleton: static so it paints with the page and shares the real grid's columns -->
+            <ul class="gal-grid" data-gal-skeleton aria-hidden="true">
+            <li class="gal-item gal-item--skel"><div class="gal-skel"></div></li>
+            <li class="gal-item gal-item--skel"><div class="gal-skel"></div></li>
+            <li class="gal-item gal-item--skel"><div class="gal-skel"></div></li>
+            <li class="gal-item gal-item--skel"><div class="gal-skel"></div></li>
+            <li class="gal-item gal-item--skel"><div class="gal-skel"></div></li>
+            <li class="gal-item gal-item--skel"><div class="gal-skel"></div></li>
+            <li class="gal-item gal-item--skel"><div class="gal-skel"></div></li>
+            <li class="gal-item gal-item--skel"><div class="gal-skel"></div></li>
+            </ul>
+
+            <ul class="gal-grid" id="gallery-grid" aria-label="Photos and videos" hidden></ul>
+
+            <div class="gal-more" data-gal-more hidden>
+              <button type="button" class="gal-btn" data-gal-more-btn>Load more</button>
+              <p class="gal-more__text" data-gal-more-text></p>
+            </div>
+
+            <div class="gal-panel" data-panel="nomatch" hidden>
+              <svg class="gal-panel__icon" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-8 8"/></svg>
+              <h3 class="gal-panel__title">Nothing here yet</h3>
+              <p class="gal-panel__text">No items match these filters.</p>
+              <div class="gal-panel__actions"><button type="button" class="gal-btn" data-gal-reset>Reset filters</button></div>
+            </div>
+
+            <div class="gal-panel" data-panel="empty" hidden>
+              <svg class="gal-panel__icon" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-8 8"/></svg>
+              <h3 class="gal-panel__title">Visual Archive</h3>
+              <p class="gal-panel__text">The gallery is currently being updated. New moments will appear here automatically.</p>
+              <div class="gal-panel__actions"><a class="gal-btn gal-btn--quiet" data-gal-drive target="_blank" rel="noopener noreferrer" hidden>Open Google Drive</a></div>
+            </div>
+
+            <div class="gal-panel" data-panel="error" hidden>
+              <svg class="gal-panel__icon" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-8 8"/></svg>
+              <h3 class="gal-panel__title">Visual Archive temporarily unavailable</h3>
+              <p class="gal-panel__text">The media collection could not be loaded right now.</p>
+              <div class="gal-panel__actions">
+                <button type="button" class="gal-btn" data-gal-retry>Retry</button>
+                <a class="gal-btn gal-btn--quiet" data-gal-drive target="_blank" rel="noopener noreferrer" hidden>Open Google Drive</a>
+              </div>
+            </div>
+
+            <noscript><p class="gal-panel__text">Turn on JavaScript to browse the photo gallery.</p></noscript>
+          </div>
+
+          <!-- A quiet frame that leads into Contact -->
+          <div class="gal-end">
+            <div class="gal-end__frame" aria-hidden="true"><span class="gal-end__mark"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 1.5c.7 5.6 4.9 9.8 10.5 10.5-5.6.7-9.8 4.9-10.5 10.5-.7-5.6-4.9-9.8-10.5-10.5C7.1 11.3 11.3 7.1 12 1.5z"/></svg></span></div>
+            <a class="gal-end__link" href="#contact" data-gal-contact>Let&rsquo;s connect</a>
+          </div>
+        </div>
+      </section>
+
       <section class="section-shell" id="contact">
         <div class="section-anchor-offset" id="contact-anchor"></div>
         <div class="section-inner fade-in">
@@ -684,6 +779,8 @@
   <script src="controller/real-world-projects.js"></script>
   <script src="controller/main.js"></script>
   <script src="controller/education.js"></script>
+  <script src="controller/experience.js"></script>
+  <script src="controller/gallery.js"></script>
   <script src="controller/resume-cursor-effect.js"></script>
   <script src="controller/scroll-to-top.js"></script>
   <script src="controller/motion.js"></script>
