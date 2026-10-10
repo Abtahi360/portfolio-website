@@ -128,6 +128,17 @@ button {
     cursor: pointer;
 }
 
+/* The primary nav carries nine entries: keep each label on one line and tighten
+   the spacing only where the desktop bar is squeezed (above the 960px mobile switch). */
+.nav-links .nav-link { white-space: nowrap; }  /* scoped: the footer reuses .nav-link */
+
+@media (min-width: 961px) and (max-width: 1240px) {
+    .nav-links { gap: 12px; font-size: 13.5px; }
+}
+@media (min-width: 961px) and (max-width: 1060px) {
+    .nav-links { gap: 9px; font-size: 13px; }
+}
+
 .nav-link::after {
     content: "";
     position: absolute;

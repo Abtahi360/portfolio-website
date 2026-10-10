@@ -57,12 +57,14 @@
   var navChips = document.querySelectorAll(".nav-link-chip");
   var sections = {
     home: document.getElementById("home"),
+    experience: document.getElementById("experience"),
     education: document.getElementById("educational-history"),
     projects: document.getElementById("projects"),
     research: document.getElementById("research"),
     skills: document.getElementById("skills"),
     tools: null,
     certificates: document.getElementById("certificates"),
+    "photo-gallery": document.getElementById("photo-gallery"),
     contact: document.getElementById("contact")
   };
 

@@ -1,4 +1,94 @@
 const portfolioData = {
+  /* ── Experience ───────────────────────────────────────────────────────────
+     Rendered by controller/experience.js, newest first (array order is display order).
+     EVERY entry below is DEMO placeholder content. Replace the whole array with real
+     roles; nothing else needs to change.
+
+     Fields
+       id            unique string
+       role          job title
+       company       organisation name
+       period        "2025 - Present" (a hyphen becomes a typographic dash)
+       location      city / "Remote"
+       type          Internship | Full-time | Part-time | Research | Freelance | Volunteer | Project-based | ...
+       current       true marks the role you hold now (adds a subtle persistent emphasis)
+       summary       one or two sentences
+       technologies  array of short strings
+       contributions array of bullet strings (revealed under "Key contributions")
+       companyUrl    optional https:// link (opens in a new tab)
+       logo          optional image path/URL; replaces the monogram tile
+       monogram      optional 1-3 letters; otherwise derived from the company name
+     ─────────────────────────────────────────────────────────────────────── */
+  experience: [
+    {
+      id: "exp-01",
+      role: "[DEMO] Software Engineer Intern",
+      company: "[DEMO COMPANY A]",
+      period: "2025 - Present",
+      location: "Dhaka, Bangladesh",
+      type: "Internship",
+      current: true,
+      summary: "[DEMO] Placeholder summary. Replace this with a short description of your responsibilities and the team you worked with.",
+      contributions: [
+        "[DEMO] Built and documented backend APIs for an internal product",
+        "[DEMO] Improved database workflows and query performance",
+        "[DEMO] Collaborated on production features through code review"
+      ],
+      technologies: ["Java", "Spring Boot", "SQL"],
+      companyUrl: ""
+    },
+    {
+      id: "exp-02",
+      role: "[DEMO] Machine Learning Research Intern",
+      company: "[DEMO COMPANY B]",
+      period: "2024 - 2025",
+      location: "Remote",
+      type: "Research",
+      current: false,
+      summary: "[DEMO] Placeholder summary for a research-oriented role. Describe the problem, the method and the outcome.",
+      contributions: [
+        "[DEMO] Prepared and cleaned datasets for model experiments",
+        "[DEMO] Trained and evaluated baseline classification models",
+        "[DEMO] Presented findings to the research group"
+      ],
+      technologies: ["Python", "PyTorch", "Scikit-learn"],
+      companyUrl: ""
+    },
+    {
+      id: "exp-03",
+      role: "[DEMO] Full-Stack Developer",
+      company: "[DEMO COMPANY C]",
+      period: "2023 - 2024",
+      location: "Dhaka, Bangladesh",
+      type: "Freelance",
+      current: false,
+      summary: "[DEMO] Placeholder summary for project-based client work. Describe what was delivered and for whom.",
+      contributions: [
+        "[DEMO] Designed and shipped a responsive web application",
+        "[DEMO] Set up deployment and basic monitoring",
+        "[DEMO] Communicated scope and progress with the client"
+      ],
+      technologies: ["JavaScript", "Node.js", "MongoDB"],
+      companyUrl: ""
+    },
+    {
+      id: "exp-04",
+      role: "[DEMO] Technical Volunteer",
+      company: "[DEMO ORGANIZATION D]",
+      period: "2022 - 2023",
+      location: "Dhaka, Bangladesh",
+      type: "Volunteer",
+      current: false,
+      summary: "[DEMO] Placeholder summary for volunteer or community work.",
+      contributions: [
+        "[DEMO] Supported community events with technical setup",
+        "[DEMO] Mentored newcomers on programming fundamentals"
+      ],
+      technologies: ["Community", "Mentoring"],
+      companyUrl: ""
+    }
+  ],
+
   education: [
     {
       kicker: "Undergraduate",
@@ -243,5 +333,17 @@ const portfolioData = {
       skills: "Agile Project Management · Agile Methodologies · Scrum · Project Planning · Digital Business",
       image: "view/assets/Images/Agile Project Management.png"
     }
-  ]
+  ],
+
+  /* ── Photo Gallery ────────────────────────────────────────────────────────
+     Media is NOT listed here. It is discovered at runtime from the public Google
+     Drive folder by the Netlify Function (netlify/functions/gallery.js).
+     This block only configures the front end. Folder ID is a public share
+     identifier, not a secret; the API key lives in Netlify environment variables only. */
+  gallery: {
+    provider: "google-drive",
+    folderId: "1dsPV2x0nEvN-8j6FlfVRo1ehscXLZ_ov",
+    recursive: true,
+    pageSize: 24
+  }
 };

@@ -1,0 +1,718 @@
+/* ══════════════════════════════════════════════════════════════
+   Experience — "Professional Career Archive"
+   Scope: #experience only. Markup and behaviour: controller/experience.js
+
+   Personality (deliberately unlike Education's centred, extruded slabs):
+     left-weighted spine · a period rail · "dossier" panels, a flat crisp
+     face with two sheets receding behind it.
+
+   Contents
+     1. Tokens          5. Panel content        9. Reduced motion
+     2. Frame           6. Disclosure
+     3. Spine + nodes   7. Bridge to Education
+     4. Dossier panel   8. States, motion, responsive
+   ══════════════════════════════════════════════════════════════ */
+
+@property --exp-x  { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --exp-y  { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --exp-s  { syntax: "<number>"; inherits: false; initial-value: 1; }
+@property --exp-lift { syntax: "<length>"; inherits: false; initial-value: 0px; }
+
+/* ── 1. Tokens ─────────────────────────────────────────────── */
+#experience {
+  --exp-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --exp-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --exp-bg: var(--color-bg);
+  --exp-ink: var(--color-primary);
+  --exp-ink-2: #334155;
+  --exp-muted: #475569;
+  --exp-accent: var(--color-accent);          /* graphics only */
+  --exp-accent-ink: #0B6680;                  /* accent as text, AA on light fills */
+  --exp-blue: var(--color-secondary-end);
+  --exp-glow-rgb: 8 145 178;
+  --exp-blue-rgb: 37 99 235;
+  --exp-shadow-rgb: 15 23 42;
+
+  --exp-face-a: #FFFFFF;
+  --exp-face-b: #F6F8FB;
+  --exp-edge: rgb(15 23 42 / 0.11);
+  --exp-sheet-a: #EDF1F6;
+  --exp-sheet-b: #E1E7EF;
+  --exp-sheet-edge: rgb(15 23 42 / 0.09);
+  --exp-track: #CBD5E1;
+  --exp-chip-bg: #F1F5F9;
+  --exp-chip-edge: #DCE3EC;
+  --exp-focus: #0369A1;
+
+  --exp-r: 14px;
+  --exp-rail: 210px;
+  --exp-node-col: 64px;
+  --exp-spine-x: calc(var(--exp-rail) + var(--exp-node-col) / 2);
+
+  position: relative;
+  isolation: isolate;
+}
+
+[data-theme="dark"] #experience {
+  --exp-ink-2: #CBD5E1;
+  --exp-muted: #94A3B8;
+  --exp-accent-ink: #67E8F9;
+  --exp-glow-rgb: 34 211 238;
+  --exp-blue-rgb: 99 102 241;
+  --exp-shadow-rgb: 0 0 0;
+
+  --exp-face-a: #1C2639;
+  --exp-face-b: #162033;
+  --exp-edge: rgb(148 163 184 / 0.2);
+  --exp-sheet-a: #19253B;
+  --exp-sheet-b: #142034;
+  --exp-sheet-edge: rgb(148 163 184 / 0.2);
+  --exp-track: #334155;
+  --exp-chip-bg: rgb(148 163 184 / 0.1);
+  --exp-chip-edge: rgb(148 163 184 / 0.22);
+  --exp-focus: #67E8F9;
+}
+
+/* ── 2. Frame ──────────────────────────────────────────────── */
+/* Static ambient light only: no moving layers in this section */
+#experience::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(520px 520px at 6% 24%, rgb(var(--exp-glow-rgb) / 0.07), transparent 70%),
+    radial-gradient(640px 520px at 97% 80%, rgb(var(--exp-blue-rgb) / 0.06), transparent 70%);
+}
+
+.exp-timeline {
+  position: relative;
+  padding: 36px 0 8px;
+}
+
+.exp-list {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+.exp-empty {
+  padding: 28px 0;
+  color: var(--exp-muted);
+  font-size: 15px;
+}
+
+.exp-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--exp-rail) var(--exp-node-col) minmax(0, 1fr);
+  align-items: start;
+  padding-right: 30px;                            /* the receding sheets peek out to the right */
+}
+
+/* ── 3. Spine + nodes ──────────────────────────────────────── */
+.exp-path {
+  --path-h: 0px;
+  position: absolute;
+  top: 0;
+  left: var(--exp-spine-x);
+  width: 2px;
+  margin-left: -1px;
+  height: var(--path-h);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.exp-path__track,
+.exp-path__fill {
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+}
+
+.exp-path__track { background: linear-gradient(to bottom, transparent 0, var(--exp-track) 48px, var(--exp-track) 100%); }
+
+.exp-path__fill {
+  transform-origin: 50% 0;
+  transform: scaleY(0);                         /* JS writes the real value inline */
+  background: linear-gradient(to bottom, var(--exp-accent), var(--exp-blue));
+  box-shadow: 0 0 10px rgb(var(--exp-glow-rgb) / 0.4);
+}
+
+.exp-path__head {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 50%;
+  background: var(--exp-accent);
+  box-shadow: 0 0 0 4px rgb(var(--exp-glow-rgb) / 0.16), 0 0 16px rgb(var(--exp-glow-rgb) / 0.7);
+  opacity: 0;
+  transform: translate3d(0, 0, 0);
+  transition: opacity 0.4s ease-out;
+}
+
+#experience.exp-live .exp-path__fill,
+#experience.exp-live .exp-path__head { will-change: transform; }
+
+.exp-node {
+  position: relative;
+  z-index: 3;
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: center;
+  align-self: start;
+  margin-top: 34px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--exp-bg);
+  border: 2px solid var(--exp-track);
+  transition: background 0.5s var(--exp-ease), border-color 0.5s var(--exp-ease), box-shadow 0.6s var(--exp-ease), transform 0.6s var(--exp-ease), opacity 0.6s var(--exp-ease);
+}
+
+/* short branch from node toward the panel */
+.exp-node::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: 22px;
+  height: 1px;
+  background: var(--exp-track);
+  transition: background 0.6s var(--exp-ease);
+}
+
+.exp-node::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 1px solid rgb(var(--exp-glow-rgb) / 0.7);
+  opacity: 0;
+}
+
+.exp-item[data-state="past"] .exp-node,
+.exp-item[data-state="active"] .exp-node {
+  background: linear-gradient(135deg, var(--exp-accent), var(--exp-blue));
+  border-color: var(--exp-bg);
+  box-shadow: 0 0 0 1.5px rgb(var(--exp-glow-rgb) / 0.5), 0 0 10px rgb(var(--exp-glow-rgb) / 0.35);
+}
+
+.exp-item[data-state="past"] .exp-node::before,
+.exp-item[data-state="active"] .exp-node::before { background: linear-gradient(to right, rgb(var(--exp-glow-rgb) / 0.8), rgb(var(--exp-glow-rgb) / 0.2)); }
+
+.exp-item[data-state="active"] .exp-node {
+  transform: scale(1.18);
+  box-shadow: 0 0 0 2px rgb(var(--exp-glow-rgb) / 0.65), 0 0 18px rgb(var(--exp-glow-rgb) / 0.6);
+}
+
+.exp-item[data-state="active"] .exp-node::after { animation: exp-node-ring 2.8s var(--exp-ease-out) infinite; }
+
+@keyframes exp-node-ring {
+  0%   { opacity: 0.8; transform: scale(1); }
+  70%  { opacity: 0;   transform: scale(2.4); }
+  100% { opacity: 0;   transform: scale(2.4); }
+}
+
+/* Current role: a quiet, persistent distinction (static ring, no animation) */
+.exp-item[data-current="true"] .exp-node {
+  width: 18px;
+  height: 18px;
+  margin-top: 32px;
+  box-shadow: 0 0 0 3px rgb(var(--exp-glow-rgb) / 0.22);
+}
+
+/* ── 4. Dossier panel ──────────────────────────────────────── */
+/* Rail: index + period, right-aligned toward the spine */
+.exp-rail {
+  grid-column: 1;
+  grid-row: 1;
+  padding-top: 26px;
+  padding-right: 8px;
+  text-align: right;
+}
+
+.exp-index {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--exp-muted);
+}
+
+.exp-period {
+  margin-top: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  font-variant-numeric: tabular-nums;
+  color: var(--exp-ink);
+}
+
+.exp-panel {
+  --exp-w: 640px;
+  grid-column: 3;
+  grid-row: 1;
+  --exp-off: var(--exp-shift, 0px);               /* editorial offset, halved on narrower screens */
+  justify-self: start;
+  width: min(calc(100% - var(--exp-off)), var(--exp-w));
+  margin-left: var(--exp-off);
+  transform: translate3d(var(--exp-x), var(--exp-y), 0) scale(var(--exp-s));
+  transition: transform 1s var(--exp-ease), opacity 0.8s var(--exp-ease);
+}
+
+.exp-stack {
+  --exp-d1x: 9px;  --exp-d1y: 11px; --exp-d1z: -24px;
+  --exp-d2x: 18px; --exp-d2y: 22px; --exp-d2z: -48px;
+  position: relative;
+  transform: translate3d(0, var(--exp-lift), 0);
+  transition: transform 0.9s var(--exp-ease);
+}
+
+/* Two sheets receding behind the face (real perspective, so they shrink with distance) */
+.exp-stack::before,
+.exp-stack::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: var(--exp-r);
+  border: 1px solid var(--exp-sheet-edge);
+  pointer-events: none;
+  transition: transform 1s var(--exp-ease), opacity 0.8s var(--exp-ease);
+}
+
+.exp-stack::before {
+  background: var(--exp-sheet-b);
+  opacity: 0.6;
+  transform: perspective(1400px) translate3d(var(--exp-d2x), var(--exp-d2y), var(--exp-d2z));
+}
+
+.exp-stack::after {
+  background: var(--exp-sheet-a);
+  opacity: 0.85;
+  transform: perspective(1400px) translate3d(var(--exp-d1x), var(--exp-d1y), var(--exp-d1z));
+}
+
+.exp-face {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 28px 24px 32px;
+  border-radius: var(--exp-r);
+  border: 1px solid var(--exp-edge);
+  background: linear-gradient(170deg, var(--exp-face-a), var(--exp-face-b));
+  box-shadow: 0 24px 40px -30px rgb(var(--exp-shadow-rgb) / 0.4);
+}
+
+/* Index tab on the leading edge: brightens when the role is active */
+.exp-face::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 22px;
+  width: 3px;
+  height: 44px;
+  border-radius: 0 3px 3px 0;
+  background: linear-gradient(to bottom, var(--exp-accent), var(--exp-blue));
+  opacity: 0.4;
+  transition: opacity 0.7s var(--exp-ease);
+}
+
+/* Glow overlay: painted once, only its opacity eases (compositor, no repaint) */
+.exp-face::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--exp-r);
+  border: 1px solid rgb(var(--exp-glow-rgb) / 0.7);
+  box-shadow: 0 0 40px -16px rgb(var(--exp-glow-rgb) / 0.55);
+  opacity: 0;
+  transition: opacity 0.7s var(--exp-ease);
+  pointer-events: none;
+}
+
+/* ── 5. Panel content ──────────────────────────────────────── */
+.exp-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.exp-id {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  border: 1px solid var(--exp-edge);
+  background: linear-gradient(145deg, rgb(var(--exp-glow-rgb) / 0.14), rgb(var(--exp-blue-rgb) / 0.1));
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--exp-accent-ink);
+  overflow: hidden;
+  transition: transform 0.8s var(--exp-ease);
+}
+
+.exp-id img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+.exp-titles { min-width: 0; flex: 1; }
+
+.exp-role {
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+  color: var(--exp-ink);
+  text-wrap: balance;
+}
+
+.exp-company {
+  margin-top: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--exp-accent-ink);
+}
+
+.exp-company a { color: inherit; text-decoration: underline; text-decoration-color: rgb(var(--exp-glow-rgb) / 0.45); text-underline-offset: 3px; }
+.exp-company a:hover { text-decoration-color: currentColor; }
+
+.exp-badge {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px;
+  border: 1px solid rgb(var(--exp-glow-rgb) / 0.45);
+  border-radius: 999px;
+  background: rgb(var(--exp-glow-rgb) / 0.08);
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--exp-accent-ink);
+  white-space: nowrap;
+}
+
+.exp-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--exp-accent);
+}
+
+.exp-meta {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin-top: 16px;
+}
+
+.exp-type {
+  padding: 3px 10px;
+  border: 1px solid var(--exp-chip-edge);
+  border-radius: 6px;
+  background: var(--exp-chip-bg);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--exp-ink-2);
+}
+
+.exp-loc {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  color: var(--exp-muted);
+}
+
+.exp-summary {
+  margin-top: 16px;
+  max-width: 60ch;
+  font-size: 14.5px;
+  line-height: 1.62;
+  color: var(--exp-ink-2);
+}
+
+.exp-tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.exp-tags li {
+  padding: 3px 10px;
+  border: 1px solid rgb(var(--exp-glow-rgb) / 0.35);
+  border-radius: 6px;
+  background: rgb(var(--exp-glow-rgb) / 0.07);
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--exp-ink);
+}
+
+/* ── 6. Disclosure ─────────────────────────────────────────── */
+.exp-toggle {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  margin-top: 14px;
+  padding: 0 14px;
+  border: 1px solid var(--exp-edge);
+  border-radius: 8px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--exp-accent-ink);
+  cursor: pointer;
+  transition: background 0.2s ease-out, border-color 0.2s ease-out;
+}
+
+.exp-toggle:hover { background: rgb(var(--exp-glow-rgb) / 0.08); border-color: rgb(var(--exp-glow-rgb) / 0.5); }
+.exp-toggle__icon { transition: transform 0.45s var(--exp-ease); }
+.exp-toggle[aria-expanded="true"] .exp-toggle__icon { transform: rotate(180deg); }
+
+.exp-toggle:focus-visible,
+.exp-bridge:focus-visible,
+.exp-company a:focus-visible {
+  outline: 2px solid var(--exp-focus);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.exp-details {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.55s var(--exp-ease);
+}
+
+.exp-details__inner {
+  min-height: 0;
+  overflow: hidden;
+  visibility: hidden;                         /* collapsed content leaves tab order + a11y tree */
+  transition: visibility 0s linear 0.55s;
+}
+
+.exp-toggle[aria-expanded="true"] + .exp-details { grid-template-rows: 1fr; }
+.exp-toggle[aria-expanded="true"] + .exp-details .exp-details__inner { visibility: visible; transition-delay: 0s; }
+
+.exp-contrib {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  padding-top: 18px;
+}
+
+.exp-contrib li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--exp-ink-2);
+}
+
+.exp-contrib li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.62em;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: linear-gradient(135deg, var(--exp-accent), var(--exp-blue));
+}
+
+/* ── 7. Bridge to Education ────────────────────────────────── */
+.exp-bridge {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 34px auto;
+  grid-template-areas: "mark label" "line .";
+  column-gap: 14px;
+  align-items: center;
+  width: fit-content;
+  min-height: 44px;
+  margin: 26px 0 0 calc(var(--exp-spine-x) - 17px);
+  color: var(--exp-muted);
+  text-decoration: none;
+  transition: color 0.25s ease-out;
+}
+
+.exp-bridge__mark {
+  grid-area: mark;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--exp-bg);
+  color: var(--exp-track);
+  transition: color 0.6s var(--exp-ease), filter 0.6s var(--exp-ease), transform 0.6s var(--exp-ease);
+}
+
+.exp-bridge[data-lit] .exp-bridge__mark {
+  color: var(--exp-accent);
+  filter: drop-shadow(0 0 7px rgb(var(--exp-glow-rgb) / 0.8));
+  transform: rotate(45deg);
+}
+
+.exp-bridge__line {
+  grid-area: line;
+  justify-self: center;
+  width: 1px;
+  height: 44px;
+  margin-top: 4px;
+  background: linear-gradient(to bottom, rgb(var(--exp-glow-rgb) / 0.55), transparent);
+}
+
+.exp-bridge__label {
+  grid-area: label;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--exp-muted);
+}
+
+.exp-bridge:hover .exp-bridge__label { color: var(--exp-accent-ink); }
+
+/* ── 8. States, motion, responsive ─────────────────────────── */
+/* Surfaces carry emphasis; text keeps full contrast in every state.
+   Everything that eases is transform or opacity (compositor). */
+.exp-item[data-state="past"] .exp-face::after { opacity: 0.35; }
+.exp-item[data-state="past"] .exp-face::before { opacity: 0.7; }
+
+.exp-item[data-state="active"] .exp-stack {
+  --exp-lift: -5px;                              /* whole pixels: never soften the text being read */
+  --exp-d1x: 13px; --exp-d1y: 15px; --exp-d1z: -34px;
+  --exp-d2x: 26px; --exp-d2y: 30px; --exp-d2z: -68px;
+}
+.exp-item[data-state="active"] .exp-face::after { opacity: 1; }
+.exp-item[data-state="active"] .exp-face::before { opacity: 1; }
+.exp-item[data-state="active"] .exp-id { transform: scale(1.07); }
+
+/* Entry (only when the controller switched motion on) */
+.exp-motion .exp-item:not(.is-in) .exp-panel {
+  opacity: 0;
+  --exp-x: -24px;
+  --exp-y: 44px;
+  --exp-s: 0.97;
+}
+.exp-motion .exp-item:not(.is-in) .exp-stack::before,
+.exp-motion .exp-item:not(.is-in) .exp-stack::after {
+  opacity: 0;
+  transform: perspective(1400px) translate3d(0, 0, 0);
+}
+.exp-motion .exp-item:not(.is-in) .exp-node { opacity: 0; transform: scale(0.5); }
+.exp-motion .exp-item:not(.is-in) .exp-rail { opacity: 0; transform: translate3d(0, 18px, 0); }
+.exp-motion .exp-rail { transition: opacity 0.8s var(--exp-ease), transform 0.9s var(--exp-ease); }
+.exp-motion .exp-bridge:not(.is-in) { opacity: 0; transform: translate3d(0, 16px, 0); }
+.exp-motion .exp-bridge { transition: color 0.25s ease-out, opacity 0.9s var(--exp-ease), transform 0.9s var(--exp-ease); }
+
+/* Editorial rhythm: shifts and widths vary item to item (set inline by the renderer) */
+@media (max-width: 1100px) {
+  .exp-panel { --exp-off: calc(var(--exp-shift, 0px) * 0.5); }
+}
+
+@media (max-width: 960px) {
+  #experience { --exp-rail: 140px; --exp-node-col: 48px; }
+  .exp-list { gap: 46px; }
+  .exp-face { padding: 22px 22px 20px 26px; }
+  .exp-role { font-size: 19px; }
+  .exp-period { font-size: 14px; }
+  .exp-stack { --exp-d1x: 7px; --exp-d1y: 9px; --exp-d1z: -20px; --exp-d2x: 14px; --exp-d2y: 18px; --exp-d2z: -40px; }
+  .exp-item[data-state="active"] .exp-stack { --exp-lift: -4px; --exp-d1x: 10px; --exp-d1y: 12px; --exp-d1z: -28px; --exp-d2x: 20px; --exp-d2y: 24px; --exp-d2z: -56px; }
+  .exp-node::before { width: 14px; }
+}
+
+@media (max-width: 720px) {
+  #experience { --exp-spine-x: 15px; }
+  .exp-timeline { padding-top: 26px; }
+  .exp-list { gap: 40px; }
+
+  .exp-item { display: block; padding: 0 14px 0 40px; }
+
+  .exp-rail {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 0 0 12px;
+    text-align: left;
+  }
+  .exp-period { margin-top: 0; }
+
+  .exp-node,
+  .exp-item[data-current="true"] .exp-node { position: absolute; left: 8px; top: 3px; margin: 0; }
+  .exp-item[data-current="true"] .exp-node { left: 6px; top: 1px; }
+  .exp-node::before { display: none; }
+
+  .exp-panel { --exp-off: 0px; width: 100%; }
+  .exp-face { padding: 20px 18px 18px 22px; }
+  .exp-head { flex-wrap: wrap; gap: 12px 14px; }
+  .exp-id { width: 44px; height: 44px; }
+  .exp-badge { order: 3; }
+  .exp-role { font-size: 19px; }
+  .exp-summary { font-size: 15px; }
+  .exp-contrib li { font-size: 14.5px; }
+
+  .exp-stack { --exp-d1x: 5px; --exp-d1y: 7px; --exp-d1z: -14px; --exp-d2x: 10px; --exp-d2y: 14px; --exp-d2z: -28px; }
+  .exp-item[data-state="active"] .exp-stack { --exp-lift: -3px; --exp-d1x: 7px; --exp-d1y: 9px; --exp-d1z: -20px; --exp-d2x: 14px; --exp-d2y: 18px; --exp-d2z: -40px; }
+
+  .exp-motion .exp-item:not(.is-in) .exp-panel { --exp-x: 0px; --exp-y: 30px; }
+
+  .exp-bridge { margin-left: calc(var(--exp-spine-x) - 17px + 0px); }
+}
+
+/* ── 9. Reduced motion ─────────────────────────────────────── */
+/* Hierarchy and the lit path stay; transforms, loops and scroll-linked effects go. */
+@media (prefers-reduced-motion: reduce) {
+  #experience *,
+  #experience *::before,
+  #experience *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .exp-panel,
+  .exp-rail,
+  .exp-bridge { transform: none !important; opacity: 1 !important; }
+  .exp-item .exp-node { opacity: 1 !important; transform: none !important; }
+
+  .exp-item .exp-stack::before,
+  .exp-item .exp-stack::after { opacity: 0.8 !important; transform: perspective(1400px) translate3d(var(--exp-d1x), var(--exp-d1y), var(--exp-d1z)) !important; }
+  .exp-item .exp-stack::before { transform: perspective(1400px) translate3d(var(--exp-d2x), var(--exp-d2y), var(--exp-d2z)) !important; opacity: 0.6 !important; }
+
+  .exp-item .exp-node {
+    background: linear-gradient(135deg, var(--exp-accent), var(--exp-blue));
+    border-color: var(--exp-bg);
+    box-shadow: 0 0 0 1.5px rgb(var(--exp-glow-rgb) / 0.5);
+  }
+  .exp-item .exp-node::before { background: rgb(var(--exp-glow-rgb) / 0.55); }
+
+  .exp-item .exp-face::before { opacity: 0.7; }
+  .exp-item .exp-face::after { opacity: 0.3; }
+  .exp-item:first-child .exp-face::after { opacity: 1; }
+  .exp-item:first-child .exp-face::before { opacity: 1; }
+
+  .exp-path__fill { transform: scaleY(1) !important; }
+  .exp-path__head { display: none; }
+  .exp-bridge__mark { color: var(--exp-accent); filter: none; }
+}

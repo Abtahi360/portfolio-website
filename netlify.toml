@@ -6,6 +6,11 @@
   publish = "."
   command = ""
 
+# Serverless functions (photo gallery: Google Drive listing). Secrets live in
+# Netlify's environment variables, never in this file or the repository.
+[functions]
+  directory = "netlify/functions"
+
 # ── CACHE HEADERS ─────────────────────────────────────────────
 [[headers]]
   for = "/view/assets/Images/*"
