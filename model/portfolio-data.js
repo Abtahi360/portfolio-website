@@ -22,21 +22,45 @@ const portfolioData = {
   experience: [
     {
       id: "exp-01",
-      role: "[DEMO] Software Engineer Intern",
-      company: "[DEMO COMPANY A]",
-      period: "2025 - Present",
+      role: "Research Assistant",
+      company: "IdeaXLab",
+      period: "2026 - Present",
       location: "Dhaka, Bangladesh",
-      type: "Internship",
+      type: "Research",
       current: true,
-      summary: "[DEMO] Placeholder summary. Replace this with a short description of your responsibilities and the team you worked with.",
+      summary: "Contributing to multiple research projects at IdeaXLab, with a focus on AI/ML research, scientific analysis, and academic manuscript development. Supporting research activities from literature review and methodology refinement to experimental analysis and preparation of research outputs.",
       contributions: [
-        "[DEMO] Built and documented backend APIs for an internal product",
-        "[DEMO] Improved database workflows and query performance",
-        "[DEMO] Collaborated on production features through code review"
+        "Conduct literature reviews to identify research gaps and support research development.",
+        "Contribute to multiple research papers through methodology development, data analysis, and experimental evaluation.",
+        "Assist with interpreting research findings, refining technical content, and preparing manuscripts for publication."
       ],
-      technologies: ["Java", "Spring Boot", "SQL"],
-      companyUrl: ""
+      technologies: [
+        "Python",
+        "Machine Learning",
+        "Natural Language Processing",
+        "Data Analysis",
+        "Scientific Research"
+      ],
+      companyUrl: "https://ideaxlab.org/",
+      logo: "view/assets/Images/IdeaXLab_Logo.png"
     },
+    // {
+    //   id: "exp-01",
+    //   role: "[DEMO] Software Engineer Intern",
+    //   company: "[DEMO COMPANY A]",
+    //   period: "2025 - Present",
+    //   location: "Dhaka, Bangladesh",
+    //   type: "Internship",
+    //   current: true,
+    //   summary: "[DEMO] Placeholder summary. Replace this with a short description of your responsibilities and the team you worked with.",
+    //   contributions: [
+    //     "[DEMO] Built and documented backend APIs for an internal product",
+    //     "[DEMO] Improved database workflows and query performance",
+    //     "[DEMO] Collaborated on production features through code review"
+    //   ],
+    //   technologies: ["Java", "Spring Boot", "SQL"],
+    //   companyUrl: ""
+    // },
     {
       id: "exp-02",
       role: "[DEMO] Machine Learning Research Intern",
