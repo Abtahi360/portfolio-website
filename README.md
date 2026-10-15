@@ -60,11 +60,6 @@ cd portfolio-website
 ![Project Example 1](Images/pro1.png)
 ![Project Example 2](Images/pro2.png)
 
-### 💼 Achievements Section
-
-![Project Example 1](Images/a.png)
-![Project Example 2](Images/a1.png)
-
 ---
 
 ## 🎯 Purpose of This Project
