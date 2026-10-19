@@ -61,56 +61,56 @@ const portfolioData = {
     //   technologies: ["Java", "Spring Boot", "SQL"],
     //   companyUrl: ""
     // },
-    {
-      id: "exp-02",
-      role: "[DEMO] Machine Learning Research Intern",
-      company: "[DEMO COMPANY B]",
-      period: "2024 - 2025",
-      location: "Remote",
-      type: "Research",
-      current: false,
-      summary: "[DEMO] Placeholder summary for a research-oriented role. Describe the problem, the method and the outcome.",
-      contributions: [
-        "[DEMO] Prepared and cleaned datasets for model experiments",
-        "[DEMO] Trained and evaluated baseline classification models",
-        "[DEMO] Presented findings to the research group"
-      ],
-      technologies: ["Python", "PyTorch", "Scikit-learn"],
-      companyUrl: ""
-    },
-    {
-      id: "exp-03",
-      role: "[DEMO] Full-Stack Developer",
-      company: "[DEMO COMPANY C]",
-      period: "2023 - 2024",
-      location: "Dhaka, Bangladesh",
-      type: "Freelance",
-      current: false,
-      summary: "[DEMO] Placeholder summary for project-based client work. Describe what was delivered and for whom.",
-      contributions: [
-        "[DEMO] Designed and shipped a responsive web application",
-        "[DEMO] Set up deployment and basic monitoring",
-        "[DEMO] Communicated scope and progress with the client"
-      ],
-      technologies: ["JavaScript", "Node.js", "MongoDB"],
-      companyUrl: ""
-    },
-    {
-      id: "exp-04",
-      role: "[DEMO] Technical Volunteer",
-      company: "[DEMO ORGANIZATION D]",
-      period: "2022 - 2023",
-      location: "Dhaka, Bangladesh",
-      type: "Volunteer",
-      current: false,
-      summary: "[DEMO] Placeholder summary for volunteer or community work.",
-      contributions: [
-        "[DEMO] Supported community events with technical setup",
-        "[DEMO] Mentored newcomers on programming fundamentals"
-      ],
-      technologies: ["Community", "Mentoring"],
-      companyUrl: ""
-    }
+    // {
+    //   id: "exp-02",
+    //   role: "[DEMO] Machine Learning Research Intern",
+    //   company: "[DEMO COMPANY B]",
+    //   period: "2024 - 2025",
+    //   location: "Remote",
+    //   type: "Research",
+    //   current: false,
+    //   summary: "[DEMO] Placeholder summary for a research-oriented role. Describe the problem, the method and the outcome.",
+    //   contributions: [
+    //     "[DEMO] Prepared and cleaned datasets for model experiments",
+    //     "[DEMO] Trained and evaluated baseline classification models",
+    //     "[DEMO] Presented findings to the research group"
+    //   ],
+    //   technologies: ["Python", "PyTorch", "Scikit-learn"],
+    //   companyUrl: ""
+    // },
+    // {
+    //   id: "exp-03",
+    //   role: "[DEMO] Full-Stack Developer",
+    //   company: "[DEMO COMPANY C]",
+    //   period: "2023 - 2024",
+    //   location: "Dhaka, Bangladesh",
+    //   type: "Freelance",
+    //   current: false,
+    //   summary: "[DEMO] Placeholder summary for project-based client work. Describe what was delivered and for whom.",
+    //   contributions: [
+    //     "[DEMO] Designed and shipped a responsive web application",
+    //     "[DEMO] Set up deployment and basic monitoring",
+    //     "[DEMO] Communicated scope and progress with the client"
+    //   ],
+    //   technologies: ["JavaScript", "Node.js", "MongoDB"],
+    //   companyUrl: ""
+    // },
+    // {
+    //   id: "exp-04",
+    //   role: "[DEMO] Technical Volunteer",
+    //   company: "[DEMO ORGANIZATION D]",
+    //   period: "2022 - 2023",
+    //   location: "Dhaka, Bangladesh",
+    //   type: "Volunteer",
+    //   current: false,
+    //   summary: "[DEMO] Placeholder summary for volunteer or community work.",
+    //   contributions: [
+    //     "[DEMO] Supported community events with technical setup",
+    //     "[DEMO] Mentored newcomers on programming fundamentals"
+    //   ],
+    //   technologies: ["Community", "Mentoring"],
+    //   companyUrl: ""
+    // }
   ],
 
   education: [
