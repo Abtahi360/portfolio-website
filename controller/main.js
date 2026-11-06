@@ -409,7 +409,13 @@
           "</div>" +
           '<div class="project-images-row">' + imagesHtml + "</div>" +
           '<div class="card-body"><p>' + project.description + "</p></div>" +
-          '<div class="card-footer">' +
+          '<div class="card-footer card-footer-split">' +
+          /* Permanent, non-interactive affordance: the whole card is the
+             button (role/aria-label set in project-details.js). */
+          '<span class="card-details-cue" aria-hidden="true">' +
+          '<span class="card-details-cue-label">View details</span>' +
+          '<svg class="card-details-cue-icon" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h8v8"/><path d="M12 4 4 12"/></svg>' +
+          "</span>" +
           '<div class="view-repo-button"' +
           ' data-repo-url="' + project.repoUrl + '"' +
           ' data-live-link="' + (project.liveLink || "") + '"' +
@@ -609,44 +615,10 @@
     });
   }
 
-  /* ── Projects hint ───────────────────────────────────────── */
-  var projectsSection = document.getElementById("projects");
-  var projectsHint = document.getElementById("projects-hint-overlay");
-  var hintShown = false;
-
-  function showProjectsHint() {
-    if (hintShown || sessionStorage.getItem("projectsHintShown")) {
-      hintShown = true;
-      return;
-    }
-    if (projectsHint) {
-      projectsHint.classList.add("visible");
-      hintShown = true;
-      sessionStorage.setItem("projectsHintShown", "true");
-      setTimeout(function () {
-        projectsHint.style.opacity = "0";
-        setTimeout(function () {
-          projectsHint.classList.remove("visible");
-          projectsHint.remove();
-        }, 600);
-      }, 4000);
-    }
-  }
-
-  if (projectsSection && projectsHint) {
-    var hintObserver = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            showProjectsHint();
-            hintObserver.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-    hintObserver.observe(projectsSection);
-  }
+  /* ── Projects hint ───────────────────────────────────────────
+     The old "Click any project card" overlay (fired on #projects
+     entry) is replaced by controller/project-discovery-demo.js,
+     which triggers at Other Projects and owns the replay control. */
 
   /* ── Legacy repo modal (kept for compatibility) ──────────── */
   var repoModal = document.getElementById("repoModal");
