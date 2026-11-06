@@ -18,7 +18,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   margin-bottom: 5px;
 }
 .rw-solutions-kicker::before { content: "★"; }
@@ -168,7 +168,7 @@
   font-size: 0.68rem;
   font-weight: 600;
   background: rgba(34,211,238,0.1);
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   border: 1px solid rgba(34,211,238,0.2);
   letter-spacing: 0.02em;
 }
