@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="view/css/experience.css">
   <link rel="stylesheet" href="view/css/gallery.css">
   <link rel="stylesheet" href="view/css/motion.css">
+  <link rel="stylesheet" href="view/css/project-discovery.css">
   <meta charset="UTF-8">
   <title>Abtahi Islam - Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -226,17 +227,6 @@
 
 
       <section class="section-shell" id="projects">
-        <div class="projects-hint-overlay" id="projects-hint-overlay">
-          <div class="projects-hint-content">
-            <div class="projects-hint-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M15 18l-6-6 6-6" />
-              </svg>
-            </div>
-            <p>Click any project card to view more details.</p>
-          </div>
-        </div>
         <div class="section-anchor-offset" id="projects-anchor"></div>
         <div class="section-inner fade-in">
 
@@ -259,9 +249,35 @@
             <div class="rw-grid" id="rw-projects-grid"></div>
           </div>
 
-          <div class="rw-section-divider">
+          <div class="rw-section-divider pdemo-divider" id="other-projects-divider">
             <span class="rw-divider-label">Other Projects</span>
             <span class="rw-divider-line"></span>
+            <button type="button" class="pdemo-replay" id="pdemo-replay" aria-describedby="pdemo-hint" hidden>
+              <svg class="pdemo-replay-icon" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor"
+                stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M2.5 8a5.5 5.5 0 1 0 1.6-3.9" />
+                <path d="M2.5 2.5v2.6h2.6" />
+              </svg>
+              <span class="pdemo-replay-label">Replay demo</span>
+            </button>
+          </div>
+
+          <!-- Other Projects discovery demo (controller/project-discovery-demo.js).
+               The hint line is the permanent, static instruction; the run row is
+               decorative and swaps in at the same height while the demo plays. -->
+          <div class="pdemo" id="project-discovery-demo" data-state="idle">
+            <p class="pdemo-hint" id="pdemo-hint">Select any project card to open its full details.</p>
+            <div class="pdemo-run" aria-hidden="true">
+              <span class="pdemo-tag"><span class="pdemo-tag-dot"></span>Quick demo</span>
+              <span class="pdemo-instruction">Click a project to explore its details</span>
+              <ol class="pdemo-steps">
+                <li data-step="1"><span class="pdemo-step-num">1</span>Select</li>
+                <li data-step="2"><span class="pdemo-step-num">2</span>Click</li>
+                <li data-step="3"><span class="pdemo-step-num">3</span>Explore</li>
+              </ol>
+              <span class="pdemo-progress"><span class="pdemo-progress-bar"></span></span>
+            </div>
+            <button type="button" class="pdemo-skip" id="pdemo-skip" hidden>Skip demo</button>
           </div>
 
           <div class="cards-grid" id="projects-grid">
@@ -733,6 +749,7 @@
   <script src="model/real-world-projects.js"></script>
   <script src="controller/real-world-projects.js"></script>
   <script src="controller/main.js"></script>
+  <script src="controller/project-discovery-demo.js"></script>
   <script src="controller/education.js"></script>
   <script src="controller/experience.js"></script>
   <script src="controller/gallery.js"></script>

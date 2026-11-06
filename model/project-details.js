@@ -322,6 +322,17 @@ var projectDetails = {
   }
 };
 
+/* ── Project detail modal controller ──────────────────────────
+   One renderer (renderDetails) feeds two presentations:
+     • open(key)    – the normal, user-triggered dialog: moves focus
+                      to Close, Escape / backdrop / buttons close it
+                      and focus returns to the card.
+     • preview(key) – a passive, visual-only state used by the Other
+                      Projects discovery demo: same content, but the
+                      backdrop stays aria-hidden + inert, focus never
+                      moves, and nothing is restored on close.
+   A real open() always wins over a running preview.
+   Public surface: window.ProjectDetailsModal                     */
 function initProjectModal() {
   if (typeof document === "undefined") {
     return;
@@ -337,29 +348,115 @@ function initProjectModal() {
   if (!backdrop || !titleEl || !bodyEl || !closeBtn || !closeIconBtn) {
     return;
   }
+  var panel = backdrop.querySelector(".project-modal");
 
   var lastFocused = null;
+  var previewing = false;
 
-  function openModal(key) {
-    var data = projectDetails[key];
-    if (!data) {
-      return;
+  function emit(name, detail) {
+    try {
+      document.dispatchEvent(new CustomEvent(name, { detail: detail }));
+    } catch (e) { /* very old browsers: events are optional */ }
+  }
+
+  function hasDetails(key) {
+    return !!(key && Object.prototype.hasOwnProperty.call(projectDetails, key) && projectDetails[key]);
+  }
+
+  function renderDetails(key) {
+    if (!hasDetails(key)) {
+      return false;
     }
+    var data = projectDetails[key];
     titleEl.textContent = data.title || "";
     bodyEl.innerHTML = data.body || "";
+    bodyEl.scrollTop = 0;
+    if (panel) panel.scrollTop = 0;
+    return true;
+  }
+
+  function setInert(on) {
+    if (on) {
+      backdrop.setAttribute("inert", "");
+    } else {
+      backdrop.removeAttribute("inert");
+    }
+    if ("inert" in backdrop) {
+      backdrop.inert = !!on;
+    }
+  }
+
+  /* Leave preview presentation without touching focus. */
+  function clearPreviewState() {
+    previewing = false;
+    backdrop.classList.remove("is-preview");
+    setInert(false);
+  }
+
+  function openModal(key) {
+    var fromPreview = previewing;
+    if (!hasDetails(key)) {
+      return false;
+    }
+    if (fromPreview) {
+      clearPreviewState();
+      /* Tell the demo first so it can stop its animations before
+         the real dialog takes over the same element. */
+      emit("projectmodal:previewinterrupted", { key: key });
+    }
+    renderDetails(key);
     backdrop.classList.add("open");
     backdrop.setAttribute("aria-hidden", "false");
     lastFocused = document.activeElement;
     closeIconBtn.focus();
+    emit("projectmodal:open", { key: key });
+    return true;
   }
 
   function closeModal() {
+    if (previewing) {
+      endPreview();
+      return;
+    }
+    if (!backdrop.classList.contains("open")) {
+      return;
+    }
     backdrop.classList.remove("open");
     backdrop.setAttribute("aria-hidden", "true");
     bodyEl.innerHTML = "";
     if (lastFocused && typeof lastFocused.focus === "function") {
       lastFocused.focus();
     }
+    lastFocused = null;
+    emit("projectmodal:close", {});
+  }
+
+  /* Returns the panel element on success so the caller can animate
+     it, or null when a real dialog is already open / no data.     */
+  function preview(key) {
+    if (backdrop.classList.contains("open") && !previewing) {
+      return null;
+    }
+    if (!renderDetails(key)) {
+      return null;
+    }
+    previewing = true;
+    backdrop.classList.add("open", "is-preview");
+    backdrop.setAttribute("aria-hidden", "true");
+    setInert(true);
+    return panel || backdrop;
+  }
+
+  function endPreview() {
+    if (!previewing) {
+      return false;
+    }
+    clearPreviewState();
+    backdrop.classList.remove("open");
+    backdrop.setAttribute("aria-hidden", "true");
+    bodyEl.innerHTML = "";
+    titleEl.textContent = "";
+    return true;
   }
 
   closeBtn.addEventListener("click", function () {
@@ -371,13 +468,13 @@ function initProjectModal() {
   });
 
   backdrop.addEventListener("click", function (event) {
-    if (event.target === backdrop) {
+    if (event.target === backdrop && !previewing) {
       closeModal();
     }
   });
 
   document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape" && backdrop.classList.contains("open")) {
+    if (event.key === "Escape" && backdrop.classList.contains("open") && !previewing) {
       closeModal();
     }
   });
@@ -389,14 +486,19 @@ function initProjectModal() {
       return;
     }
     card.addEventListener("click", function (event) {
-      var anchor = event.target.closest("a");
-      if (anchor) {
+      /* Repository / live links and in-card buttons keep their own job. */
+      var control = event.target.closest("a, button");
+      if (control && card.contains(control)) {
         return;
       }
       event.preventDefault();
       openModal(key);
     });
     card.addEventListener("keydown", function (event) {
+      /* Only the card itself: Enter on a focused repo link must follow the link. */
+      if (event.target !== card) {
+        return;
+      }
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
         openModal(key);
@@ -413,6 +515,18 @@ function initProjectModal() {
       card.setAttribute("aria-label", "View details for " + titleNode.textContent.trim());
     }
   });
+
+  window.ProjectDetailsModal = {
+    has: hasDetails,
+    open: openModal,
+    close: closeModal,
+    preview: preview,
+    endPreview: endPreview,
+    isOpen: function () { return backdrop.classList.contains("open"); },
+    isPreviewing: function () { return previewing; },
+    panel: panel || backdrop
+  };
+  emit("projectmodal:ready", {});
 }
 
 if (typeof document !== "undefined") {
