@@ -71,8 +71,12 @@ var projectDetails = {
         <li><b>Epochs:</b> 20–50</li>
         <li><b>Hardware:</b> Google Colab with GPU runtime</li>
       </ul>
+      <h3>Evaluation Results &amp; Known Limitation</h3>
+      <p>The evaluation figures on the project card are reported exactly as produced. On the evaluation set the model classified 290 of 295 cat images correctly, but predicted every one of the 52 dog images as a cat (dog recall 0%). The ROC AUC is 0.49, which is no better than chance. The evaluation set is also imbalanced (295 cats vs 52 dogs).</p>
+      <p>Together these results suggest the model is defaulting to the majority class rather than learning features that separate the two classes. The current version should be read as a learning exercise in the CNN workflow, not as a working classifier.</p>
       <h3>Future Improvements</h3>
       <ul>
+        <li>Rebalance training and evaluation data (class weighting or balanced sampling) and report per-class precision and recall.</li>
         <li>Use transfer learning (VGG, ResNet, MobileNet).</li>
         <li>Hyperparameter tuning and larger image sizes.</li>
         <li>Quantization / pruning for deployment on edge devices.</li>
