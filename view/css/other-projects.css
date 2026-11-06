@@ -1,0 +1,481 @@
+/* ── Other Projects: "Gallery Exhibit" cards ───────────────────
+   Every screenshot sits in the same 16:10 plate, so every card in a
+   row has the same height. Two screenshots stack (front + one behind)
+   and fan out on hover. Depth comes from CSS 3D only:
+     card     perspective(1000px) rotateX(--rx) rotateY(--ry) translateY(--lift)
+     plate    translateZ(26px)        body / footer  translateZ(10px)
+   controller/card-tilt.js feeds --rx/--ry/--mx/--my on fine pointers.
+   controller/project-discovery-demo.js keeps priority: this file loads
+   BEFORE project-discovery.css, and its .is-pdemo-* rules win ties.
+   Markup: controller/main.js → renderProjectCard()
+   ──────────────────────────────────────────────────────────── */
+
+:root {
+  --xp-radius: 16px;
+  --xp-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --xp-mat-a: #EEF2F8;
+  --xp-mat-b: #E2E9F3;
+  --xp-mat-glow: rgba(14, 116, 144, 0.10);
+  --xp-shot-bar: #E9EDF3;
+  --xp-shot-bar-line: #D8DEE8;
+  --xp-chip-bg: #F1F5F9;
+  --xp-shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 12px 32px rgba(15, 23, 42, 0.07);
+  --xp-shadow-hot: 0 2px 4px rgba(15, 23, 42, 0.06), 0 34px 70px -18px rgba(15, 23, 42, 0.28);
+  --xp-sheen: rgba(255, 255, 255, 0.55);
+  --xp-shot-shadow: 0 14px 30px -8px rgba(15, 23, 42, 0.35);
+}
+
+[data-theme="dark"] {
+  --xp-mat-a: #1B2740;
+  --xp-mat-b: #131D31;
+  --xp-mat-glow: rgba(34, 211, 238, 0.10);
+  --xp-shot-bar: #2A3650;
+  --xp-shot-bar-line: #344360;
+  --xp-chip-bg: #233148;
+  --xp-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px rgba(0, 0, 0, 0.28);
+  --xp-shadow-hot: 0 2px 4px rgba(0, 0, 0, 0.35), 0 34px 70px -18px rgba(0, 0, 0, 0.7);
+  --xp-sheen: rgba(186, 230, 253, 0.2);
+  --xp-shot-shadow: 0 14px 30px -8px rgba(0, 0, 0, 0.6);
+}
+
+/* ── Filter row ─────────────────────────────────────────────── */
+.xp-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin: 2px 0 20px;
+}
+
+.xp-filters[hidden] { display: none; }
+
+.xp-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.xp-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  color: var(--color-muted);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.xp-filter:hover {
+  color: var(--color-primary);
+  border-color: var(--color-muted);
+}
+
+.xp-filter:focus-visible {
+  outline: 2px solid var(--color-accent-text);
+  outline-offset: 2px;
+}
+
+.xp-filter[aria-pressed="true"] {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-bg);
+}
+
+.xp-filter-count {
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.72;
+}
+
+.xp-filter-status {
+  font-size: 12.5px;
+  color: var(--color-muted);
+  min-height: 1em;
+}
+
+/* ── Grid ───────────────────────────────────────────────────── */
+#projects-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+/* `hidden` must beat .card { display: flex } */
+#projects-grid > .card[hidden] {
+  display: none !important;
+}
+
+/* ── Card shell (3D container: no overflow:hidden here) ────── */
+#projects-grid > .card.xp-card {
+  --rx: 0deg;
+  --ry: 0deg;
+  --lift: 0px;
+  --mx: 50%;
+  --my: 30%;
+  position: relative;
+  padding: 0;
+  gap: 0;
+  border-radius: var(--xp-radius);
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  box-shadow: var(--xp-shadow);
+  /* 2D by default (touch, coarse pointers): no 3D context, no extra
+     compositing layers. Fine pointers get the 3D version below. */
+  transform: translateY(var(--lift));
+  transition:
+    transform 0.55s var(--xp-ease),
+    box-shadow 0.45s ease,
+    border-color 0.3s ease;
+}
+
+/* While the pointer drives the tilt, track it closely. */
+#projects-grid > .card.xp-card.is-tilting {
+  transition:
+    transform 0.14s linear,
+    box-shadow 0.45s ease,
+    border-color 0.3s ease;
+}
+
+@media (hover: hover) {
+  #projects-grid:not(.is-pdemo-stage) > .card.xp-card:hover {
+    --lift: -6px;
+    background: var(--color-card);
+    box-shadow: var(--xp-shadow-hot);
+    border-color: color-mix(in srgb, var(--color-accent) 50%, var(--color-border));
+  }
+}
+
+#projects-grid:not(.is-pdemo-stage) > .card.xp-card:focus-visible {
+  --lift: -6px;
+  outline: 2px solid var(--color-accent-text);
+  outline-offset: 3px;
+  box-shadow: var(--xp-shadow-hot);
+}
+
+#projects-grid:not(.is-pdemo-stage) > .card.xp-card:active {
+  --lift: -2px;
+}
+
+/* ── Media plate ────────────────────────────────────────────── */
+.xp-media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  margin: 10px 10px 0;
+  border-radius: 10px;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid color-mix(in srgb, var(--color-border) 70%, transparent);
+  background:
+    radial-gradient(120% 90% at 20% 0%, var(--xp-mat-glow), transparent 60%),
+    linear-gradient(160deg, var(--xp-mat-a), var(--xp-mat-b));
+}
+
+/* A screenshot: window bar + the 16:10 image, shown whole. */
+.xp-shot {
+  position: absolute;
+  left: 9%;
+  right: 9%;
+  top: 10%;
+  margin: 0;
+  border-radius: 7px;
+  overflow: hidden;
+  background: var(--color-card);
+  box-shadow: var(--xp-shot-shadow);
+  transition: transform 0.65s var(--xp-ease), opacity 0.4s ease;
+}
+
+.xp-shot::before {
+  content: "";
+  display: block;
+  height: 10px;
+  background-color: var(--xp-shot-bar);
+  border-bottom: 1px solid var(--xp-shot-bar-line);
+  background-image:
+    radial-gradient(circle, #F87171 2px, transparent 2.4px),
+    radial-gradient(circle, #FBBF24 2px, transparent 2.4px),
+    radial-gradient(circle, #34D399 2px, transparent 2.4px);
+  background-size: 10px 10px;
+  background-repeat: no-repeat;
+  background-position: 5px 0, 14px 0, 23px 0;
+}
+
+.xp-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  transition: transform 0.8s var(--xp-ease);
+}
+
+/* Single screenshot: centred a little lower. */
+.xp-media:not(.xp-media--stack) .xp-shot {
+  left: 8%;
+  right: 8%;
+  top: 7%;
+}
+
+/* Stack: the second screenshot peeks out behind, up and to the left. */
+.xp-media--stack .xp-shot--front {
+  left: 13%;
+  right: 7%;
+  top: 11%;
+  z-index: 1;
+}
+
+.xp-media--stack .xp-shot--back {
+  left: 13%;
+  right: 7%;
+  top: 11%;
+  z-index: 0;
+  opacity: 0.85;
+  filter: saturate(0.85);
+  transform: translate(-7%, -9%) rotate(-3deg) scale(0.92);
+}
+
+.xp-count {
+  position: absolute;
+  right: 9px;
+  bottom: 9px;
+  z-index: 3;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: rgba(15, 23, 42, 0.66);
+  color: #FFFFFF;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+}
+
+/* Light sheen that follows the pointer (fine pointers only). */
+.xp-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(420px circle at var(--mx) var(--my), var(--xp-sheen), transparent 42%);
+  transition: opacity 0.3s ease;
+}
+
+#projects-grid > .card.xp-card.is-tilting .xp-media::after {
+  opacity: 1;
+}
+
+/* Hover / keyboard focus: the stack fans out. */
+@media (hover: hover) {
+  #projects-grid:not(.is-pdemo-stage) > .card.xp-card:hover .xp-shot--back {
+    opacity: 1;
+    transform: translate(-13%, -12%) rotate(-7deg) scale(0.9);
+  }
+  #projects-grid:not(.is-pdemo-stage) > .card.xp-card:hover .xp-shot--front {
+    transform: translate(3%, -3%) rotate(1.5deg);
+  }
+  #projects-grid:not(.is-pdemo-stage) > .card.xp-card:hover .xp-shot--front img {
+    transform: scale(1.04);
+  }
+}
+
+#projects-grid:not(.is-pdemo-stage) > .card.xp-card:focus-visible .xp-shot--back {
+  opacity: 1;
+  transform: translate(-13%, -12%) rotate(-7deg) scale(0.9);
+}
+
+#projects-grid:not(.is-pdemo-stage) > .card.xp-card:focus-visible .xp-shot--front {
+  transform: translate(3%, -3%) rotate(1.5deg);
+}
+
+/* ── Body ───────────────────────────────────────────────────── */
+.xp-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 18px 4px;
+}
+
+.xp-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.card-kicker.xp-kicker {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.xp-index {
+  flex: none;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+
+.card-title.xp-title {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.xp-desc {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--color-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.xp-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: auto 0 0;      /* pins the footer to the bottom of the card */
+  padding: 6px 0 0;
+  list-style: none;
+}
+
+.xp-tag {
+  padding: 2px 9px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  background: var(--xp-chip-bg);
+  color: var(--color-muted);
+  font-size: 11.5px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+/* ── Footer ─────────────────────────────────────────────────── */
+#projects-grid > .card.xp-card .xp-foot {
+  margin: 12px 18px 0;
+  padding: 12px 0 14px;
+  border-top: 1px solid var(--color-border);
+}
+
+.xp-foot .card-details-cue {
+  font-size: 13px;
+}
+
+#projects-grid > .card.xp-card .xp-foot {
+  flex-wrap: wrap;
+  row-gap: 10px;
+}
+
+.xp-links {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.xp-links .link-pill {
+  white-space: nowrap;
+}
+
+/* ── 3D: only where a fine pointer can drive it ────────────────
+   Layered depth: the plate sits 26px in front of the card, the text
+   10px, so a tilt moves them at different rates (parallax).        */
+@media (hover: hover) and (pointer: fine) {
+  #projects-grid > .card.xp-card {
+    transform: perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(var(--lift));
+    transform-style: preserve-3d;
+  }
+  .xp-media {
+    transform: translateZ(26px);
+  }
+  .xp-body,
+  #projects-grid > .card.xp-card .xp-foot {
+    transform: translateZ(10px);
+  }
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 960px) {
+  #projects-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+}
+
+@media (max-width: 600px) {
+  #projects-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .xp-filter {
+    min-height: 40px;
+  }
+  .xp-filters {
+    margin-bottom: 16px;
+  }
+  /* One card per row leaves room for the full label (design.css hides it
+     below 420px for tighter layouts), and a finger-sized target. */
+  .xp-links .view-repo-label {
+    display: inline;
+  }
+  .xp-links .link-pill,
+  .xp-foot .card-details-cue {
+    min-height: 40px;
+  }
+}
+
+/* ── Reduced motion: no transforms, colour feedback only ────── */
+@media (prefers-reduced-motion: reduce) {
+  #projects-grid > .card.xp-card,
+  #projects-grid > .card.xp-card.is-tilting {
+    transform: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .xp-media,
+  .xp-body,
+  #projects-grid > .card.xp-card .xp-foot {
+    transform: none;
+  }
+  .xp-shot,
+  .xp-shot img,
+  .xp-media::after {
+    transition: none;
+  }
+  #projects-grid:not(.is-pdemo-stage) > .card.xp-card:hover .xp-shot--back,
+  #projects-grid:not(.is-pdemo-stage) > .card.xp-card:focus-visible .xp-shot--back {
+    opacity: 0.85;
+    transform: translate(-7%, -9%) rotate(-3deg) scale(0.92);
+  }
+  #projects-grid:not(.is-pdemo-stage) > .card.xp-card:hover .xp-shot--front,
+  #projects-grid:not(.is-pdemo-stage) > .card.xp-card:focus-visible .xp-shot--front,
+  #projects-grid:not(.is-pdemo-stage) > .card.xp-card:hover .xp-shot--front img {
+    transform: none;
+  }
+  .xp-media::after {
+    display: none;
+  }
+}
+
+/* View Transitions (filter swaps): a quick, quiet cross-fade/morph. */
+::view-transition-group(*) {
+  animation-duration: 0.38s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
