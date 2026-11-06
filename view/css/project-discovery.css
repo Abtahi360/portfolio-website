@@ -1,0 +1,621 @@
+/* ── Other Projects: discovery demo + permanent card affordance ──
+   Scoped to #projects-grid cards, the .pdemo guide row, the Other
+   Projects divider and the project modal's .is-preview state.
+   Driven by controller/project-discovery-demo.js. Every temporary
+   class is removed by the controller when a run ends or is cancelled.
+   ──────────────────────────────────────────────────────────────── */
+
+:root {
+  --pdemo-edge: var(--color-secondary-end);  /* light: #2563EB */
+  --pdemo-edge-rgb: 37, 99, 235;
+  --pdemo-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --pdemo-ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+[data-theme="dark"] {
+  --pdemo-edge: var(--color-accent);         /* dark: #22D3EE */
+  --pdemo-edge-rgb: 34, 211, 238;
+}
+
+/* ── Permanent affordance on every Other Projects card ───────── */
+#projects-grid > .card[data-project-key] {
+  cursor: pointer;
+}
+
+#projects-grid > .card:focus-visible {
+  outline: 2px solid var(--pdemo-edge);
+  outline-offset: 3px;
+}
+
+.card-footer.card-footer-split {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-details-cue {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--pdemo-edge);
+  white-space: nowrap;
+  transition: color var(--transition-fast), transform 160ms ease-out;
+}
+
+/* Soft pill that only appears while the demo points at the cue —
+   drawn with a pseudo-element so the footer never reflows. */
+.card-details-cue::before {
+  content: "";
+  position: absolute;
+  inset: -1px -10px;
+  border-radius: var(--radius-pill);
+  background: rgba(var(--pdemo-edge-rgb), 0.1);
+  box-shadow: inset 0 0 0 1px rgba(var(--pdemo-edge-rgb), 0.35);
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 260ms ease-out, transform 260ms var(--pdemo-ease);
+  pointer-events: none;
+}
+
+.card-details-cue-icon {
+  flex: none;
+  transition: transform var(--transition-med);
+}
+
+#projects-grid > .card:hover .card-details-cue-icon,
+#projects-grid > .card:focus-visible .card-details-cue-icon {
+  transform: translate(2px, -2px);
+}
+
+/* ── Divider + replay control ─────────────────────────────────── */
+.rw-section-divider.pdemo-divider {
+  margin-bottom: 10px;
+}
+
+.pdemo-divider .rw-divider-label {
+  transition: color 400ms ease-out;
+}
+
+.pdemo-divider .rw-divider-line {
+  position: relative;
+  overflow: hidden;
+}
+
+.pdemo-divider .rw-divider-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--pdemo-edge), rgba(var(--pdemo-edge-rgb), 0));
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform 900ms var(--pdemo-ease), opacity 500ms ease-out;
+}
+
+.pdemo-divider.is-lit .rw-divider-label {
+  color: var(--color-primary);
+}
+
+.pdemo-divider.is-lit .rw-divider-line::after {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.pdemo-replay {
+  position: relative;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 30px;
+  padding: 5px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-card);
+  color: var(--color-muted);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+}
+
+/* Larger hit area for touch without growing the visual pill. */
+.pdemo-replay::before {
+  content: "";
+  position: absolute;
+  inset: -7px -4px;
+}
+
+.pdemo-replay[hidden] {
+  display: none;
+}
+
+.pdemo-replay:hover {
+  color: var(--color-primary);
+  border-color: rgba(var(--pdemo-edge-rgb), 0.6);
+}
+
+/* While a run is playing the control is a label, not an action. */
+.pdemo-replay[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.pdemo-replay[aria-disabled="true"]:hover {
+  color: var(--color-muted);
+  border-color: var(--color-border);
+}
+
+.pdemo-replay:focus-visible,
+.pdemo-skip:focus-visible {
+  outline: 2px solid var(--pdemo-edge);
+  outline-offset: 2px;
+}
+
+.pdemo-replay-icon {
+  flex: none;
+}
+
+/* ── Guide row: static hint ⇄ running row, same footprint ──────── */
+.pdemo {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 12px;
+  min-height: 32px;
+  margin: 0 0 22px;
+}
+
+.pdemo-hint,
+.pdemo-run {
+  grid-area: 1 / 1;
+  min-width: 0;
+  transition: opacity 320ms ease-out, transform 420ms var(--pdemo-ease), visibility 0s linear 0s;
+}
+
+.pdemo-hint {
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+.pdemo-run {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+}
+
+.pdemo[data-state="running"] .pdemo-hint {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+}
+
+.pdemo[data-state="running"] .pdemo-run {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.pdemo-tag {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px 4px 8px;
+  border-radius: var(--radius-pill);
+  background: rgba(var(--pdemo-edge-rgb), 0.08);
+  box-shadow: inset 0 0 0 1px rgba(var(--pdemo-edge-rgb), 0.28);
+  color: var(--color-primary);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.pdemo-tag-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pdemo-edge);
+  box-shadow: 0 0 0 3px rgba(var(--pdemo-edge-rgb), 0.18);
+}
+
+.pdemo-instruction {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.pdemo-steps {
+  display: flex;
+  gap: 2px;
+  margin: 0 0 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.pdemo-steps li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px 3px 3px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  color: var(--color-muted);
+  transition: color 240ms ease-out, background 240ms ease-out;
+}
+
+.pdemo-step-num {
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  font-size: 10.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  transition: background 240ms ease-out, border-color 240ms ease-out, color 240ms ease-out;
+}
+
+.pdemo-steps li.is-active {
+  color: var(--color-primary);
+  background: rgba(var(--pdemo-edge-rgb), 0.08);
+}
+
+.pdemo-steps li.is-active .pdemo-step-num {
+  background: var(--pdemo-edge);
+  border-color: var(--pdemo-edge);
+  color: #FFFFFF;
+}
+
+[data-theme="dark"] .pdemo-steps li.is-active .pdemo-step-num {
+  color: #0F172A;
+}
+
+.pdemo-steps li.is-done .pdemo-step-num {
+  border-color: rgba(var(--pdemo-edge-rgb), 0.55);
+  color: var(--pdemo-edge);
+}
+
+.pdemo-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -9px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-border);
+  overflow: hidden;
+}
+
+.pdemo-progress-bar {
+  display: block;
+  height: 100%;
+  background: var(--pdemo-edge);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+.pdemo-skip {
+  grid-column: 2;
+  grid-row: 1;
+  min-height: 30px;
+  padding: 4px 6px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--color-muted);
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: rgba(100, 116, 139, 0.45);
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.pdemo-skip:hover {
+  color: var(--color-primary);
+}
+
+.pdemo-skip[hidden] {
+  display: none;
+}
+
+/* ── Stage: the real grid becomes the set ─────────────────────── */
+#projects-grid.is-pdemo-stage {
+  perspective: 1500px;
+  perspective-origin: var(--pdemo-origin, 50% 30%);
+}
+
+#projects-grid.is-pdemo-stage > .card {
+  transition:
+    transform 700ms var(--pdemo-ease),
+    box-shadow 700ms var(--pdemo-ease),
+    border-color 450ms ease-out,
+    opacity 520ms ease-out,
+    filter 520ms ease-out;
+}
+
+#projects-grid.is-pdemo-stage > .card.is-pdemo-dim {
+  opacity: 0.5;
+  filter: saturate(0.7);
+  transform: scale(0.988);
+}
+
+#projects-grid > .card.is-pdemo-active {
+  position: relative;
+  z-index: 3;
+  transform-origin: 50% 100%;
+  transform: translate3d(0, -14px, 20px) rotateX(3deg) rotateY(-2.5deg) scale(1.012);
+  border-color: rgba(var(--pdemo-edge-rgb), 0.7);
+  box-shadow:
+    0 0 0 1px rgba(var(--pdemo-edge-rgb), 0.28),
+    0 1px 0 0 rgba(255, 255, 255, 0.6) inset,
+    0 34px 70px -22px rgba(15, 23, 42, 0.38),
+    0 16px 32px -14px rgba(var(--pdemo-edge-rgb), 0.3);
+}
+
+[data-theme="dark"] #projects-grid > .card.is-pdemo-active {
+  box-shadow:
+    0 0 0 1px rgba(var(--pdemo-edge-rgb), 0.32),
+    0 1px 0 0 rgba(255, 255, 255, 0.06) inset,
+    0 34px 70px -20px rgba(0, 0, 0, 0.65),
+    0 16px 36px -14px rgba(var(--pdemo-edge-rgb), 0.28);
+}
+
+/* Lit top edge + light pool under the raised card. */
+#projects-grid > .card.is-pdemo-active::before,
+#projects-grid > .card.is-pdemo-active::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+#projects-grid > .card.is-pdemo-active::before {
+  top: -1px;
+  left: 14%;
+  right: 14%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(var(--pdemo-edge-rgb), 0), rgba(var(--pdemo-edge-rgb), 0.95), rgba(var(--pdemo-edge-rgb), 0));
+}
+
+#projects-grid > .card.is-pdemo-active::after {
+  left: 10%;
+  right: 10%;
+  bottom: -26px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(var(--pdemo-edge-rgb), 0.28), rgba(var(--pdemo-edge-rgb), 0));
+  filter: blur(6px);
+}
+
+#projects-grid > .card.is-pdemo-active .card-details-cue::before,
+#projects-grid > .card.is-pdemo-static .card-details-cue::before {
+  opacity: 1;
+  transform: none;
+}
+
+#projects-grid > .card.is-pdemo-active .card-details-cue.is-pdemo-pressed {
+  transform: scale(0.94);
+}
+
+/* Reduced-motion "show me" state: emphasis without movement. */
+#projects-grid > .card.is-pdemo-static {
+  border-color: rgba(var(--pdemo-edge-rgb), 0.7);
+  box-shadow: 0 0 0 3px rgba(var(--pdemo-edge-rgb), 0.22), var(--shadow-soft);
+}
+
+/* ── Pointer / touch layer (decorative, never interactive) ────── */
+.pdemo-host {
+  position: relative;
+}
+
+.pdemo-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.pdemo-pointer,
+.pdemo-ripple,
+.pdemo-touch {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.pdemo-pointer {
+  width: 22px;
+  height: 26px;
+  filter: drop-shadow(0 6px 10px rgba(15, 23, 42, 0.28));
+}
+
+.pdemo-pointer svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.pdemo-pointer-fill {
+  fill: #FFFFFF;
+  stroke: #0F172A;
+}
+
+[data-theme="dark"] .pdemo-pointer-fill {
+  fill: #F8FAFC;
+  stroke: #020617;
+}
+
+.pdemo-ripple {
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--pdemo-edge);
+}
+
+.pdemo-touch {
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--pdemo-edge-rgb), 0.42) 0 34%, rgba(var(--pdemo-edge-rgb), 0.14) 35% 62%, rgba(var(--pdemo-edge-rgb), 0) 64%);
+}
+
+/* ── Project modal: passive preview presentation ──────────────── */
+.project-modal-backdrop.is-preview {
+  pointer-events: none;
+  background: rgba(15, 23, 42, 0.18);
+  animation: pdemo-backdrop-in 420ms ease-out both;
+}
+
+[data-theme="dark"] .project-modal-backdrop.is-preview {
+  background: rgba(2, 6, 23, 0.4);
+}
+
+.project-modal-backdrop.is-preview .project-modal {
+  position: relative;
+  pointer-events: none;
+  overflow: hidden;
+  max-height: min(64vh, 500px);
+  border-color: rgba(var(--pdemo-edge-rgb), 0.45);
+  box-shadow:
+    0 0 0 1px rgba(var(--pdemo-edge-rgb), 0.18),
+    0 40px 90px -30px rgba(15, 23, 42, 0.5);
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}
+
+.project-modal-backdrop.is-preview .project-modal-close,
+.project-modal-backdrop.is-preview .project-modal-footer {
+  display: none;
+}
+
+.project-modal-backdrop.is-preview .project-modal-header::after {
+  content: "Preview";
+  flex: none;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  background: rgba(var(--pdemo-edge-rgb), 0.1);
+  color: var(--pdemo-edge);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.project-modal-backdrop.is-preview .project-modal-body {
+  max-height: 290px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 68%, transparent);
+  mask-image: linear-gradient(to bottom, #000 68%, transparent);
+}
+
+/* Drains across the hold so the visitor can tell it will close itself. */
+.project-modal-backdrop.is-preview .project-modal::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--pdemo-edge);
+  transform-origin: 0 50%;
+  animation: pdemo-drain var(--pdemo-hold, 1800ms) linear var(--pdemo-hold-delay, 450ms) both;
+}
+
+@keyframes pdemo-backdrop-in {
+  from { background-color: rgba(15, 23, 42, 0); }
+}
+
+@keyframes pdemo-drain {
+  from { transform: scaleX(1); }
+  to   { transform: scaleX(0); }
+}
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  #projects-grid > .card.is-pdemo-active {
+    transform: translate3d(0, -10px, 14px) rotateX(2deg) rotateY(-1.5deg) scale(1.01);
+  }
+}
+
+@media (max-width: 720px) {
+  /* Single column: depth is a lift, not a tilt. */
+  #projects-grid.is-pdemo-stage {
+    perspective: none;
+  }
+
+  #projects-grid > .card.is-pdemo-active {
+    transform: translate3d(0, -6px, 0) scale(1.01);
+  }
+
+  #projects-grid.is-pdemo-stage > .card.is-pdemo-dim {
+    transform: none;
+  }
+
+  .pdemo-steps {
+    display: none;
+  }
+
+  .pdemo-run {
+    gap: 10px;
+  }
+
+  .pdemo-replay-label {
+    font-size: 12px;
+  }
+
+  .project-modal-backdrop.is-preview .project-modal {
+    max-height: 56vh;
+  }
+
+  .project-modal-backdrop.is-preview .project-modal-body {
+    max-height: 200px;
+  }
+}
+
+@media (max-width: 420px) {
+  .pdemo-tag {
+    display: none;
+  }
+}
+
+/* ── Reduced motion: no autoplay (JS) and no movement here ────── */
+@media (prefers-reduced-motion: reduce) {
+  .card-details-cue,
+  .card-details-cue::before,
+  .card-details-cue-icon,
+  .pdemo-hint,
+  .pdemo-run,
+  .pdemo-divider .rw-divider-label,
+  .pdemo-divider .rw-divider-line::after,
+  #projects-grid.is-pdemo-stage > .card {
+    transition: none;
+  }
+
+  #projects-grid > .card:hover .card-details-cue-icon,
+  #projects-grid > .card:focus-visible .card-details-cue-icon {
+    transform: none;
+  }
+
+  .project-modal-backdrop.is-preview,
+  .project-modal-backdrop.is-preview .project-modal::after {
+    animation: none;
+  }
+}
