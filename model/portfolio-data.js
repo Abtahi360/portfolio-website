@@ -146,13 +146,27 @@ const portfolioData = {
       coursework: "· High Mathematics · Physics · Chemistry · Biology"
     }
   ],
+  /* ── Other Projects ─────────────────────────────────────────────────────
+     Rendered by controller/main.js as "Gallery Exhibit" cards and filtered by
+     controller/project-filter.js.
+       group   ml | software | systems   (labels: projectGroups below)
+       media   1–2 images, 1200×750 WebP (16:10) in view/assets/Images/projects/
+               the first is the front of the stack, the second sits behind it */
+  projectGroups: [
+    { id: "ml", label: "AI & ML" },
+    { id: "software", label: "Software & Web" },
+    { id: "systems", label: "Systems & Engineering" }
+  ],
   projects: [
     {
       key: "docx-to-excel-generator",
       kicker: "Automation & Data Processing",
       title: "Automatic Excel Sheet Generator from DOCX Book Data",
       tags: ["Python", "Automation", "Data Extraction"],
-      images: ["view/assets/Images/docx-to-excel-generator 1.png"],
+      group: "software",
+      media: [
+        { src: "view/assets/Images/projects/docx-to-excel-generator-1.webp", alt: "Notebook output listing the chapters, sub-sections and 33 hadith entries extracted from the Bangla DOCX book into Excel files" }
+      ],
       description: "This project automates the extraction of structured data from a Bangla DOCX book file and converts it into clean Excel sheets, including chapters, sub-sections, and hadith entries.",
       repoUrl: "https://github.com/Abtahi360/Automatic-Excel-Sheet-Generator-from-DOCX-Book-Data"
     },
@@ -161,9 +175,10 @@ const portfolioData = {
       kicker: "Natural Language Processing",
       title: "Trigram Language Model with Story Generation",
       tags: ["NLP", "Text Generation", "Python"],
-      images: [
-        "view/assets/Images/Trigram Language Model with Story Generation 1.png",
-        "view/assets/Images/Trigram Language Model with Story Generation 2.png"
+      group: "ml",
+      media: [
+        { src: "view/assets/Images/projects/trigram-language-model-1.webp", alt: "Sample console output: vocabulary size, text generated from the seed \"the king\", and a test-sentence perplexity of 120.45" },
+        { src: "view/assets/Images/projects/trigram-language-model-2.webp", alt: "Diagram of how corpus words are broken into trigram counts" }
       ],
       description: "This project implements a Trigram Language Model from scratch in Python as part of a Natural Language Processing assignment. The model learns word patterns from a corpus and generates meaningful text using probabilistic methods.",
       repoUrl: "https://github.com/Abtahi360/Trigram-Language-Model-with-Story-Generation"
@@ -173,7 +188,10 @@ const portfolioData = {
       kicker: "Spring Boot",
       title: "Spring Boot 3 Practice",
       tags: ["Java 17", "Spring 6", "Hibernate"],
-      images: ["view/assets/Images/spring1.png", "view/assets/Images/spring2.png"],
+      group: "software",
+      media: [
+        { src: "view/assets/Images/projects/spring-boot-practice-1.webp", alt: "Spring Boot 3 logo" }
+      ],
       description: "Collection of hands-on practice modules following a Spring Boot + Hibernate course. The goal of this repository is to organize my work, show my progress, and build practical backend development skills.",
       repoUrl: "https://github.com/Abtahi360/Bootcamp-with-Spring-by-Abtahi"
     },
@@ -182,7 +200,11 @@ const portfolioData = {
       kicker: "Machine Learning",
       title: "Brain Tumor MRI Segmentation",
       tags: ["Keras", "TensorFlow"],
-      images: ["view/assets/Images/mri1.png", "view/assets/Images/mri2.png"],
+      group: "ml",
+      media: [
+        { src: "view/assets/Images/projects/brain-tumor-segmentation-1.webp", alt: "Project banner comparing segmentation IoU: Xception 0.82, ResNet50V2 0.85, EfficientNetV2-B3 0.88" },
+        { src: "view/assets/Images/projects/brain-tumor-segmentation-2.webp", alt: "NASNetLarge confusion matrix across glioma, meningioma, pituitary and no-tumor classes" }
+      ],
       description: "Comparative sweep of Keras models for MRI segmentation - training, evaluation, and single-image demos.",
       repoUrl: "https://github.com/Abtahi360/A-Comparative-Study-of-Keras-Models-for-Brain-Tumor-MRI-Segmentation"
     },
@@ -191,7 +213,11 @@ const portfolioData = {
       kicker: "Machine Learning",
       title: "Cat vs Dog Classification",
       tags: ["CNN", "TensorFlow"],
-      images: ["view/assets/Images/cat1.png", "view/assets/Images/cat2.png"],
+      group: "ml",
+      media: [
+        { src: "view/assets/Images/projects/cat-vs-dog-classification-1.webp", alt: "Confusion matrix: 290 of 295 cats classified correctly, all 52 dogs predicted as cats" },
+        { src: "view/assets/Images/projects/cat-vs-dog-classification-2.webp", alt: "ROC curve with an AUC of 0.4904" }
+      ],
       description: "Binary image classifier using TensorFlow/Keras - demonstrates a full training & evaluation workflow.",
       repoUrl: "https://github.com/Abtahi360/Cat-vs-Dog-Image-Classification-using-Convolutional-Neural-Network-CNN"
     },
@@ -200,7 +226,11 @@ const portfolioData = {
       kicker: "Web Development",
       title: "Tic Tac Toe Game",
       tags: ["HTML", "CSS", "JavaScript"],
-      images: ["view/assets/Images/tic-tac-toe-game 1.png", "view/assets/Images/tic-tac-toe-game 2.png"],
+      group: "software",
+      media: [
+        { src: "view/assets/Images/projects/tic-tac-toe-game-1.webp", alt: "Tic Tac Toe board mid-game with a column of three X marks" },
+        { src: "view/assets/Images/projects/tic-tac-toe-game-2.webp", alt: "Tic Tac Toe start screen with Player vs Player and Player vs Computer options" }
+      ],
       description: "Interactive browser-based Tic Tac Toe game demonstrating DOM manipulation and game logic using vanilla JavaScript.",
       repoUrl: "https://github.com/Abtahi360/Tic-Tac-Toe-Game",
       liveLink: "https://tic-tac-toe-abtahiislam.vercel.app/"
@@ -210,7 +240,11 @@ const portfolioData = {
       kicker: "Game Development",
       title: "Space Shooter (OpenGL)",
       tags: ["C++", "C", "OpenGL"],
-      images: ["view/assets/Images/game1.png", "view/assets/Images/game2.png"],
+      group: "software",
+      media: [
+        { src: "view/assets/Images/projects/space-shooter-game-1.webp", alt: "Space Shooter main menu with New Game, Save Game, Leader Board and Music options" },
+        { src: "view/assets/Images/projects/space-shooter-game-2.webp", alt: "Space Shooter gameplay with the player ship facing enemy fighters and health bars" }
+      ],
       description: "Three-level C++ OpenGL game with power-ups, boss fights, save/load, and final walk-home cutscene.",
       repoUrl: "https://github.com/Abtahi360/Space-Shooter-A-three-level-OpenGL-game-with-final-walk-home-cutscene"
     },
@@ -219,7 +253,11 @@ const portfolioData = {
       kicker: "AI/ML",
       title: "Presento - AI Presentation Assessment",
       tags: ["System Design", "Figma"],
-      images: ["view/assets/Images/cv1.png", "view/assets/Images/cv2.png"],
+      group: "ml",
+      media: [
+        { src: "view/assets/Images/projects/presento-ai-assessment-1.webp", alt: "Presento progress dashboard showing overall score, improvement, filler words per minute and gesture score" },
+        { src: "view/assets/Images/projects/presento-ai-assessment-2.webp", alt: "Presento student report page with PDF and CSV export and a share link" }
+      ],
       description: "Multimodal system design (CV, speech, slide analysis) to evaluate presentation skills and generate reports.",
       repoUrl: "https://github.com/Abtahi360/Presento-AI-Powered-Multimodal-Presentation-Skill-Assessment"
     },
@@ -228,7 +266,11 @@ const portfolioData = {
       kicker: "Networking",
       title: "Network Topology Simulation",
       tags: ["Cisco Packet Tracer"],
-      images: ["view/assets/Images/cisco1.png", "view/assets/Images/cisco2.png"],
+      group: "systems",
+      media: [
+        { src: "view/assets/Images/projects/network-topology-simulation-1.webp", alt: "Packet Tracer topology linking a hub, two switches and a bridge across eight PCs" },
+        { src: "view/assets/Images/projects/network-topology-simulation-2.webp", alt: "Packet Tracer router-based inter-switch topology with the simulation event list" }
+      ],
       description: "Educational Packet Tracer labs: multi-level topology and router-based inter-switch communication.",
       repoUrl: "https://github.com/Abtahi360/Network-Topology-Simulation-with-Cisco-Packet-Tracer"
     },
@@ -237,7 +279,11 @@ const portfolioData = {
       kicker: "CAD",
       title: "AutoCAD Electrical Diagrams",
       tags: ["AutoCAD 2007"],
-      images: ["view/assets/Images/cad1.png", "view/assets/Images/cad2.png"],
+      group: "systems",
+      media: [
+        { src: "view/assets/Images/projects/autocad-electrical-diagrams-1.webp", alt: "AutoCAD electrical circuit schematic with labelled resistors and capacitors" },
+        { src: "view/assets/Images/projects/autocad-electrical-diagrams-2.webp", alt: "AutoCAD electrical wiring layout of a floor plan" }
+      ],
       description: "Four electrical circuit schematics (.dwg) created for a CAD assignment - AutoCAD 2007 format.",
       repoUrl: "https://github.com/Abtahi360/Showcasing-electrical-circuit-diagrams-designed-in-AutoCAD-2007"
     },
@@ -246,7 +292,11 @@ const portfolioData = {
       kicker: "Desktop App",
       title: "Stopwatch Timer – C# WinForms",
       tags: ["C#", ".NET"],
-      images: ["view/assets/Images/Stopwatch_Pink.png", "view/assets/Images/Stopwatch_Dark.png"],
+      group: "software",
+      media: [
+        { src: "view/assets/Images/projects/stopwatch-timer-csharp-1.webp", alt: "Stopwatch Timer app in the dark theme with start, stop, pause and reset controls and a lap timer" },
+        { src: "view/assets/Images/projects/stopwatch-timer-csharp-2.webp", alt: "Stopwatch Timer app in the pink theme with recorded laps" }
+      ],
       description: "Simple stopwatch app with start/stop/pause/reset, history log, and dark/light theme toggle.",
       repoUrl: "https://github.com/Abtahi360/Stopwatch_Timer"
     },
@@ -264,11 +314,79 @@ const portfolioData = {
       kicker: "Desktop App",
       title: "Boi Jatra – Bookstore Management",
       tags: ["Java"],
-      images: ["view/assets/Images/boi1.png", "view/assets/Images/boi2.png"],
+      group: "software",
+      media: [
+        { src: "view/assets/Images/projects/boi-jatra-bookstore-java-1.webp", alt: "Boi Jatra home screen showing a grid of book covers" },
+        { src: "view/assets/Images/projects/boi-jatra-bookstore-java-2.webp", alt: "Boi Jatra book detail screen with price, quantity and Add to Cart" }
+      ],
       description: "Text-file based bookstore app with admin/user panels, cart & payment simulation.",
       repoUrl: "https://github.com/Abtahi360/Boi_Jatra"
     }
   ],
+  /* ── Research & Publications ──────────────────────────────────────────────
+     Rendered by controller/research.js in array order (newest first).
+     Only verified metadata belongs here: leave a field out rather than guess.
+     A missing year, author list or DOI is simply not shown, and the APA
+     "Cite" button only appears when authors, year and venue are all known.
+       type          Journal | Conference | Preprint | ...
+       authors       full names in publication order (selfName is emphasised)
+       citationAuthors  APA author string, used by the Cite button
+       citationTitle    APA sentence-case title (optional; falls back to title)
+       facts         short, verifiable highlights shown as chips
+       methods       methods named in the abstract
+       contribution  your own part of the work
+       doi           bare DOI (10.xxxx/...); links.researchgate is optional */
+  selfName: "Abtahi Islam",
+  research: [
+    {
+      key: "ai-ethics-academic-work",
+      type: "Journal",
+      year: 2026,
+      date: "2026-04-01",
+      title: "The Ethics of AI Technology in Academic Work: Assessing the Line Between Assistance and Plagiarism",
+      citationTitle: "The ethics of AI technology in academic work: Assessing the line between assistance and plagiarism",
+      authors: [
+        "Md. Owafeeuzzaman Patwary",
+        "Md. Reazul Islam",
+        "Abtahi Islam",
+        "Nur-e Sarjina Khan",
+        "Md. Abdullah Al-Jubair",
+        "Md. Jakir Hossen",
+        "M. F. Mridha"
+      ],
+      citationAuthors: "Patwary, M. O., Islam, M. R., Islam, A., Khan, N.-e. S., Al-Jubair, M. A., Hossen, M. J., & Mridha, M. F.",
+      venue: "International Journal of Electrical and Computer Engineering (IJECE)",
+      publisher: "Institute of Advanced Engineering and Science",
+      issn: "2088-8708",
+      volume: 16,
+      issue: 2,
+      pages: "924–944",
+      facts: ["Q3 journal", "n = 498 respondents", "Survey study"],
+      tldr: "A survey of 498 respondents found correlations between AI usage frequency, dependency and critical engagement, and surfaced concerns about inaccuracies, misuse and absent institutional policies.",
+      methods: ["Survey", "Statistical analysis"],
+      contribution: ["Survey design", "Statistical analysis", "Chi-square testing", "Regression modeling", "Ethical framework development"],
+      abstract: "This study explores the ethical boundaries of AI in academic work, examining assistance versus plagiarism. A survey of 498 respondents revealed correlations between AI usage frequency, dependency, and critical engagement. Statistical analysis highlighted concerns about inaccuracies, misuse, and absent institutional policies. Findings emphasize responsible integration, ethical frameworks, and educational interventions to ensure AI enhances learning while preserving academic integrity.",
+      keywords: ["AI Ethics", "AI Dependency", "Academic Integrity", "Responsible AI Integration", "AI Tools in Education"],
+      doi: "10.11591/ijece.v16i2.pp924-944"
+    },
+    {
+      key: "ai-textile-waste-management",
+      type: "Conference",
+      title: "Artificial Intelligence in Textile Waste Management: Exploring Predictive Modelling, Recycling Innovations, and Sustainable Solutions",
+      venue: "3rd International Conference on Textile Science and Engineering",
+      venueDetail: "BUTEX",
+      facts: ["Conference paper", "Survey study"],
+      tldr: "Occupation strongly influences AI awareness, while high costs and limited awareness remain the key barriers to adopting AI in textile waste management.",
+      methods: ["Survey", "SPSS", "Chi-square testing", "Multinomial logistic regression"],
+      contribution: ["Survey design", "SPSS analysis", "Chi-square testing", "Regression modeling", "Research interpretation"],
+      abstract: "This study explores the role of artificial intelligence in sustainable textile waste management, focusing on predictive modelling, recycling innovation, and AI-driven waste reduction strategies. This study examines AI adoption in textile waste management using survey data, SPSS analysis, chi-square testing, and multinomial logistic regression. Findings show that occupation strongly influences AI awareness, while high costs and limited awareness remain key barriers to implementation.",
+      keywords: ["Artificial Intelligence", "Textile Waste Management", "Predictive Modelling", "Recycling Innovation", "Sustainability"],
+      links: {
+        researchgate: "https://www.researchgate.net/publication/400526019_Artificial_Intelligence_in_Textile_Waste_Management_Exploring_Predictive_Modelling_Recycling_Innovations_and_Sustainable_Solutions"
+      }
+    }
+  ],
+
   certificates: [
     {
       title: "Code to Cloud: Practical DevOps with AWS",

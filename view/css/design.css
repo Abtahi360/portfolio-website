@@ -3,6 +3,9 @@
     --color-secondary-start: #1E3A8A;
     --color-secondary-end: #2563EB;
     --color-accent: #22D3EE;
+    /* Accent used as TEXT on light surfaces: #22D3EE on white is 1.8:1,
+       this teal is 5.4:1 (WCAG AA). Decorative uses keep --color-accent. */
+    --color-accent-text: #0E7490;
     --color-bg: #F8FAFC;
     --color-card: #FFFFFF;
     --color-muted: #64748B;
@@ -21,6 +24,7 @@
     --color-secondary-start: #3B82F6;
     --color-secondary-end: #6366F1;
     --color-accent: #22D3EE;
+    --color-accent-text: #22D3EE;
     --color-bg: #0F172A;
     --color-card: #1E293B;
     --color-muted: #94A3B8;
@@ -64,6 +68,10 @@ button {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    /* Decorative orbs (hero, education, contact) bleed past the right edge
+       and let phones pan sideways. clip (unlike hidden) creates no scroll
+       container, so the sticky nav keeps working. */
+    overflow-x: clip;
 }
 
 .nav-shell {
@@ -563,7 +571,7 @@ html:not([data-theme="dark"]) .theme-icon-dark {
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: var(--color-accent);
+    color: var(--color-accent-text);
     font-weight: 600;
     margin-bottom: 2px;
 }
@@ -912,7 +920,7 @@ html:not([data-theme="dark"]) .theme-icon-dark {
 
 .card-kicker {
     font-size: 11px;
-    color: var(--color-accent);
+    color: var(--color-accent-text);
     text-transform: uppercase;
     letter-spacing: 0.12em;
     margin-bottom: 2px;

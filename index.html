@@ -4,18 +4,24 @@
 <head>
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="stylesheet" href="view/css/resume-cursor-effect.css">
-  <link rel="stylesheet" href="view/css/design.css">
+  <link rel="stylesheet" href="view/css/design.css?v=20261107">
   <link rel="stylesheet" href="view/css/contact-upgrade.css">
-  <link rel="stylesheet" href="view/css/real-world-projects.css">
+  <link rel="stylesheet" href="view/css/real-world-projects.css?v=20261107">
   <link rel="stylesheet" href="view/css/education.css">
   <link rel="stylesheet" href="view/css/experience.css">
   <link rel="stylesheet" href="view/css/gallery.css">
   <link rel="stylesheet" href="view/css/motion.css">
+  <link rel="stylesheet" href="view/css/research.css?v=20261107">
+  <!-- other-projects.css must load BEFORE project-discovery.css: the demo's
+       .is-pdemo-* states win ties with the card styles. -->
+  <link rel="stylesheet" href="view/css/other-projects.css?v=20261107">
   <link rel="stylesheet" href="view/css/project-discovery.css">
   <meta charset="UTF-8">
   <title>Abtahi Islam - Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
   <script>
     (function () {
       var theme = localStorage.getItem('portfolio-theme') || 'light';
@@ -26,7 +32,7 @@
   <meta name="description"
     content="Abtahi Portfolio - Official portfolio website of Abtahi Islam, CSE student. Projects, skills, and contact information.">
   <title>Abtahi Portfolio | Abtahi Islam - CSE Student</title>
-  <script src="model/portfolio-data.js"></script>
+  <script src="model/portfolio-data.js?v=20261107"></script>
   <script src="controller/contact-form.js"></script>
 </head>
 
@@ -150,19 +156,19 @@
                   <div class="hero-highlight-stat-row">
                     <div class="hero-highlight-stat">
                       <div class="hero-highlight-stat-number">
-                        <a href="#projects" class="stat-value clickable-stat">12+</a>
+                        <a href="#projects" class="stat-value clickable-stat" data-stat="projects">14</a>
                       </div>
                       <div class="hero-highlight-stat-label">Projects</div>
                     </div>
                     <div class="hero-highlight-stat">
                       <div class="hero-highlight-stat-number">
-                        <a href="#research" class="stat-value clickable-stat">3</a>
+                        <a href="#research" class="stat-value clickable-stat" data-stat="research">2</a>
                       </div>
                       <div class="hero-highlight-stat-label">Research Works</div>
                     </div>
                     <div class="hero-highlight-stat">
                       <div class="hero-highlight-stat-number">
-                        <a href="#certificates" class="stat-value clickable-stat">10</a>
+                        <a href="#certificates" class="stat-value clickable-stat" data-stat="certificates">14</a>
                       </div>
                       <div class="hero-highlight-stat-label">Certifications</div>
                     </div>
@@ -280,6 +286,9 @@
             <button type="button" class="pdemo-skip" id="pdemo-skip" hidden>Skip demo</button>
           </div>
 
+          <!-- Category filter (controller/project-filter.js) -->
+          <div class="xp-filters" id="project-filters"></div>
+
           <div class="cards-grid" id="projects-grid">
           </div>
 
@@ -313,77 +322,9 @@
               Research contributions that bridge innovation, ethics, and practical implementation.
             </div>
           </div>
-          <div class="research-grid">
-            <div class="research-card">
-              <div class="research-status">Journal Publication</div>
-              <h3 class="research-title">The Ethics of AI Technology in Academic Work: Assessing the Line Between
-                Assistance and Plagiarism</h3>
-              <div class="pill-tag-row">
-                <span class="research-badge">
-                  <span class="link-icon">✓</span>
-                  𝙄𝙣𝙩𝙚𝙧𝙣𝙖𝙩𝙞𝙤𝙣𝙖𝙡 𝙅𝙤𝙪𝙧𝙣𝙖𝙡 𝙤𝙛 𝙀𝙡𝙚𝙘𝙩𝙧𝙞𝙘𝙖𝙡 𝙖𝙣𝙙 𝘾𝙤𝙢𝙥𝙪𝙩𝙚𝙧
-                  𝙀𝙣𝙜𝙞𝙣𝙚𝙚𝙧𝙞𝙣𝙜 (𝙄𝙅𝙀𝘾𝙀) (Q - 3)
-                </span>
-              </div>
-              <p class="research-meta">
-                This study explores the ethical boundaries of AI in academic work, examining assistance versus
-                plagiarism.
-                A survey of 498 respondents revealed correlations between AI usage frequency, dependency,
-                and critical engagement. Statistical analysis highlighted concerns about inaccuracies, misuse,
-                and absent institutional policies. Findings emphasize responsible integration, ethical frameworks,
-                and educational interventions to ensure AI enhances learning while preserving academic integrity.
-              </p>
-              <div class="card-list">
-                <div class="card-list-item">
-                  <span>Contribution:</span> Survey design, statistical analysis, chi-square testing, regression
-                  modeling, and ethical framework development.
-                </div>
-                <div class="card-list-item">
-                  <span>Keywords:</span> AI Ethics, AI Dependency, Academic Integrity, Responsible AI Integration, AI
-                  Tools in Education.
-                </div>
-              </div>
-              <div class="research-actions">
-                <a href="http://doi.org/10.11591/ijece.v16i2.pp924-944" class="link-pill" target="_blank"
-                  rel="noopener">
-                  <span class="link-icon">⬇</span>
-                  View Article
-                </a>
-              </div>
-            </div>
-
-            <div class="research-card">
-              <div class="research-status">Conference Publication</div>
-              <h3 class="research-title">Artificial Intelligence in Textile Waste Management: Exploring Predictive Modelling, Recycling Innovations, and Sustainable Solutions</h3>
-              <div class="pill-tag-row">
-                <span class="research-badge">
-                  <span class="link-icon">✓</span>
-                  3rd International Conference on Textile Science and Engineering At: BUTEX
-                </span>
-              </div>
-              <p class="research-meta">
-                This study explores the role of artificial intelligence in sustainable textile waste management, focusing on predictive modelling, 
-                recycling innovation, and AI-driven waste reduction strategies. This study examines AI adoption in textile waste management using 
-                survey data, SPSS analysis, chi-square testing, and multinomial logistic regression. Findings show that occupation strongly 
-                influences AI awareness, while high costs and limited awareness remain key barriers to implementation.
-              </p>
-              <div class="card-list">
-                <div class="card-list-item">
-                  <span>Contribution:</span> Survey design, SPSS analysis, chi-square testing, regression modeling, and research interpretation.
-                </div>
-                <div class="card-list-item">
-                  <span>Keywords:</span> Artificial Intelligence, Textile Waste Management, Predictive Modelling, Recycling Innovation, Sustainability.
-                </div>
-              </div>
-              <div class="research-actions">
-                <a href="https://www.researchgate.net/publication/400526019_Artificial_Intelligence_in_Textile_Waste_Management_Exploring_Predictive_Modelling_Recycling_Innovations_and_Sustainable_Solutions" class="link-pill" target="_blank"
-                  rel="noopener">
-                  <span class="link-icon">⬇</span>
-                  View Article
-                </a>
-              </div>
-            </div>
-          </div>
+          <!-- Rendered from portfolioData.research by controller/research.js -->
+          <p class="pub-summary" id="research-summary"></p>
+          <ol class="pub-list" id="research-list" aria-label="Publications, newest first"></ol>
         </div>
       </section>
 
@@ -745,17 +686,20 @@
   </div><!-- /page -->
 
   <script src="controller/view-repo-button.js"></script>
-  <script src="model/project-details.js"></script>
+  <script src="model/project-details.js?v=20261107"></script>
   <script src="model/real-world-projects.js"></script>
   <script src="controller/real-world-projects.js"></script>
-  <script src="controller/main.js"></script>
+  <script src="controller/main.js?v=20261107"></script>
+  <script src="controller/project-filter.js?v=20261107"></script>
+  <script src="controller/card-tilt.js?v=20261107"></script>
+  <script src="controller/research.js?v=20261107"></script>
   <script src="controller/project-discovery-demo.js"></script>
   <script src="controller/education.js"></script>
   <script src="controller/experience.js"></script>
   <script src="controller/gallery.js"></script>
   <script src="controller/resume-cursor-effect.js"></script>
   <script src="controller/scroll-to-top.js"></script>
-  <script src="controller/motion.js"></script>
+  <script src="controller/motion.js?v=20261107"></script>
 
   <button id="scroll-to-top" class="scroll-to-top" aria-label="Scroll to top">
     <svg class="scroll-to-top-icon" viewBox="0 0 24 24">

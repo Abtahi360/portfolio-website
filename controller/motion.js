@@ -31,20 +31,20 @@
                CSS hover effects (transform: translateY(-4px))
                are restored to full functionality.            */
 
-  function hide(el, durationMs, ty) {
+  function hide(el, durationMs, ty, fromTransform) {
     el.style.opacity    = "0";
-    el.style.transform  = "translateY(" + (ty || 14) + "px)";
+    el.style.transform  = fromTransform || "translateY(" + (ty || 14) + "px)";
     el.style.transition =
       "opacity "   + durationMs + "ms " + EASE + ", " +
       "transform " + durationMs + "ms " + EASE;
   }
 
-  function show(el, delayMs, durationMs) {
+  function show(el, delayMs, durationMs, toTransform) {
     delayMs    = delayMs    || 0;
     durationMs = durationMs || 600;
     el.style.transitionDelay = delayMs + "ms";
     el.style.opacity         = "1";
-    el.style.transform       = "none";
+    el.style.transform       = toTransform || "none";
     /* Remove all inline motion styles once the animation is
        done so existing CSS hover / active states work normally. */
     setTimeout(function () {
@@ -99,8 +99,24 @@
     ".cards-grid > *, " +
     ".cards-grid-two > *, " +
     ".research-grid > *, " +
+    ".pub-list > .pub, " +
     ".skills-grid > *, " +
     ".rw-grid > .rw-card";
+
+  /* Other Projects cards rise out of a slight backward lean (3D).
+     Same function list at both ends so the browser interpolates the
+     rotation itself instead of a flattened matrix.               */
+  var PROJECT_SEL = "#projects-grid > .card";
+  var RISE_FROM = "perspective(1000px) rotateX(10deg) translateY(28px)";
+  var RISE_TO   = "perspective(1000px) rotateX(0deg) translateY(0px)";
+  var RISE_MS   = 720;
+
+  /* Touch / coarse pointers get the ordinary 2D rise: no 3D layers. */
+  var FINE_POINTER = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  function isProjectCard(el) {
+    return FINE_POINTER && typeof el.matches === "function" && el.matches(PROJECT_SEL);
+  }
 
   /* Section-header child selectors (ordered reveal) */
   var HDR_SELS = [".section-kicker", ".section-title", ".section-subtitle"];
@@ -117,7 +133,8 @@
 
     /* Grid / list cards */
     si.querySelectorAll(CARD_SEL).forEach(function (card) {
-      hide(card, 600, 14);
+      if (isProjectCard(card)) hide(card, RISE_MS, 28, RISE_FROM);
+      else hide(card, 600, 14);
     });
   }
 
@@ -134,7 +151,8 @@
     /* Grid cards: stagger from CARD_WAIT offset, capped at MAX_STAG */
     si.querySelectorAll(CARD_SEL).forEach(function (card, i) {
       var delay = CARD_WAIT + Math.min(i * STAGGER, MAX_STAG);
-      show(card, delay, 600);
+      if (isProjectCard(card)) show(card, delay, RISE_MS, RISE_TO);
+      else show(card, delay, 600);
     });
   }
 
