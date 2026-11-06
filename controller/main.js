@@ -365,6 +365,107 @@
     );
   }
 
+  /* ── Other Projects card ("Gallery Exhibit") ─────────────────
+     media plate (16:10, 1–2 stacked screenshots) → body → footer.
+     Hooks other scripts rely on stay intact: article.card,
+     data-project-key, .card-title, .card-details-cue and
+     .view-repo-button (project-details.js, project-discovery-demo.js,
+     project-filter.js, card-tilt.js, view-repo-button.js).        */
+  var PROJECT_IMG_W = 1200;
+  var PROJECT_IMG_H = 750;
+
+  function projectMedia(project) {
+    if (project.media && project.media.length) return project.media.slice(0, 2);
+    /* Legacy shape: images: ["path", ...] */
+    return (project.images || []).slice(0, 2).map(function (src) {
+      return { src: src, alt: project.title };
+    });
+  }
+
+  function projectShot(item, role) {
+    var isBack = role === "back";
+    return (
+      '<figure class="xp-shot xp-shot--' + role + '"' + (isBack ? ' aria-hidden="true"' : "") + ">" +
+      '<img src="' + eduEsc(item.src) + '"' +
+      ' alt="' + (isBack ? "" : eduEsc(item.alt)) + '"' +
+      ' width="' + PROJECT_IMG_W + '" height="' + PROJECT_IMG_H + '"' +
+      ' loading="lazy" decoding="async">' +
+      "</figure>"
+    );
+  }
+
+  function pad2(n) {
+    return (n < 10 ? "0" : "") + n;
+  }
+
+  function renderProjectCard(project, index, total) {
+    var article = document.createElement("article");
+    article.className = "card xp-card";
+    article.setAttribute("data-project-key", project.key);
+    if (project.group) article.setAttribute("data-group", project.group);
+
+    var media = projectMedia(project);
+    var stacked = media.length > 1;
+    var mediaHtml =
+      '<div class="xp-media' + (stacked ? " xp-media--stack" : "") + '">' +
+      (stacked ? projectShot(media[1], "back") : "") +
+      (media.length ? projectShot(media[0], "front") : "") +
+      (stacked ? '<span class="xp-count" aria-hidden="true">' + media.length + " screens</span>" : "") +
+      "</div>";
+
+    var tagsHtml = (project.tags || [])
+      .map(function (tag) { return '<li class="xp-tag">' + eduEsc(tag) + "</li>"; })
+      .join("");
+
+    article.innerHTML =
+      mediaHtml +
+      '<div class="xp-body">' +
+      '<div class="xp-meta">' +
+      '<span class="card-kicker xp-kicker">' + eduEsc(project.kicker) + "</span>" +
+      '<span class="xp-index" aria-hidden="true">' + pad2(index + 1) + " / " + pad2(total) + "</span>" +
+      "</div>" +
+      '<h3 class="card-title xp-title">' + eduEsc(project.title) + "</h3>" +
+      '<p class="xp-desc">' + eduEsc(project.description) + "</p>" +
+      (tagsHtml ? '<ul class="xp-tags" aria-label="Technologies">' + tagsHtml + "</ul>" : "") +
+      "</div>" +
+      '<div class="card-footer card-footer-split xp-foot">' +
+      /* Permanent, non-interactive affordance: the whole card is the
+         button (role/aria-label set in project-details.js). */
+      '<span class="card-details-cue" aria-hidden="true">' +
+      '<span class="card-details-cue-label">View details</span>' +
+      '<svg class="card-details-cue-icon" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h8v8"/><path d="M12 4 4 12"/></svg>' +
+      "</span>" +
+      /* .xp-links keeps Live + Repository together when the footer wraps */
+      '<div class="xp-links">' +
+      '<div class="view-repo-button"' +
+      ' data-repo-url="' + eduEsc(project.repoUrl) + '"' +
+      ' data-live-link="' + eduEsc(project.liveLink || "") + '"' +
+      ' data-project-name="' + eduEsc(project.title) + '"></div>' +
+      "</div>" +
+      "</div>";
+
+    return article;
+  }
+
+  /* ── Hero snapshot counts ────────────────────────────────────
+     <a data-stat="projects|research|certificates"> shows the real
+     length of its data source; the HTML number is only a fallback. */
+  function renderHeroStats() {
+    if (typeof portfolioData === "undefined") return;
+    var rwCount = typeof realWorldProjects !== "undefined" && realWorldProjects ? realWorldProjects.length : 0;
+    var counts = {
+      projects: rwCount + (portfolioData.projects ? portfolioData.projects.length : 0),
+      research: portfolioData.research ? portfolioData.research.length : 0,
+      certificates: portfolioData.certificates ? portfolioData.certificates.length : 0
+    };
+    document.querySelectorAll("[data-stat]").forEach(function (el) {
+      var key = el.getAttribute("data-stat");
+      if (Object.prototype.hasOwnProperty.call(counts, key) && counts[key] > 0) {
+        el.textContent = String(counts[key]);
+      }
+    });
+  }
+
   /* ── Portfolio content renderer ──────────────────────────── */
   function renderPortfolioContent() {
     // Education
@@ -373,56 +474,12 @@
       eduGrid.innerHTML = renderEducationJourney(portfolioData.education);
     }
 
-    // Projects
+    // Other Projects: "Gallery Exhibit" cards (view/css/other-projects.css)
     var projectsGrid = document.getElementById("projects-grid");
     if (projectsGrid && typeof portfolioData !== "undefined" && portfolioData.projects) {
-      portfolioData.projects.forEach(function (project) {
-        var article = document.createElement("article");
-        article.className = "card";
-        article.setAttribute("data-project-key", project.key);
-
-        var tagsHtml = project.tags
-          .map(function (tag, i) {
-            return (
-              '<span class="pill-tag ' +
-              (i === 0 ? "pill-tag-strong" : "") +
-              '">' +
-              tag +
-              "</span>"
-            );
-          })
-          .join("");
-
-        var imagesHtml = project.images
-          .map(function (img) {
-            return '<img src="' + img + '" alt="' + project.title + '" class="project-image">';
-          })
-          .join("");
-
-        article.innerHTML =
-          '<div class="card-header">' +
-          "<div>" +
-          '<div class="card-kicker">' + project.kicker + "</div>" +
-          '<h3 class="card-title">' + project.title + "</h3>" +
-          "</div>" +
-          '<div class="pill-tag-row">' + tagsHtml + "</div>" +
-          "</div>" +
-          '<div class="project-images-row">' + imagesHtml + "</div>" +
-          '<div class="card-body"><p>' + project.description + "</p></div>" +
-          '<div class="card-footer card-footer-split">' +
-          /* Permanent, non-interactive affordance: the whole card is the
-             button (role/aria-label set in project-details.js). */
-          '<span class="card-details-cue" aria-hidden="true">' +
-          '<span class="card-details-cue-label">View details</span>' +
-          '<svg class="card-details-cue-icon" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h8v8"/><path d="M12 4 4 12"/></svg>' +
-          "</span>" +
-          '<div class="view-repo-button"' +
-          ' data-repo-url="' + project.repoUrl + '"' +
-          ' data-live-link="' + (project.liveLink || "") + '"' +
-          ' data-project-name="' + project.title + '"></div>' +
-          "</div>";
-
-        projectsGrid.appendChild(article);
+      var projectTotal = portfolioData.projects.length;
+      portfolioData.projects.forEach(function (project, index) {
+        projectsGrid.appendChild(renderProjectCard(project, index, projectTotal));
       });
     }
 
@@ -659,6 +716,7 @@
   /* ── Boot ────────────────────────────────────────────────── */
   renderSkills();
   renderPortfolioContent();
+  renderHeroStats();
 
   // Re-init dynamic components
   if (typeof initViewRepoButtons === "function") initViewRepoButtons();
